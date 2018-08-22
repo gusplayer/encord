@@ -3,7 +3,7 @@ module.exports = {
   ** Headers of the page
   */
   router: {
-    base: '/<repository-name>/'
+    base: '/encord/'
   },
   head: {
     title: 'encord',
@@ -18,6 +18,7 @@ module.exports = {
   ** Customize the progress bar color
   */
   loading: { color: '#3B8070' },
+  mode: 'spa',
   /*
   ** Build configuration
   */
