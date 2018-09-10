@@ -1,13 +1,16 @@
 <template>
   <div class="building">
-    <div class="container">
-
-      <input type="range" name="range" id="range" min="0" max="300" step="5" v-model="value" />
-
-    </div>
-
-    <!-- <output for="range" class="output"></output> -->
+    <!-- <div class="container"> -->
+    <h3>Piso</h3>
     <p>{{value}}</p>
+    <input type="range" name="range" min="1" max="30" step="1" v-model="value" />
+    <div class="content">
+      <input type="text" v-model="value">
+      <nuxt-link to="quotation/piso/5">
+        <div class="btn">Mostrar</div>
+      </nuxt-link>
+    </div>
+    <!-- </div> -->
   </div>
 </template>
 
@@ -15,45 +18,164 @@
 export default {
   data() {
     return {
-      value: 175
+      value: 5
     }
   }
 }
 </script>
 
 <style scoped>
-label[for='range'] {
-  /* position: absolute;
-  top: 50%;
-  left: 50%; */
-  /* margin-left: -175px;
-  margin-top: -32px; */
-  height: 49px;
-  /* padding-top: 6px; */
-  width: 350px;
-  /* padding-left: 13px; */
-  /* -webkit-transform: skew(-62deg); */
+a{
+  text-decoration: none;
+}
+.building {
+  font-family: "Dosis", Helvetica, Arial, sans-serif; 
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+
+}
+input[type="range"] {
+  transform: rotate(270deg);
+  -webkit-appearance: none;
+  height: 40px;
+  width: 200px;
+  outline: none;
+  border-radius: 2px;
   overflow: hidden;
-  padding-bottom: 10px;
-  padding-top: 10px;
-  background-color: #eee;
+  position: absolute;
+  right: -60px;
+  top: 85px;
+  transition: .3s ease-in-out;
+  /* bottom: 80px; */
+}
+input[type="text"] {
+  padding: 10px;
+  max-width: 60px;
   border: 1px solid #aaa;
+  border-radius: 4px;
+  font-size: 22px;
+  color: #606468;
+  text-align: center;
+  outline: none;
+}
+  input[type="range"]::-webkit-slider-thumb:active {
+    /* background-color: #9dff00; */
+  }
+h3 {
+  line-height: 1;
+  width: 110px;
+  text-align: center;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #606468;
+}
+p {
+  font-size: 6em;
+  color: #606468;
+  max-width: 110px;
+  width: 100%;
+  text-align: center;
+  transition: all ease .3s;
+  line-height: .8;
+  /* text-shadow: white 1px 1px  */
+}
+.content {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  border-top: 2px solid #eee;
+  padding-top: 30px;
+  /* left: calc(50% - 50px); */
+  /* display: flex; */
+  /* align-items: center; */
+}
+.btn {
+  transition: all ease 0.5s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: #73808d;
+  padding: 15px;
+  border-radius: 0.15rem;
+  width: 110px;
+  color: #eee;
+  font-weight: 600;
+  text-transform: uppercase;
+  /* margin-top: 20px; */
+}
+::-webkit-slider-runnable-track {
+    background: #ddd;
+}
+::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; /* 1 */
+    height: 40px;
+    background: #fff;
+    box-shadow: -100vw 0 0 100vw #98c253;
+    border: 2px solid #999; /* 1 */
+    transition: .3s ease-in-out;
+    cursor: pointer;
+}
+::-moz-range-track {
+    height: 40px;
+    background: #ddd;
 }
 
-input[type='range'] {
+::-moz-range-thumb {
+    background: #fff;
+    height: 40px;
+    width: 20px;
+    border: 3px solid #999;
+    border-radius: 0 !important;
+    box-shadow: -100vw 0 0 100vw #98c253;
+    box-sizing: border-box;
+}
+::-ms-fill-lower { 
+    background: #98c253;
+}
+
+::-ms-thumb { 
+    background: #fff;
+    border: 2px solid #999;
+    height: 40px;
+    width: 20px;
+    box-sizing: border-box;
+}
+
+::-ms-ticks-after { 
+    display: none; 
+}
+
+::-ms-ticks-before { 
+    display: none; 
+}
+
+::-ms-track { 
+    background: #ddd;
+    color: transparent;
+    height: 40px;
+    border: none;
+}
+
+::-ms-tooltip { 
+    display: none;
+}
+
+/* input[type='range'] {
   -webkit-appearance: none;
   background-color: transparent;
   width: 300px;
-  height: 38px;
-  /* padding-top: 10px; */
+  height: 40px;
   overflow: hidden;
   margin: 0;
-  /* margin-left: -20px; */
-  /* transform-style: preserve-3d; */
-  /* perspective: 300; */
-  /* transform-origin: 50% 50% 300px; */
-  /* perspective-origin: 50% -121%; */
-  /* transform: skew(62deg); */
 }
 input[type='range']:focus {
   outline: none;
@@ -62,14 +184,14 @@ input[type='range']::-webkit-slider-thumb {
   position: relative;
   -webkit-appearance: none;
   cursor: pointer;
-  background-color: transparent;
+  background-color: #fff;
   width: 30px;
-  height: 18px;
+  height: 34px;
   box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2),
     -25px 0 0 10px rgba(90, 184, 6, 0.5), -75px 0 0 10px rgba(90, 184, 6, 0.5),
     -125px 0 0 10px rgba(90, 184, 6, 0.5), -175px 0 0 10px rgba(90, 184, 6, 0.5),
-    -225px 0 0 10px rgba(90, 184, 6, 0.5), -275px 0 0 10px rgba(90, 184, 6, 0.5),
-    -325px 0 0 10px rgba(90, 184, 6, 0.5);
+    -225px 0 0 10px rgba(90, 184, 6, 0.5), -275px 0 0 10px rgba(90, 184, 6, 0.5);
+
   z-index: 2;
 }
 
@@ -105,7 +227,9 @@ input[type='range']:after {
     270px 1px 0 rgb(235, 235, 235);
 }
 .container {
+  width: 100%;
+  height: 100%;
   transform: rotate(270deg);
   background-color: #aaa;
-}
+} */
 </style>

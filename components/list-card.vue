@@ -1,29 +1,54 @@
 <template>
   <ul class="list">
-    <li class="list-item">
-      <i class="icon-045-brochure"></i>
-      <p>Brochure</p>
-    </li>
-    <li class="list-item">
-      <i class="icon-video-player"></i>
-      <p>Video</p>
-    </li>
-    <li class="list-item">
-      <i class="icon-023-tax-1"></i>
-      <p>Cotizar</p>
-    </li>
-    <li class="list-item">
-      <i class="icon-004-results"></i>
-      <p>Lista de precios</p>
-    </li>
+    <nuxt-link :to="item.link" v-for="(item, index) in list" :key="index">
+      <li class="list-item" >
+        <i :class="item.icon"></i>
+        <p>{{item.name}}</p>
+      </li>
+    </nuxt-link>
   </ul>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      list: [
+        {
+          name: 'Brochure',
+          icon: 'icon-045-brochure',
+          link: '#'
+        },
+        {
+          name: 'Video',
+          icon: 'icon-video-player',
+          link: '#'
+        },
+        {
+          name: 'Cotizar',
+          icon: 'icon-023-tax-1',
+          link: 'dashboard/quotation'
+        },
+        {
+          name: 'Lista de precios',
+          icon: 'icon-004-results',
+          link: '#'
+        },
+      ]
+    }
+  },
+    methods: {
+    getUrl() {
+      location.href = `${window.location.origin}/dashboard`
+    }
+  }
+}
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+}
 .list li {
   list-style: none;
   margin: 35px 0 35px 15px;

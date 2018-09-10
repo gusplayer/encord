@@ -43,7 +43,7 @@
         </ul>
         <div class="line"></div>
       </div>
-      <div :class="classBtn" class="btn-logout">
+      <div @click="logout" :class="classBtn" class="btn-logout">
         <p :class="classActive">Salir</p>
         <i class="icon-sign-out"></i>
       </div>
@@ -83,6 +83,9 @@ export default {
       this.classDeploy['btn-deploy-collapse'] = !this.classDeploy[
         'btn-deploy-collapse'
       ]
+    },
+    logout() {
+      location.href = `${window.location.origin}/auth/login`
     }
   }
 }

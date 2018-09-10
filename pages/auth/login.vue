@@ -29,13 +29,12 @@
             <input id="login__password" type="password" name="password" class="form__input" placeholder="Contraseña" required>
           </div>
 
-          <div class="form__field">
+          <div @click="getUrl" class="form__field">
             <button type="submit" value="Ingresar">Ingresar</button>
           </div>
 
           <p class="text--center">
-            <a href="#">Olvidaste tu contraseña?</a>
-            <!-- <i class="icon-right"></i> -->
+            <a :href="`${url}/auth/recover-password`">Olvidaste tu contraseña?</a>
           </p>
 
         </form>
@@ -47,7 +46,27 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      
+    }
+  },
+  mounted() {
+    console.log(this.$router)
+  },
+  computed: {
+    url() {
+      return window.location.origin;
+      // console.log(window.location)
+    }
+  },
+  methods: {
+    getUrl() {
+      location.href = `${window.location.origin}/dashboard`
+    }
+  }
+}
 </script>
 
 <style scoped>
