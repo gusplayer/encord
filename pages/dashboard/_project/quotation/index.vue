@@ -7,13 +7,13 @@
           <span>/ Cotizar</span>
         </h2>
       </template>
-      <div slot="section">
+      <div slot="section" class="section">
         <div class="container">
           <div class="col left">
-            <building/>
+            <building />
           </div>
           <div class="col right">
-            <img-card/>
+            <img-card />
           </div>
         </div>
       </div>
@@ -44,6 +44,7 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
 }
 h2 {
   font-weight: 400;
@@ -80,5 +81,8 @@ h4 {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.section {
+  padding: 20px 40px;
 }
 </style>

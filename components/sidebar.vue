@@ -10,49 +10,49 @@
           <div class="avatar">
             <img src="../assets/avatar.jpg" alt="">
           </div>
-          <div class="info-user">
-            <h3 :class="classActive">Nombre Usuario</h3>
-            <p :class="classActive">Cargo en Encord</p>
+            <div class="info-user">
+              <h3 :class="classActive">Nombre Usuario</h3>
+              <p :class="classActive">Cargo en Encord</p>
+            </div>
           </div>
+          <div class="line"></div>
         </div>
-        <div class="line"></div>
-      </div>
-      <div class="content">
-        <ul class="list">
-          <li class="list-item">
-            <i class="icon-047-house-sketch"></i>
-            <p :class="classActive">Cotizar Proyectos</p>
-          </li>
-          <li class="list-item">
-            <i class="icon-file-1"></i>
-            <p :class="classActive">Crear Informe</p>
-          </li>
-          <li class="list-item">
-            <i class="icon-folder-14"></i>
-            <p :class="classActive">Base de Datos</p>
-          </li>
-          <li class="list-item">
-            <i class="icon-diploma"></i>
-            <p :class="classActive">Contratos</p>
-          </li>
-          <li class="list-item">
-            <i class="icon-049-wallet"></i>
-            <p :class="classActive">Pagar</p>
-          </li>
-          <div class="line-select"></div>
-        </ul>
-        <div class="line"></div>
-      </div>
-      <div @click="logout" :class="classBtn" class="btn-logout">
-        <p :class="classActive">Salir</p>
-        <i class="icon-sign-out"></i>
-      </div>
-      <div :class="classDeploy" @click="change" class="btn-deploy">
-        <i class="icon-right-open-big" v-if="alter"></i>
-        <i class="icon-left-open-big" v-else></i>
+        <div class="content">
+          <ul class="list">
+            <li class="list-item">
+              <i class="icon-047-house-sketch"></i>
+              <p :class="classActive">Cotizar Proyectos</p>
+            </li>
+            <li class="list-item">
+              <i class="icon-file-1"></i>
+              <p :class="classActive">Crear Informe</p>
+            </li>
+            <li class="list-item">
+              <i class="icon-folder-14"></i>
+              <p :class="classActive">Base de Datos</p>
+            </li>
+            <li class="list-item">
+              <i class="icon-diploma"></i>
+              <p :class="classActive">Contratos</p>
+            </li>
+            <li class="list-item">
+              <i class="icon-049-wallet"></i>
+              <p :class="classActive">Pagar</p>
+            </li>
+            <div class="line-select"></div>
+          </ul>
+          <div class="line"></div>
+        </div>
+        <div @click="logout" :class="classBtn" class="btn-logout">
+          <p :class="classActive">Salir</p>
+          <i class="icon-sign-out"></i>
+        </div>
+        <div :class="classDeploy" @click="change" class="btn-deploy">
+          <i class="icon-right-open-big" v-if="alter"></i>
+          <i class="icon-left-open-big" v-else></i>
+        </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -103,6 +103,8 @@ export default {
   display: flex;
   flex-direction: column;
   transition: all ease 0.5s;
+  /* position: fixed; */
+  height: 100vh;
 }
 .panel-collapse {
   width: 90px;

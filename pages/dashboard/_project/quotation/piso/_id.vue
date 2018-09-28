@@ -1,31 +1,31 @@
 <template>
   <!-- <div>User {{ $route.params.id }}</div> -->
-   <div class="piso">
+  <div class="piso">
     <card>
       <template slot="header">
         <h2>
           <nuxt-link to="/dashboard">Aria Condominio </nuxt-link>
-          <nuxt-link to="/dashboard/quotation">/ Cotizar </nuxt-link> 
+          <nuxt-link to="/dashboard/quotation">/ Cotizar </nuxt-link>
           <a>/ {{ $route.params.id }}</a>
         </h2>
       </template>
-      <div slot="section">
+      <div slot="section" class="section">
         <div class="container">
           <div class="col left">
-              <img src="../../../../assets/plano.jpg" alt="">
+            <img src="@/assets/plano.jpg" alt="">
           </div>
-          <div class="col right">
-            <ul class="list">
-              <li class="item select">401</li>
-              <li class="item">402</li>
-              <li class="item yellow">403</li>
-              <li class="item">404</li>
-              <li class="item red">405</li>
-              <li class="item">406</li>
-            </ul>
+            <div class="col right">
+              <ul class="list">
+                <li class="item select">401</li>
+                <li class="item">402</li>
+                <li class="item yellow">403</li>
+                <li class="item">404</li>
+                <li class="item red">405</li>
+                <li class="item">406</li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
     </card>
   </div>
 </template>
@@ -50,11 +50,11 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
 }
 a:first-child {
   color: #98c253;
   font-size: 24px;
-
 }
 h2 {
   font-weight: 400;
@@ -64,7 +64,7 @@ h4 {
 }
 .container {
   display: flex;
-  font-family: "Dosis", Helvetica, Arial, sans-serif;
+  font-family: 'Dosis', Helvetica, Arial, sans-serif;
 }
 .col {
   min-height: 315px;
@@ -109,5 +109,7 @@ li {
   background-color: rgb(255, 195, 64);
   color: #fff;
 }
-
+.section {
+  padding: 20px 40px;
+}
 </style>

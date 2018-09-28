@@ -18,7 +18,7 @@ export default {
 
 <style scoped>
 .card {
-  min-width: 650px;
+  min-width: 690px;
   min-height: 350px;
   background-color: #fff;
   border-radius: 5px;
@@ -27,12 +27,12 @@ export default {
   flex-direction: column;
   justify-content: center;
   box-sizing: border-box;
-  padding: 10px 40px;
+  /* padding: 10px 40px; */
 }
 .line {
-  width: 100%;
+  width: 90%;
   height: 1px;
-  border-top: 2px solid #ddd;
+  border-top: 1px solid rgba(13, 30, 53, 0.199);
 }
 header {
   width: 100%;
@@ -41,6 +41,9 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: sticky;
+  padding: 10px 40px;
+  /* background-color: rgb(255, 0, 43); */
 }
 section {
   width: 100%;

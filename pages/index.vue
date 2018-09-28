@@ -1,26 +1,32 @@
 <template>
-  <section class="container">
-    <div>
-      <h1 class="title">
-        encord
-      </h1>
-      <h2 class="subtitle">
-        encord
-      </h2>
-    </div>
-  </section>
+  <div class="container">
+    <card>
+      <div slot="header">
+        <h2>title</h2>
+      </div>
+      <div slot="section">
+        section
+      </div>
+    </card>
+  </div>
 </template>
 
 <script>
-// import AppLogo from '~/components/AppLogo.vue'
+import Card from '../components/card'
 
 export default {
   components: {
-    // AppLogo
+    Card
   }
 }
 </script>
 
-<style>
+<style scoped>
+.container {
+  background-color: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>
 
