@@ -2,9 +2,9 @@ module.exports = {
   /*
   ** Headers of the page
   */
-  router: {
-    base: '/encord/'
-  },
+  // router: {
+  //   base: '/encord/'
+  // },
   head: {
     title: 'encord',
     meta: [
@@ -33,8 +33,8 @@ module.exports = {
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /(node_modules)/
-        });
+        })
       }
     }
   }
-};
+}
