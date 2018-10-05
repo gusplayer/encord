@@ -19,10 +19,12 @@
         </div>
         <div class="content">
           <ul class="list">
-            <li class="list-item">
-              <i class="icon-047-house-sketch"></i>
-              <p :class="classActive">Cotizar Proyectos</p>
-            </li>
+            <nuxt-link to="/dashboard">
+              <li class="list-item">
+                <i class="icon-047-house-sketch"></i>
+                <p :class="classActive">Cotizar Proyectos</p>
+              </li>
+            </nuxt-link>
             <li class="list-item">
               <i class="icon-file-1"></i>
               <p :class="classActive">Crear Informe</p>
@@ -92,6 +94,9 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+}
 .side-panel {
   max-width: 300px;
   width: 300px;

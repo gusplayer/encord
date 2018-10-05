@@ -27,7 +27,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   box-sizing: border-box;
-  /* padding: 10px 40px; */
 }
 .line {
   width: 90%;
@@ -36,7 +35,7 @@ export default {
 }
 header {
   width: 100%;
-  min-height: 50px;
+  min-height: 73px;
   height: 100%;
   display: flex;
   align-items: center;

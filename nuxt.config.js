@@ -23,6 +23,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    vendor: ['vue-fuse'],
     /*
     ** Run ESLint on save
     */
@@ -36,5 +37,6 @@ module.exports = {
         })
       }
     }
-  }
+  },
+  plugins: ['~/plugins/vue-fuse']
 }
