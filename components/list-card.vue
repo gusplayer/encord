@@ -17,7 +17,7 @@ export default {
         {
           name: 'Brochure',
           icon: 'icon-045-brochure',
-          link: '#'
+          link: 'brochure'
         },
         {
           name: 'Multimedia',

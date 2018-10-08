@@ -14,15 +14,15 @@
               <img :src="`https://img.youtube.com/vi/${item.img}/0.jpg`" v-if="item.video">
               <img :src="item.img" alt="" v-else>
             </div>
-            </div>
-            <div class="col right">
-              <div class="video" v-if="video">
-                <iframe width="560" height="315" :src="`https://www.youtube.com/embed/${image}?showinfo=0&rel=0&color=white`" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-              </div>
-              <img :src="image" alt="" v-else>
-            </div>
-            </div>
           </div>
+          <div class="col right">
+            <div class="video" v-if="video">
+              <iframe width="560" height="315" :src="`https://www.youtube.com/embed/${image}?showinfo=0&rel=0&color=white`" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <img :src="image" alt="" v-else>
+          </div>
+        </div>
+      </div>
     </card>
   </div>
 </template>
@@ -120,6 +120,7 @@ h2 span {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-left: 20px;
 }
 .section {
   padding: 20px 40px;

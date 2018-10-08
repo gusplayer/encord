@@ -38,5 +38,6 @@ module.exports = {
       }
     }
   },
-  plugins: ['~/plugins/vue-fuse']
+  css: ['element-ui/lib/theme-chalk/index.css'],
+  plugins: ['~/plugins/vue-fuse', '~/plugins/element-ui']
 }
