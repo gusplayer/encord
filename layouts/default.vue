@@ -1,12 +1,10 @@
 <template>
   <div>
-    <nuxt/>
+    <nuxt />
   </div>
 </template>
 
 <style>
-@import url(https://fonts.googleapis.com/css?family=Dosis:700);
-@import url(https://file.myfontastic.com/sY4AGNcr7RKWKU7qdijeJH/icons.css);
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;

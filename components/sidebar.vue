@@ -10,51 +10,53 @@
           <div class="avatar">
             <img src="../assets/avatar.jpg" alt="">
           </div>
-            <div class="info-user">
-              <h3 :class="classActive">Nombre Usuario</h3>
-              <p :class="classActive">Cargo en Encord</p>
-            </div>
+          <div class="info-user">
+            <h3 :class="classActive">Nombre Usuario</h3>
+            <p :class="classActive">Cargo en Encord</p>
           </div>
-          <div class="line"></div>
         </div>
-        <div class="content">
-          <ul class="list">
-            <nuxt-link to="/dashboard">
-              <li class="list-item">
-                <i class="icon-047-house-sketch"></i>
-                <p :class="classActive">Cotizar Proyectos</p>
-              </li>
-            </nuxt-link>
+        <div class="line"></div>
+      </div>
+      <div class="content">
+        <ul class="list">
+          <nuxt-link to="/dashboard">
             <li class="list-item">
-              <i class="icon-file-1"></i>
-              <p :class="classActive">Crear Informe</p>
+              <i class="icon-047-house-sketch"></i>
+              <p :class="classActive">Cotizar Proyectos</p>
             </li>
-            <li class="list-item">
-              <i class="icon-folder-14"></i>
-              <p :class="classActive">Base de Datos</p>
-            </li>
+          </nuxt-link>
+          <li class="list-item">
+            <i class="icon-file-1"></i>
+            <p :class="classActive">Crear Informe</p>
+          </li>
+          <li class="list-item">
+            <i class="icon-folder-14"></i>
+            <p :class="classActive">Base de Datos</p>
+          </li>
+          <nuxt-link to="/dashboard/5/contract/customer-info">
             <li class="list-item">
               <i class="icon-diploma"></i>
               <p :class="classActive">Contratos</p>
             </li>
-            <li class="list-item">
-              <i class="icon-049-wallet"></i>
-              <p :class="classActive">Pagar</p>
-            </li>
-            <div class="line-select"></div>
-          </ul>
-          <div class="line"></div>
-        </div>
-        <div @click="logout" :class="classBtn" class="btn-logout">
-          <p :class="classActive">Salir</p>
-          <i class="icon-sign-out"></i>
-        </div>
-        <div :class="classDeploy" @click="change" class="btn-deploy">
-          <i class="icon-right-open-big" v-if="alter"></i>
-          <i class="icon-left-open-big" v-else></i>
-        </div>
+          </nuxt-link>
+          <li class="list-item">
+            <i class="icon-049-wallet"></i>
+            <p :class="classActive">Pagar</p>
+          </li>
+          <div class="line-select"></div>
+        </ul>
+        <div class="line"></div>
+      </div>
+      <div @click="logout" :class="classBtn" class="btn-logout">
+        <p :class="classActive">Salir</p>
+        <i class="icon-sign-out"></i>
+      </div>
+      <div :class="classDeploy" @click="change" class="btn-deploy">
+        <i class="icon-right-open-big" v-if="alter"></i>
+        <i class="icon-left-open-big" v-else></i>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -216,7 +218,7 @@ li i {
 } */
 .list-item:first-child,
 .list-item:first-child i {
-  color: #98c253;
+  /* color: #98c253; */
   font-weight: 400;
 }
 .line-select {

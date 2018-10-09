@@ -7,19 +7,126 @@
           <span>/ Datos</span>
         </h2>
       </template>
+      <!-- Info proyecto -->
       <div slot="section" class="section">
         <el-row>
           <el-col :span="12">
-
+            <h3 class="grid-content">Proyecto:</h3>
+          </el-col>
+          <el-col :span="7" :offset="5">
+            <div class="grid-content">
+              <el-select v-model="value" placeholder="Buscar proyecto">
+                <el-option v-for="item in projects" :key="item.value" :label="item.name" :value="item.id">
+                </el-option>
+              </el-select>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
             <p class="item grid-content">Nombre del Proyecto:</p>
-
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <el-select v-model="value" filterable placeholder="Nombre del proyecto">
-                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                </el-option>
-              </el-select>
+              <p class="item-get">{{currentProject.name}}</p>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Ciudad:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <p class="item-get">{{currentProject.city}}</p>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Precio:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <p class="item-get">{{currentProject.price}}</p>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Habitaciones:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <p class="item-get">{{currentProject.bedrooms}}</p>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Area:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <p class="item-get">{{currentProject.area}}</p>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+      <!-- Info Comprador -->
+      <div slot="section" class="section">
+        <el-row>
+          <el-col :span="12">
+            <h3 class="grid-content">Cliente:</h3>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Cedula:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <input class="inputClinte" type="text" placeholder="Cedula" v-model="inputCedula">
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Nombre:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <input class="inputClinte" type="text" placeholder="Nombre" v-model="inputNombre">
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Apellido:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <input class="inputClinte" type="text" placeholder="Apellido" v-model="inputApellido">
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Celular:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <input class="inputClinte" type="text" placeholder="Celular" v-model="inputCelular">
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Dirección:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <input class="inputClinte" type="text" placeholder="Dirección" v-model="inputDireccion">
             </div>
           </el-col>
         </el-row>
@@ -36,62 +143,93 @@ export default {
   },
   data() {
     return {
-      options: [
+      projects: [
         {
-          value: 'Option1',
-          label: 'Option1'
+          name: 'Aria Condominio',
+          city: 'Bogotá',
+          price: 250000000,
+          bedrooms: 3,
+          area: '80 m2',
+          id: 1
         },
         {
-          value: 'Option2',
-          label: 'Option2'
+          name: 'Dublin',
+          city: 'Bogotá',
+          price: 200000000,
+          bedrooms: 2,
+          area: '65 m2',
+          id: 2
         },
         {
-          value: 'Option3',
-          label: 'Option3'
+          name: 'Armonia',
+          city: 'Villavicencio',
+          price: 180000000,
+          bedrooms: 4,
+          area: '60 m2',
+          id: 3
         },
         {
-          value: 'Option4',
-          label: 'Option4'
-        },
-        {
-          value: 'Option5',
-          label: 'Option5'
-        },
-        {
-          value: 'Option6',
-          label: 'Option6'
-        },
-        {
-          value: 'Option7',
-          label: 'Option7'
-        },
-        {
-          value: 'Option8',
-          label: 'Option8'
-        },
-        {
-          value: 'Option9',
-          label: 'Option9'
-        },
-        {
-          value: 'Option10',
-          label: 'Option10'
-        },
-        {
-          value: 'Option11',
-          label: 'Option11'
-        },
-        {
-          value: 'Option12',
-          label: 'Option12'
-        },
-        {
-          value: 'Option13',
-          label: 'Option13'
+          name: 'Messantia',
+          city: 'Medellin',
+          price: 195000000,
+          bedrooms: 4,
+          area: '78 m2',
+          id: 4
         }
       ],
-      value: ''
+      customers: [
+        {
+          id: 1,
+          document: '1127877876',
+          name: 'Camilo',
+          lastName: 'Diaz',
+          phone: '321654987',
+          address: 'Calle 15 # 8-45 Villavicencio'
+        },
+        {
+          id: 2,
+          document: '1127899999',
+          name: 'Diego',
+          lastName: 'Coy',
+          phone: '321789456',
+          address: 'Carrera 85 # 2-95 Bogota'
+        }
+      ],
+      value: '',
+      pisos: [],
+      emptyProject: {
+        name: 'Aria Condominio',
+        city: 'Bogotá',
+        price: 250000000,
+        bedrooms: 3,
+        area: '80 m2',
+        id: 1
+      },
+      emptyCustomer: {
+        id: 1,
+        document: '1127874444',
+        name: 'Camilo',
+        lastName: 'Diaz',
+        phone: '321654987',
+        address: 'Calle 15 # 8-45 Villavicencio'
+      },
+      inputCedula: '',
+      inputNombre: '',
+      inputApellido: '',
+      inputCelular: '',
+      inputDireccion: ''
     }
+  },
+  computed: {
+    currentProject() {
+      return (
+        this.projects.find(project => project.id == this.value) ||
+        this.emptyProject
+      )
+    }
+  },
+  watch: {
+    document(value) {}
   }
 }
 </script>
@@ -137,17 +275,48 @@ h2 span {
   align-items: center;
 }
 .section {
-  padding: 20px 40px;
+  padding: 0 40px 20px 40px;
 }
 .item {
-  color: rgb(43, 54, 73);
-  font-weight: 300;
+  color: rgba(43, 54, 73, 0.781);
+  font-weight: 400;
+  padding-left: 15px;
+  /* padding-bottom: 10px; */
 }
 div.el-row {
+  padding: 10px;
   display: flex;
   align-items: center;
+  border-bottom: 1px solid rgba(168, 187, 219, 0.301);
+}
+div.el-row :first-child {
+  border: 0;
 }
 .el-select {
   width: 100% !important;
+}
+h3 {
+  color: #98c253;
+  font-weight: 400;
+}
+.item-get {
+  color: rgba(103, 123, 158, 0.822);
+  font-weight: 300;
+}
+.background {
+  background-color: rgba(214, 229, 255, 0.178);
+}
+.inputClinte {
+  background-color: transparent;
+  font-size: 16px;
+  font-weight: 300;
+  color: rgba(103, 123, 158, 0.822);
+}
+.inputClinte:focus {
+  border: 0;
+}
+.inputClinte::placeholder {
+  color: rgba(103, 123, 158, 0.822);
+  opacity: 0.5;
 }
 </style>
