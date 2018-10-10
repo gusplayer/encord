@@ -1,0 +1,28 @@
+.grid-content .el-select .el-input__inner {
+  padding: 0;
+  background-color: transparent;
+  font-size: 18px;
+  color: rgba(103, 123, 158, 0.822);
+  font-weight: 300;
+}
+.grid-content i.el-input__icon.el-icon-date {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  vertical-align: middle;
+  padding: 20px 0;
+  margin-left: -3px;
+}
+.grid-content input.el-input__inner {
+  color: rgba(103, 123, 158, 0.822);
+  font-size: 16px;
+  font-weight: 300;
+}
+.grid-content input.el-input__inner::placeholder {
+  color: rgba(103, 123, 158, 0.822);
+  font-size: 18px;
+  opacity: 0.5;
+}
+.el-button--success {
+  background-color: #98c253;
+}
