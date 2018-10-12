@@ -3,8 +3,8 @@
     <card>
       <template slot="header">
         <h2>
-          <nuxt-link to="/dashboard/5">Formulario</nuxt-link>
-          <span>/ Datos</span>
+          <nuxt-link to="/dashboard/5">Formulario de contrato</nuxt-link>
+          <!-- <span>/ Datos</span> -->
         </h2>
       </template>
       <!-- Info proyecto -->
@@ -42,23 +42,56 @@
             </div>
           </el-col>
         </el-row>
+      </div>
+      <!-- Información de Unidad Vendida  -->
+      <div slot="section" class="section">
+        <el-row>
+          <el-col :span="12">
+            <h3 class="grid-content">Unidad Vendida:</h3>
+          </el-col>
+          <el-col :span="7" :offset="5">
+          </el-col>
+        </el-row>
         <el-row class="background">
           <el-col :span="12">
-            <p class="item grid-content">Precio:</p>
+            <p class="item grid-content">No. Unidad Vendida:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <p class="item-get">{{currentProject.price}}</p>
+              <el-select v-model="unitNumber" size="mini" placeholder="Unidad">
+                <el-option v-for="(item, index) in units" :key="index" :label="item.unit" :value="item.unit">
+                </el-option>
+              </el-select>
             </div>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
+            <p class="item grid-content">Precio:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <p class="item-get">{{currentUnit.price}}</p>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
             <p class="item grid-content">Habitaciones:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <p class="item-get">{{currentProject.bedrooms}}</p>
+              <p class="item-get">{{currentUnit.bedrooms}}</p>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Baños:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <p class="item-get">{{currentUnit.bathrooms}}</p>
             </div>
           </el-col>
         </el-row>
@@ -68,7 +101,7 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <p class="item-get">{{currentProject.area}}</p>
+              <p class="item-get">{{currentUnit.area}}</p>
             </div>
           </el-col>
         </el-row>
@@ -82,15 +115,28 @@
         </el-row>
         <el-row class="background">
           <el-col :span="12">
-            <p class="item grid-content">Cedula:</p>
+            <p class="item grid-content">Identificación:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Cedula" v-model="inputCedula">
+              <el-select v-model="typeIdentification" size="mini" placeholder="Identificación">
+                <el-option v-for="(item, index) in identification" :key="index" :label="item" :value="item">
+                </el-option>
+              </el-select>
             </div>
           </el-col>
         </el-row>
         <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">No. Identificación:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <input class="inputClinte" type="text" placeholder="No. Identificación" v-model="inputIdentification">
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
           <el-col :span="12">
             <p class="item grid-content">Nombre:</p>
           </el-col>
@@ -100,7 +146,7 @@
             </div>
           </el-col>
         </el-row>
-        <el-row class="background">
+        <el-row>
           <el-col :span="12">
             <p class="item grid-content">Apellido:</p>
           </el-col>
@@ -110,7 +156,7 @@
             </div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row class="background">
           <el-col :span="12">
             <p class="item grid-content">Celular:</p>
           </el-col>
@@ -120,7 +166,7 @@
             </div>
           </el-col>
         </el-row>
-        <el-row class="background">
+        <el-row>
           <el-col :span="12">
             <p class="item grid-content">Dirección:</p>
           </el-col>
@@ -167,7 +213,7 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Cuotas" v-model="InputFee">
+              <input class="inputClinte" type="text" placeholder="Cuotas" v-model="inputFee">
             </div>
           </el-col>
         </el-row>
@@ -184,7 +230,7 @@
         </el-row>
         <el-row>
           <el-col :span="4" :offset="20">
-            <el-button class="btn-save" type="success">Guardar</el-button>
+            <el-button class="btn-save" @click="saveInfo" type="success">Guardar</el-button>
           </el-col>
         </el-row>
       </div>
@@ -238,7 +284,7 @@ export default {
       customers: [
         {
           id: 1,
-          document: '1127877876',
+          document: '123456789',
           name: 'Camilo',
           lastName: 'Diaz',
           phone: '321654987',
@@ -251,6 +297,29 @@ export default {
           lastName: 'Coy',
           phone: '321789456',
           address: 'Carrera 85 # 2-95 Bogota'
+        }
+      ],
+      units: [
+        {
+          unit: '801',
+          area: '85 m2',
+          price: 260000000,
+          bedrooms: 4,
+          bathrooms: 2
+        },
+        {
+          unit: '802',
+          area: '65 m2',
+          price: 150000000,
+          bedrooms: 3,
+          bathrooms: 2
+        },
+        {
+          unit: '803',
+          area: '78 m2',
+          price: 130000000,
+          bedrooms: 3,
+          bathrooms: 2
         }
       ],
       value: '',
@@ -271,13 +340,30 @@ export default {
         phone: '',
         address: ''
       },
+      emptyUnit: {
+        unit: '',
+        area: '',
+        price: 0,
+        bedrooms: 0,
+        bathrooms: 0
+      },
+      unitNumber: '',
+      typeIdentification: '',
+      identification: [
+        'Cédula',
+        'Cédula de Extranjería',
+        'NIT',
+        'Pasaporte',
+        'ID Extranjero',
+        'Tarjeta  de Identidad'
+      ],
       contracts: ['Fiduciario', 'Promesa de compraventa'],
       contract: '',
       inputValue: '',
       inputFee: '',
       inputDate: '',
 
-      inputCedula: '',
+      inputIdentification: '',
       inputNombre: '',
       inputApellido: '',
       inputCelular: '',
@@ -290,10 +376,15 @@ export default {
         this.projects.find(project => project.id == this.value) ||
         this.emptyProject
       )
+    },
+    currentUnit() {
+      return (
+        this.units.find(unit => unit.unit == this.unitNumber) || this.emptyUnit
+      )
     }
   },
   watch: {
-    inputCedula(value) {
+    inputIdentification(value) {
       const result = this.customers.find(customer => customer.document == value)
       if (result) {
         this.getCostumer.id = result.id
@@ -310,6 +401,15 @@ export default {
         this.getCostumer.phone = ''
         this.getCostumer.address = ''
       }
+    }
+  },
+  methods: {
+    saveInfo() {
+      this.$store.state.infoContract = {
+        customer: this.getCostumer,
+        project: this.currentProject
+      }
+      this.$router.push('/dashboard/contract/contract')
     }
   }
 }
@@ -386,6 +486,8 @@ div.el-row:last-child {
 }
 .el-select {
   width: 100% !important;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 .el-input__inner {
   padding-left: 0;
@@ -416,10 +518,13 @@ h3 {
 .inputClinte::placeholder {
   color: rgba(103, 123, 158, 0.822);
   opacity: 0.5;
+  font-weight: 300;
 }
 div.el-input__inner {
   padding-left: 0 !important;
   background-color: transparent !important;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 .btn-save {
   margin-top: 20px;

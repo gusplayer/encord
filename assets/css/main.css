@@ -5,6 +5,9 @@
   color: rgba(103, 123, 158, 0.822);
   font-weight: 300;
 }
+.grid-content .el-select .el-input__inner::placeholder {
+  font-weight: 300;
+}
 .grid-content i.el-input__icon.el-icon-date {
   display: flex;
   justify-content: flex-start;
@@ -22,7 +25,36 @@
   color: rgba(103, 123, 158, 0.822);
   font-size: 18px;
   opacity: 0.5;
+  font-weight: 300;
 }
 .el-button--success {
   background-color: #98c253;
+}
+.inputClinte::placeholder {
+  color: rgba(103, 123, 158, 0.822);
+  opacity: 0.5;
+  font-weight: 300;
+}
+.info input {
+  font-weight: 300;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+.info input::placeholder {
+  font-weight: 300;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.infoContract p {
+  padding: 10px 0;
+  color: rgba(67, 71, 87, 0.796);
+  line-height: 1.4;
+}
+.infoContract h2 {
+  font-size: 18px;
+  color: rgba(10, 15, 44, 0.78);
+}
+.infoContract i {
+  color: rgba(10, 15, 44, 0.78);
 }

@@ -33,7 +33,7 @@
             <i class="icon-folder-14"></i>
             <p :class="classActive">Base de Datos</p>
           </li>
-          <nuxt-link to="/dashboard/5/contract/customer-info">
+          <nuxt-link to="/dashboard/contract/list-contracts">
             <li class="list-item">
               <i class="icon-diploma"></i>
               <p :class="classActive">Contratos</p>
