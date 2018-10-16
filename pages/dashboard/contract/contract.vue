@@ -8,17 +8,18 @@
         </h2>
       </template>
       <div slot="section" class="section">
-
-        <div class="infoContract" v-html="contract"></div>
-
-        <div class="line"></div>
-        <p class="firm">Firma</p>
-
-        <div >
-						<input type="text" id="name" v-model="name" placeholder="Enter name here">
-					</div>
-					<button  @click="download">Download PDF</button>
-
+        <div id="pdf">
+          <div id="infoContract" class="infoContract" v-html="contract"></div>
+          <!-- <div class="line"></div> -->
+          <VueSignaturePad width="300px" height="150px" id="signaturePad" ref="signaturePad" />
+          <p class="firm">Firma</p>
+        </div>
+        <el-button-group>
+          <el-button type="info" plain @click="undo" size="mini">Deshacer</el-button>
+          <el-button type="info" plain @click="clear" size="mini">Borrar</el-button>
+          <!-- <el-button type="info" plain @click="save" size="mini">Guardar</el-button> -->
+        </el-button-group>
+        <el-button @click="download" class="btn_download" type="success">Guardar PDF</el-button>
       </div>
     </card>
   </div>
@@ -27,14 +28,38 @@
 <script>
 import Card from '~/components/card'
 import jsPDF from 'jsPDF'
-import rasterize from 'rasterizehtml'
+import canvas from 'html2canvas'
+// import SignaturePad from 'signature_pad'
+
 export default {
   name: 'contract',
   components: {
     Card,
-    jsPDF,
-    rasterize
+    jsPDF
   },
+  // props: {
+  //   sigOption: {
+  //     type: Object,
+  //     default: () => {
+  //       return {
+  //         backgroundColor: 'rgb(255,255,255)',
+  //         penColor: 'rgb(0, 0, 0)'
+  //       }
+  //     }
+  //   },
+  //   w: {
+  //     type: String,
+  //     default: '100%'
+  //   },
+  //   h: {
+  //     type: String,
+  //     default: '100%'
+  //   },
+  //   clearOnResize: {
+  //     type: Boolean,
+  //     default: false
+  //   }
+  // },
   created() {
     this.setContract(
       '<h2>Contrato de compra</h2><p>Lorem %name% dolor, sit amet consectetur adipisicing elit. Hic ab doloribus %document% libero, tenetur eveniet aliquam. Distinctio quae veniam consequuntur, incidunt, %area% quaerat odio reprehenderit molestias tenetur laborum atque eos.</p><p>Lorem ipsum dolor, sit amet consectetur %precio% elit. Hic ab doloribus praesentium libero, tenetur eveniet aliquam. Distinctio quae veniam consequuntur, incidunt, dolorum quaerat odio reprehenderit molestias tenetur laborum atque eos.</p>'
@@ -48,7 +73,6 @@ export default {
   },
   computed: {
     infoContract() {
-      console.log(this.contract)
       return this.$store.state.infoContract
     }
   },
@@ -83,12 +107,27 @@ export default {
         this.contract = newText
       }
     },
-      download() {
-    let pdfName = 'test'; 
-    var doc = new jsPDF();
-    doc.text(10, 10, 'esto es un texto');
-    doc.save(pdfName + '.pdf');
-   }
+    download() {
+      canvas(document.getElementById('pdf', { scale: 1 })).then(result => {
+        let pdfName = 'test'
+        var doc = new jsPDF('p', 'pt', 'a4', true)
+        doc.addImage(result.toDataURL('image/png'), 'PNG', 55, 55)
+        // pdf.addImage(png, 'PNG', leftmargin, 120, 485, 270, '', 'FAST')
+        doc.save(pdfName + '.pdf')
+      })
+    },
+    undo() {
+      this.$refs.signaturePad.undoSignature()
+    },
+    save() {
+      const { isEmpty, data } = this.$refs.signaturePad.saveSignature()
+      alert('Open DevTools see the save data.')
+      console.log(isEmpty)
+      console.log(data)
+    },
+    clear() {
+      this.$refs.signaturePad.clearSignature()
+    }
   }
 }
 </script>
@@ -116,6 +155,9 @@ h2 span {
 .section {
   padding: 20px 40px;
   max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 .infoContract p {
   padding: 20px 0;
@@ -130,5 +172,22 @@ h2 span {
 }
 .firm {
   color: rgba(67, 71, 87, 0.796);
+  margin: 40px 0px 0px;
+}
+#signaturePad {
+  border: 1px solid #eee;
+  border-bottom: 2px solid #ccc;
+  /* border: double 3px transparent;
+  border-radius: 5px;
+  background-image: linear-gradient(white, white),
+    radial-gradient(circle at top left, #4bc5e8, #9f6274);
+  background-origin: border-box;
+  background-clip: content-box, border-box; */
+}
+.infoContract {
+  margin-bottom: 50px;
+}
+.btn_download {
+  align-self: flex-end;
 }
 </style>

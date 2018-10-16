@@ -49,5 +49,9 @@ module.exports = {
     }
   },
   css: ['element-ui/lib/theme-chalk/index.css', '~/assets/css/main.css'],
-  plugins: ['~/plugins/vue-fuse', '~/plugins/element-ui']
+  plugins: [
+    '~/plugins/vue-fuse',
+    '~/plugins/element-ui',
+    '~/plugins/vue-signature'
+  ]
 }
