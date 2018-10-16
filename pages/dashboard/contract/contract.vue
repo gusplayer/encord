@@ -1,5 +1,5 @@
 <template>
-  <div class="contract">
+  <div id="contract" class="contract">
     <card>
       <template slot="header">
         <h2>
@@ -14,6 +14,11 @@
         <div class="line"></div>
         <p class="firm">Firma</p>
 
+        <div >
+						<input type="text" id="name" v-model="name" placeholder="Enter name here">
+					</div>
+					<button  @click="download">Download PDF</button>
+
       </div>
     </card>
   </div>
@@ -21,9 +26,14 @@
 
 <script>
 import Card from '~/components/card'
+import jsPDF from 'jsPDF'
+import rasterize from 'rasterizehtml'
 export default {
+  name: 'contract',
   components: {
-    Card
+    Card,
+    jsPDF,
+    rasterize
   },
   created() {
     this.setContract(
@@ -32,7 +42,8 @@ export default {
   },
   data() {
     return {
-      contract: ''
+      contract: '',
+      name: ''
     }
   },
   computed: {
@@ -71,7 +82,13 @@ export default {
 
         this.contract = newText
       }
-    }
+    },
+      download() {
+    let pdfName = 'test'; 
+    var doc = new jsPDF();
+    doc.text(10, 10, 'esto es un texto');
+    doc.save(pdfName + '.pdf');
+   }
   }
 }
 </script>
