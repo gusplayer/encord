@@ -10,10 +10,24 @@
       <div slot="section" class="section">
         <div class="container">
           <div class="col left">
-            <building />
+            <building @change="getFlat" />
+            <div>
+              <div class="group">
+                <div class="btn_flat" :class="{btn_select: selected == index, btn_disabled: flats[numFlat-1][index].state == 'disabled' }" @click="select(index)" v-for="(item, index) in flats[numFlat - 1]" :key="index">{{item.num}}</div>
+              </div>
+            </div>
+            <div class="group_bathrooms">
+              <el-radio v-model="radio" label="1">Option A</el-radio>
+              <el-radio v-model="radio" label="2">Option B</el-radio>
+              <el-radio v-model="radio" label="3">Option A</el-radio>
+              <el-radio v-model="radio" label="4">Option B</el-radio>
+              <el-radio v-model="radio" label="5">Option A</el-radio>
+              <el-radio v-model="radio" label="6">Option B</el-radio>
+            </div>
           </div>
           <div class="col right">
-            <img-card />
+            <img class="plano" src="../../../../assets/plano.jpg" alt="">
+            <div class="separator"></div>
           </div>
         </div>
       </div>
@@ -23,13 +37,157 @@
 
 <script>
 import Card from '~/components/card'
-import ImgCard from '~/components/img-card'
 import Building from '~/components/building'
 export default {
   components: {
     Card,
-    ImgCard,
     Building
+  },
+  data() {
+    return {
+      selected: 0,
+      numFlat: 5,
+      flats: [
+        [
+          {
+            num: 101,
+            state: 'available'
+          },
+          {
+            num: 102,
+            state: 'available'
+          },
+          {
+            num: 103,
+            state: 'available'
+          },
+          {
+            num: 104,
+            state: 'available'
+          },
+          {
+            num: 105,
+            state: 'available'
+          },
+          {
+            num: 106,
+            state: 'disabled'
+          }
+        ],
+        [
+          {
+            num: 201,
+            state: 'available'
+          },
+          {
+            num: 202,
+            state: 'disabled'
+          },
+          {
+            num: 203,
+            state: 'available'
+          },
+          {
+            num: 204,
+            state: 'available'
+          },
+          {
+            num: 205,
+            state: 'disabled'
+          },
+          {
+            num: 206,
+            state: 'available'
+          }
+        ],
+        [
+          {
+            num: 301,
+            state: 'available'
+          },
+          {
+            num: 302,
+            state: 'available'
+          },
+          {
+            num: 303,
+            state: 'available'
+          },
+          {
+            num: 304,
+            state: 'available'
+          },
+          {
+            num: 305,
+            state: 'disabled'
+          },
+          {
+            num: 306,
+            state: 'available'
+          }
+        ],
+        [
+          {
+            num: 401,
+            state: 'available'
+          },
+          {
+            num: 402,
+            state: 'available'
+          },
+          {
+            num: 403,
+            state: 'available'
+          },
+          {
+            num: 404,
+            state: 'disabled'
+          },
+          {
+            num: 405,
+            state: 'disabled'
+          },
+          {
+            num: 406,
+            state: 'available'
+          }
+        ],
+        [
+          {
+            num: 501,
+            state: 'disabled'
+          },
+          {
+            num: 502,
+            state: 'disabled'
+          },
+          {
+            num: 503,
+            state: 'available'
+          },
+          {
+            num: 504,
+            state: 'available'
+          },
+          {
+            num: 505,
+            state: 'disabled'
+          },
+          {
+            num: 506,
+            state: 'available'
+          }
+        ]
+      ]
+    }
+  },
+  methods: {
+    select(value) {
+      this.selected = value
+    },
+    getFlat(value) {
+      this.numFlat = value
+    }
   }
 }
 </script>
@@ -84,5 +242,52 @@ h4 {
 }
 .section {
   padding: 20px 40px;
+}
+.group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  grid-gap: 10px;
+  margin-top: 20px;
+}
+.btn_flat {
+  background-color: #eee;
+  padding: 5px 0;
+  border-radius: 20px;
+  color: #666;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.btn_select {
+  background-color: #98c253;
+  color: #fff;
+}
+.btn_disabled {
+  background-color: rgb(255, 215, 128);
+  color: #666;
+  cursor: initial;
+}
+.plano {
+  max-width: 300px;
+  width: 100%;
+}
+.right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.separator {
+  border: 1px solid #eee;
+  width: 100%;
+  margin-top: 50px;
+}
+.group_bathrooms {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  grid-gap: 10px;
+  margin-top: 20px;
 }
 </style>

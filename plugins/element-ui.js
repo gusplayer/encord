@@ -7,7 +7,10 @@ import {
   Col,
   DatePicker,
   ButtonGroup,
-  Button
+  Button,
+  Radio,
+  RadioGroup,
+  RadioButton
 } from 'element-ui'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
@@ -20,5 +23,8 @@ Vue.use(Col)
 Vue.use(DatePicker)
 Vue.use(Button)
 Vue.use(ButtonGroup)
+Vue.use(RadioGroup)
+Vue.use(RadioButton)
+Vue.use(Radio)
 
 locale.use(lang)
