@@ -8,7 +8,7 @@
         </h2>
       </template>
       <div slot="section" class="section">
-        <div class="container">
+        <div class="section_one">
           <div class="col left">
             <building @change="getFlat" />
             <div>
@@ -16,20 +16,23 @@
                 <div class="btn_flat" :class="{btn_select: selected == index, btn_disabled: flats[numFlat-1][index].state == 'disabled' }" @click="select(index)" v-for="(item, index) in flats[numFlat - 1]" :key="index">{{item.num}}</div>
               </div>
             </div>
-            <div class="group_bathrooms">
-              <el-radio v-model="radio" label="1">Option A</el-radio>
-              <el-radio v-model="radio" label="2">Option B</el-radio>
-              <el-radio v-model="radio" label="3">Option A</el-radio>
-              <el-radio v-model="radio" label="4">Option B</el-radio>
-              <el-radio v-model="radio" label="5">Option A</el-radio>
-              <el-radio v-model="radio" label="6">Option B</el-radio>
-            </div>
           </div>
           <div class="col right">
             <img class="plano" src="../../../../assets/plano.jpg" alt="">
-            <div class="separator"></div>
           </div>
         </div>
+        <template>
+          <swiper :options="swiperOption" ref="mySwiper" @someSwiperEvent="callback">
+            <swiper-slide v-for="(item, index) in 4" :key="index">
+              <bathrooms />
+            </swiper-slide>
+          </swiper>
+
+          <modal v-if="showModal" @close="showModal = false">
+            <h3 slot="header">custom header</h3>
+            <img class="img_modal" slot="body" src="../../../../assets/baños/1.jpg" alt="">
+          </modal>
+        </template>
       </div>
     </card>
   </div>
@@ -38,15 +41,42 @@
 <script>
 import Card from '~/components/card'
 import Building from '~/components/building'
+import Bathrooms from '~/components/section-bathrooms'
+import Modal from '~/components/modal'
+
 export default {
   components: {
     Card,
-    Building
+    Building,
+    Bathrooms,
+    Modal
+  },
+  computed: {
+    showModal: {
+      get() {
+        return this.$store.state.showModal
+      },
+      set(newValue) {
+        this.$store.commit('CHANGE_MODAL_STATE', newValue)
+      }
+    }
   },
   data() {
     return {
       selected: 0,
       numFlat: 5,
+      radio: '1',
+      swiperOption: {
+        // direction: 'vertical',
+        slidesPerView: 1,
+        spaceBetween: 30,
+        mousewheel: true,
+        width: '600',
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        }
+      },
       flats: [
         [
           {
@@ -187,6 +217,9 @@ export default {
     },
     getFlat(value) {
       this.numFlat = value
+    },
+    selectCard(value) {
+      this.card = value
     }
   }
 }
@@ -201,8 +234,10 @@ a {
   background-color: #eee;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   height: 100vh;
+  overflow: auto;
+  padding: 20px 0;
 }
 h2 {
   font-weight: 400;
@@ -215,11 +250,11 @@ h2 span {
 h4 {
   text-align: center;
 }
-.container {
+.section_one {
   display: flex;
 }
 .col {
-  min-height: 315px;
+  /* min-height: 315px; */
 }
 .left {
   flex: 0.5;
@@ -230,7 +265,7 @@ h4 {
   justify-content: center;
   align-items: center;
   padding-left: 20px;
-  border-left: 2px solid #eee;
+  /* border-left: 2px solid #eee; */
   margin-left: 20px;
 }
 .circle-icon > i {
@@ -252,7 +287,7 @@ h4 {
 .btn_flat {
   background-color: #eee;
   padding: 5px 0;
-  border-radius: 20px;
+  border-radius: 6px;
   color: #666;
   font-weight: 600;
   font-size: 14px;
@@ -271,23 +306,22 @@ h4 {
   cursor: initial;
 }
 .plano {
-  max-width: 300px;
+  max-width: 350px;
   width: 100%;
+  border-radius: 20px;
 }
 .right {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-}
-.separator {
-  border: 1px solid #eee;
-  width: 100%;
-  margin-top: 50px;
+  justify-content: center;
 }
 .group_bathrooms {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
   grid-gap: 10px;
-  margin-top: 20px;
+  margin-top: 10px;
+}
+.img_modal {
+  width: 100%;
 }
 </style>

@@ -49,7 +49,7 @@ input[type='range'] {
   border-radius: 2px;
   overflow: hidden;
   position: absolute;
-  right: -65px;
+  right: -97px;
   top: 60px;
   transition: 0.3s ease-in-out;
   /* bottom: 80px; */

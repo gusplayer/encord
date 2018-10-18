@@ -48,10 +48,15 @@ module.exports = {
       }
     }
   },
-  css: ['element-ui/lib/theme-chalk/index.css', '~/assets/css/main.css'],
+  css: [
+    'element-ui/lib/theme-chalk/index.css',
+    '~/assets/css/main.css',
+    'swiper/dist/css/swiper.css'
+  ],
   plugins: [
     '~/plugins/vue-fuse',
     '~/plugins/element-ui',
-    '~/plugins/vue-signature'
+    '~/plugins/vue-signature',
+    '~/plugins/swiper.js'
   ]
 }

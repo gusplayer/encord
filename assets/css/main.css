@@ -59,6 +59,22 @@
 .infoContract i {
   color: rgba(10, 15, 44, 0.78);
 }
+.quotation .el-radio + .el-radio {
+  margin-left: 0;
+}
+.quotation .el-radio__input.is-checked + .el-radio__label {
+  color: #98c253;
+}
+.quotation .el-radio__input.is-checked .el-radio__inner {
+  border-color: #98c253;
+  background: #98c253;
+}
+.quotation .el-radio__inner:hover {
+  border-color: #98c253;
+}
+.quotation .el-radio {
+  color: rgba(37, 42, 68, 0.623);
+}
 /* #signature {
   border: double 3px transparent;
   border-radius: 5px;
@@ -67,3 +83,6 @@
   background-origin: border-box;
   background-clip: content-box, border-box;
 } */
+.quotation .swiper-wrapper {
+  width: 580px;
+}
