@@ -37,29 +37,6 @@ export default {
     Card,
     jsPDF
   },
-  // props: {
-  //   sigOption: {
-  //     type: Object,
-  //     default: () => {
-  //       return {
-  //         backgroundColor: 'rgb(255,255,255)',
-  //         penColor: 'rgb(0, 0, 0)'
-  //       }
-  //     }
-  //   },
-  //   w: {
-  //     type: String,
-  //     default: '100%'
-  //   },
-  //   h: {
-  //     type: String,
-  //     default: '100%'
-  //   },
-  //   clearOnResize: {
-  //     type: Boolean,
-  //     default: false
-  //   }
-  // },
   created() {
     this.setContract(
       '<h2>Contrato de compra</h2><p>Lorem %name% dolor, sit amet consectetur adipisicing elit. Hic ab doloribus %document% libero, tenetur eveniet aliquam. Distinctio quae veniam consequuntur, incidunt, %area% quaerat odio reprehenderit molestias tenetur laborum atque eos.</p><p>Lorem ipsum dolor, sit amet consectetur %precio% elit. Hic ab doloribus praesentium libero, tenetur eveniet aliquam. Distinctio quae veniam consequuntur, incidunt, dolorum quaerat odio reprehenderit molestias tenetur laborum atque eos.</p>'
@@ -108,13 +85,24 @@ export default {
       }
     },
     download() {
-      canvas(document.getElementById('pdf', { scale: 1 })).then(result => {
-        let pdfName = 'test'
-        var doc = new jsPDF('p', 'pt', 'a4', true)
-        doc.addImage(result.toDataURL('image/png'), 'PNG', 55, 55)
-        // pdf.addImage(png, 'PNG', leftmargin, 120, 485, 270, '', 'FAST')
-        doc.save(pdfName + '.pdf')
-      })
+      canvas(document.getElementById('pdf', { width: 100, height: 300 })).then(
+        result => {
+          let pdfName = 'test'
+          var doc = new jsPDF('p', 'pt', 'a4', true)
+          // doc.addImage(result.toDataURL('image/png'), 'PNG', 55, 55)
+          doc.addImage(
+            result,
+            'PNG',
+            40,
+            40,
+            520,
+            document.getElementById('pdf').clientHeight - 80,
+            '',
+            'FAST'
+          )
+          doc.save(pdfName + '.pdf')
+        }
+      )
     },
     undo() {
       this.$refs.signaturePad.undoSignature()

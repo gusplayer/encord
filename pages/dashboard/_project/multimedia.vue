@@ -55,7 +55,7 @@ export default {
         {
           id: 3,
           video: true,
-          img: 'QD0aSAe67CI'
+          img: 'BASOKQquMRM'
         }
       ],
       image: '',

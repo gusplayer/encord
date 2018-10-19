@@ -7,7 +7,7 @@
         <img src="../../assets/logo.png" alt="">
       </div>
       <div class="grid">
-        <form class="form login">
+        <div class="form login" submit.prevent="login">
 
           <div class="form__field">
             <label for="login__username">
@@ -16,7 +16,7 @@
               </div>
               <span class="hidden">Usuario</span>
             </label>
-            <input id="login__username" type="text" name="username" class="form__input" placeholder="Usuario" required>
+            <input id="login__username" type="text" name="username" v-model="user" class="form__input" placeholder="Usuario" required>
           </div>
 
           <div class="form__field">
@@ -26,10 +26,10 @@
               </div>
               <span class="hidden">Password</span>
             </label>
-            <input id="login__password" type="password" name="password" class="form__input" placeholder="Contraseña" required>
+            <input id="login__password" type="password" name="password" v-model="password" class="form__input" placeholder="Contraseña" required>
           </div>
 
-          <div @click="getUrl" class="form__field">
+          <div @click="login" class="form__field">
             <button type="submit" value="Ingresar">Ingresar</button>
           </div>
 
@@ -37,7 +37,7 @@
             <a :href="`${url}/auth/recover-password`">Olvidaste tu contraseña?</a>
           </p>
 
-        </form>
+        </div>
 
       </div>
     </div>
@@ -46,10 +46,13 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
-      
+      user: '',
+      password: ''
     }
   },
   mounted() {
@@ -57,13 +60,28 @@ export default {
   },
   computed: {
     url() {
-      return window.location.origin;
+      return window.location.origin
       // console.log(window.location)
     }
   },
   methods: {
     getUrl() {
       location.href = `${window.location.origin}/dashboard`
+    },
+    login() {
+      const params = {
+        username: this.user,
+        password: this.password,
+        grant_type: 'password',
+        client_id: 2,
+        client_secret: 'rC5O6gpTRhi5Ya252gPUO9udecm5fuKcBQvB1Hgp',
+        theNewProvider: 'usuario'
+      }
+      axios
+        .post('http://administrador.app-encord.com/oauth/token', params)
+        .then(response => {
+          this.$router.push('/dashboard')
+        })
     }
   }
 }

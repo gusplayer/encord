@@ -13,24 +13,24 @@
             <p class="description">{{item.description}}</p>
             <div class="container-img">
               <img :src="item.img" alt="">
-          </div>
             </div>
+          </div>
         </nuxt-link>
-        <nuxt-link to="/5" v-for="(item, index) in newList" :key="index" v-hide>
+        <nuxt-link to="/dashboard/5" v-for="(item, index) in newList" :key="index" v-hide>
           <div class="project">
             <h3 class="title">{{item.name}}</h3>
             <p class="subhead">{{item.subhead}}</p>
             <p class="description">{{item.description}}</p>
             <div class="container-img">
               <img :src="item.img" alt="">
-          </div>
             </div>
+          </div>
         </nuxt-link>
         <div class="show" v-show="!newList.length && search != ''">
           <h4>No se encontraron resultados</h4>
           <img src="@/assets/whoops.jpg" alt="">
-            </div>
         </div>
+      </div>
     </card>
     <!-- <nuxt-link to="/dashboard/89">Condominio 89</nuxt-link>
     <nuxt-link to="/dashboard/6">Condominio 6</nuxt-link> -->

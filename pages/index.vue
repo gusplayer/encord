@@ -17,6 +17,9 @@ import Card from '../components/card'
 export default {
   components: {
     Card
+  },
+  created() {
+    this.$router.push('/dashboard/')
   }
 }
 </script>

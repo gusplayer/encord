@@ -1,6 +1,6 @@
 <template>
   <div class="section_two">
-    <h3 class="subhead">Acabados de Baños</h3>
+    <h3 class="subhead">Acabados de Pisos</h3>
     <div class="container_cards">
       <div v-for="(item, index) in 6" :key="index" class="card_bathroom" :class="{card_select: card == index}">
         <h4 class="name">Opción Uno</h4>
@@ -8,7 +8,7 @@
           <img :src="img" alt="">
         </div>
         <div class="footer_card">
-          <div class="price">$2.500.000</div>
+          <div class="price">$3.250.000</div>
         </div>
         <div @click="selectCard(index)" class="plus">+</div>
       </div>
@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       card: 0,
-      img: require('../assets/baños/1.jpg')
+      img: require('../assets/pisos/1.jpg')
     }
   },
   methods: {
