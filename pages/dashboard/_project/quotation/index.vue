@@ -3,7 +3,7 @@
     <card>
       <template slot="header">
         <h2>
-          <nuxt-link to="/dashboard/5">Aria Condominio </nuxt-link>
+          <nuxt-link to="/dashboard">Aria Condominio </nuxt-link>
           <span>/ Cotizar</span>
         </h2>
       </template>
@@ -21,21 +21,6 @@
             <img class="plano" src="../../../../assets/plano.jpg" alt="">
           </div>
         </div>
-        <template>
-          <swiper :options="swiperOption" ref="mySwiper" @someSwiperEvent="callback">
-            <swiper-slide>
-              <bathrooms @change="selectImagen" />
-            </swiper-slide>
-            <swiper-slide>
-              <floors @change="selectImagen" />
-            </swiper-slide>
-          </swiper>
-
-          <modal v-if="showModal" @close="showModal = false">
-            <h3 slot="header">custom header</h3>
-            <img class="img_modal" slot="body" :src="img" alt="">
-          </modal>
-        </template>
       </div>
     </card>
   </div>
@@ -44,17 +29,11 @@
 <script>
 import Card from '~/components/card'
 import Building from '~/components/building'
-import Bathrooms from '~/components/section-bathrooms'
-import Floors from '~/components/section-floors'
-import Modal from '~/components/modal'
 
 export default {
   components: {
     Card,
-    Building,
-    Bathrooms,
-    Modal,
-    Floors
+    Building
   },
   computed: {
     showModal: {
@@ -71,18 +50,6 @@ export default {
       selected: 0,
       numFlat: 5,
       radio: '1',
-      img: '',
-      swiperOption: {
-        // direction: 'vertical',
-        slidesPerView: 1,
-        spaceBetween: 30,
-        mousewheel: true,
-        width: '600',
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true
-        }
-      },
       flats: [
         [
           {
@@ -223,12 +190,6 @@ export default {
     },
     getFlat(value) {
       this.numFlat = value
-    },
-    selectCard(value) {
-      this.card = value
-    },
-    selectImagen(value) {
-      this.img = value
     }
   }
 }
@@ -323,14 +284,5 @@ h4 {
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-.group_bathrooms {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-  grid-gap: 10px;
-  margin-top: 10px;
-}
-.img_modal {
-  width: 100%;
 }
 </style>

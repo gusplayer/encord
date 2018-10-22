@@ -6,7 +6,7 @@
         <search v-model="search" />
       </div>
       <div slot="section" class="section">
-        <nuxt-link to="/dashboard/5" v-for="(item, index) in list" :key="index" v-show="!search">
+        <nuxt-link :to="`/dashboard/${item.slug}`" v-for="(item, index) in list" :key="index" v-show="!search">
           <div class="project">
             <h3 class="title">{{item.name}}</h3>
             <p class="subhead">{{item.subhead}}</p>
@@ -42,6 +42,7 @@ import Card from '../../components/card'
 import ListCard from '../../components/list-card'
 import ImgCard from '../../components/img-card'
 import Search from '../../components/search'
+import axios from 'axios'
 
 export default {
   components: {
@@ -50,12 +51,31 @@ export default {
     ImgCard,
     Search
   },
+  created() {
+    const config = {
+      headers: {
+        Authorization:
+          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjZlNWU4OWYwODliMTY5MzY3NjYzYWNmMGFjNGNhZGE2ZDYwOWRjOGI1OWNmYmYwY2Q2ZDg5OWM5N2E5NWM5ZGFlMGRiYWE1YmIyMGE0YzhkIn0.eyJhdWQiOiIyIiwianRpIjoiNmU1ZTg5ZjA4OWIxNjkzNjc2NjNhY2YwYWM0Y2FkYTZkNjA5ZGM4YjU5Y2ZiZjBjZDZkODk5Yzk3YTk1YzlkYWUwZGJhYTViYjIwYTRjOGQiLCJpYXQiOjE1NDAyNDQ5NTgsIm5iZiI6MTU0MDI0NDk1OCwiZXhwIjoxNTcxNzgwOTU4LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.ubAd51b66C3A_iHw4oDl5ComU9EN_DHqP_QL1yEXIe_7mi97YRhn8QfDtpm-9zUz24ax5HgyBOfKiw1Psy-4YCFb3MXZJ4eOdQnw_CfQL26ctPbS1H5vItF1eudU7vGa_aCrm0S0pCRQWKRFQ9VhtpuvVPH9jiRKVIMo6Tvad50lj8Eue2Jmq5QuB0iTheCD_ZlNYbzO0JWZAWBCm7pP4XDxUTsytVcQfFbE2ye0AEXafpdkRThJJNpDA4EVqvNK4WyB5YQZrWa9SJPuj2bEBhp2IyQ20f-dTFvrWcxCLK1UuM-7K4BBN-LZ3DmQZYwoineSC3oiOM2isS4AL3SzmkVHGvT4Tq54awjqmOdFstB0_gaMahR_XwYsTvEVz0RZ2rD9as5Mab-AbpsaFHHAvq6CqPbnvB-H_gW5aQH0fpO2OZQwcx27CnDULc2K0HEgDwkzJTLkO3YtxOEIlHltRoPzt6qGorx6BRQWdHtTcvTnfz60NnsenfonbLCUNmZq-0eJ1jAk1OIDUhWxwCy6hRsoJ-W_RkdqrT-ZjnT-FLYcgTlrRPWfDXPoKOs6_02E5SX7rLzD3Ji1AM-6teb__e2bzbPrlQTPNKeaK0-aeQgIIwbdwH3jVM-Row6j7nPUlWXfZYZBtZ8UUZ7nKJzK5y8PjEnS7J64EaqAWACJvrA',
+        'content-type': 'multipart/form-data',
+        'Access-Control-Allow-Origin': '*'
+      }
+    }
+    axios
+      .get('http://administrador.app-encord.com/api/proyectos', config)
+      .then(response => {
+        this.projects = response.data
+      })
+      .catch(e => {
+        console.log(e)
+      })
+  },
   data() {
     return {
       fuse: null,
       list: [
         {
           name: 'proyecto 1',
+          slug: 'proyecto-1',
           subhead: 'subhead1',
           description:
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
@@ -63,6 +83,7 @@ export default {
         },
         {
           name: 'proyecto 2',
+          slug: 'proyecto-2',
           subhead: 'subhead2',
           description:
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
@@ -70,6 +91,7 @@ export default {
         },
         {
           name: 'proyecto 3',
+          slug: 'proyecto-3',
           subhead: 'subhead3',
           description:
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
@@ -77,6 +99,7 @@ export default {
         },
         {
           name: 'proyecto 4',
+          slug: 'proyecto-4',
           subhead: 'subhead4',
           description:
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
@@ -84,6 +107,7 @@ export default {
         },
         {
           name: 'proyecto 5',
+          slug: 'proyecto-5',
           subhead: 'subhead5',
           description:
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
@@ -91,6 +115,7 @@ export default {
         },
         {
           name: 'proyecto 6',
+          slug: 'proyecto-6',
           subhead: 'subhead6',
           description:
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
@@ -98,6 +123,7 @@ export default {
         },
         {
           name: 'proyecto 7',
+          slug: 'proyecto-7',
           subhead: 'subhead7',
           description:
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
@@ -105,6 +131,7 @@ export default {
         },
         {
           name: 'proyecto 8',
+          slug: 'proyecto-8',
           subhead: 'subhead8',
           description:
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
@@ -112,6 +139,7 @@ export default {
         },
         {
           name: 'proyecto 9',
+          slug: 'proyecto-9',
           subhead: 'subhead9',
           description:
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
@@ -119,6 +147,7 @@ export default {
         },
         {
           name: 'proyecto 10',
+          slug: 'proyecto-10',
           subhead: 'subhead10',
           description:
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
@@ -126,12 +155,14 @@ export default {
         },
         {
           name: 'proyecto 11',
+          slug: 'proyecto-11',
           subhead: 'subhead11',
           description:
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
           img: require('~/assets/edificio.jpg')
         }
       ],
+      projects: [],
       search: '',
       newList: [],
       result: [],

@@ -5,7 +5,11 @@
         <h3>Piso</h3>
         <p>{{value}}</p>
       </div>
-      <input type="range" name="range" min="1" max="5" step="1" v-model="value" />
+      <div class="container-arrows">
+        <div class="arrow arrow_top"></div>
+        <div class="arrow arrow_bottom"></div>
+      </div>
+      <!-- <input type="range" name="range" min="1" max="5" step="1" v-model="value" /> -->
     </div>
 
     <!-- <div class="content">
@@ -148,5 +152,20 @@ p {
   align-items: flex-end;
   position: relative;
   justify-content: center;
+}
+.container-arrows {
+  width: 40px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.arrow {
+  width: 100%;
+  height: 35px;
+  border: 1px solid #aaa;
+  background-color: #fff;
+  cursor: pointer;
+  border-radius: 6px;
 }
 </style>

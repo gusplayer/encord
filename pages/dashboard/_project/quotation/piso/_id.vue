@@ -10,31 +10,70 @@
         </h2>
       </template>
       <div slot="section" class="section">
-        <div class="container">
-          <div class="col left">
-            <img src="@/assets/plano.jpg" alt="">
-          </div>
-            <div class="col right">
-              <ul class="list">
-                <li class="item select">401</li>
-                <li class="item">402</li>
-                <li class="item yellow">403</li>
-                <li class="item">404</li>
-                <li class="item red">405</li>
-                <li class="item">406</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        <template>
+          <swiper :options="swiperOption" ref="mySwiper" @someSwiperEvent="callback">
+            <swiper-slide>
+              <bathrooms @change="selectImagen" />
+            </swiper-slide>
+            <swiper-slide>
+              <floors @change="selectImagen" />
+            </swiper-slide>
+          </swiper>
+
+          <modal v-if="showModal" @close="showModal = false">
+            <h3 slot="header">custom header</h3>
+            <img class="img_modal" slot="body" :src="img" alt="">
+          </modal>
+        </template>
+      </div>
     </card>
   </div>
 </template>
 
 <script>
 import Card from '~/components/card'
+import Bathrooms from '~/components/section-bathrooms'
+import Floors from '~/components/section-floors'
+import Modal from '~/components/modal'
 export default {
   components: {
-    Card
+    Card,
+    Bathrooms,
+    Modal,
+    Floors
+  },
+  computed: {
+    showModal: {
+      get() {
+        return this.$store.state.showModal
+      },
+      set(newValue) {
+        this.$store.commit('CHANGE_MODAL_STATE', newValue)
+      }
+    }
+  },
+  data() {
+    return {
+      img: '',
+      swiperOption: {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        mousewheel: true,
+        width: '600',
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        }
+      }
+    }
+  },
+  methods: {
+    selectCard(value) {
+      this.card = value
+    },
+    selectImagen(value) {
+      this.img = value
+    }
   }
 }
 </script>
@@ -111,5 +150,14 @@ li {
 }
 .section {
   padding: 20px 40px;
+}
+.group_bathrooms {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  grid-gap: 10px;
+  margin-top: 10px;
+}
+.img_modal {
+  width: 100%;
 }
 </style>
