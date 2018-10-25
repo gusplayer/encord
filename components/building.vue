@@ -6,8 +6,12 @@
         <p>{{value}}</p>
       </div>
       <div class="container-arrows">
-        <div class="arrow arrow_top"></div>
-        <div class="arrow arrow_bottom"></div>
+        <div @click="add" class="content-arrow">
+          <i class="icon-up-open-big"></i>
+        </div>
+        <div @click="subtract" class="content-arrow">
+          <i class="icon-down-open-big"></i>
+        </div>
       </div>
       <!-- <input type="range" name="range" min="1" max="5" step="1" v-model="value" /> -->
     </div>
@@ -18,19 +22,39 @@
         <div class="btn">Mostrar</div>
       </nuxt-link>
     </div> -->
+
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    limit: Number
+  },
   data() {
     return {
-      value: 5
+      value: 1
     }
   },
   watch: {
     value(value) {
       this.$emit('change', value)
+    }
+  },
+  methods: {
+    add() {
+      if (this.value >= this.limit) {
+        this.value = this.limit
+      } else {
+        this.value = this.value + 1
+      }
+    },
+    subtract() {
+      if (this.value <= 1) {
+        this.value = 1
+      } else {
+        this.value = this.value - 1
+      }
     }
   }
 }
@@ -43,6 +67,9 @@ a {
 .building {
   font-family: 'Dosis', Helvetica, Arial, sans-serif;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 input[type='range'] {
   transform: rotate(270deg);
@@ -149,7 +176,7 @@ p {
   height: 160px;
   width: 80%;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   position: relative;
   justify-content: center;
 }
@@ -160,12 +187,23 @@ p {
   flex-direction: column;
   justify-content: space-between;
 }
-.arrow {
+.content-arrow {
   width: 100%;
   height: 35px;
-  border: 1px solid #aaa;
-  background-color: #fff;
+  /* border: 1px solid #aaa; */
+  background-color: #606468;
   cursor: pointer;
   border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+}
+.content-arrow > i {
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  color: #fff;
 }
 </style>

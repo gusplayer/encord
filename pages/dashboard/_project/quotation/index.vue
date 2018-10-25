@@ -3,14 +3,15 @@
     <card>
       <template slot="header">
         <h2>
-          <nuxt-link to="/dashboard">Aria Condominio </nuxt-link>
-          <span>/ Cotizar</span>
+          <nuxt-link :to="`/dashboard/${$route.params.project}`">Aria Condominio</nuxt-link> -
+          <span>Cotizar</span>
         </h2>
+        <div class="num-apartment">{{numApartment}}</div>
       </template>
       <div slot="section" class="section">
         <div class="section_one">
           <div class="col left">
-            <building @change="getFlat" />
+            <building :limit="flats.length" @change="getFlat" />
             <div>
               <div class="group">
                 <div class="btn_flat" :class="{btn_select: selected == index, btn_disabled: flats[numFlat-1][index].state == 'disabled' }" @click="select(index)" v-for="(item, index) in flats[numFlat - 1]" :key="index">{{item.num}}</div>
@@ -18,9 +19,22 @@
             </div>
           </div>
           <div class="col right">
-            <img class="plano" src="../../../../assets/plano.jpg" alt="">
+            <div class="container-img">
+              <swiper :options="swiperOption" ref="mySwiper">
+                <swiper-slide>
+                  <img class="plano" src="../../../../assets/plano.jpg">
+                </swiper-slide>
+                <swiper-slide>
+                  <div class="info">
+                    <h3 class="title">Title</h3>
+                    <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum quam accusamus explicabo deserunt obcaecati doloremque maxime, aliquam quisquam.</p>
+                  </div>
+                </swiper-slide>
+              </swiper>
+            </div>
           </div>
         </div>
+        <nuxt-link class="btn_link" @click.native="sentNum" :to="`${$route.path}/${numFlat}`">Siguiente <i class="icon-right-open-big"></i></nuxt-link>
       </div>
     </card>
   </div>
@@ -43,13 +57,27 @@ export default {
       set(newValue) {
         this.$store.commit('CHANGE_MODAL_STATE', newValue)
       }
+    },
+    numApartment() {
+      return this.flats[this.numFlat - 1][this.selected].num
     }
   },
   data() {
     return {
       selected: 0,
-      numFlat: 5,
+      numFlat: 1,
       radio: '1',
+      url: '',
+      swiperOption: {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        mousewheel: true,
+        width: '350',
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        }
+      },
       flats: [
         [
           {
@@ -190,6 +218,13 @@ export default {
     },
     getFlat(value) {
       this.numFlat = value
+    },
+    sentNum() {
+      console.log('ashdgfsdf')
+      this.$store.commit(
+        'SET_SENTNUM',
+        this.flats[this.numFlat - 1][this.selected].num
+      )
     }
   }
 }
@@ -204,10 +239,10 @@ a {
   background-color: #eee;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   height: 100vh;
   overflow: auto;
-  padding: 20px 0;
+  padding: 20px 20px;
 }
 h2 {
   font-weight: 400;
@@ -223,9 +258,6 @@ h4 {
 .section_one {
   display: flex;
 }
-.col {
-  /* min-height: 315px; */
-}
 .left {
   flex: 0.5;
 }
@@ -235,8 +267,6 @@ h4 {
   justify-content: center;
   align-items: center;
   padding-left: 20px;
-  /* border-left: 2px solid #eee; */
-  margin-left: 20px;
 }
 .circle-icon > i {
   font-size: 40px;
@@ -246,7 +276,9 @@ h4 {
   align-items: center;
 }
 .section {
-  padding: 20px 40px;
+  padding: 20px 40px 0;
+  display: flex;
+  flex-direction: column;
 }
 .group {
   display: grid;
@@ -274,6 +306,7 @@ h4 {
   background-color: rgb(255, 215, 128);
   color: #666;
   cursor: initial;
+  pointer-events: none;
 }
 .plano {
   max-width: 350px;
@@ -284,5 +317,47 @@ h4 {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+.btn_link {
+  width: 120px;
+  align-self: flex-end;
+  cursor: pointer;
+  margin: 20px 30px 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.btn_link > i {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: flex-end;
+  padding-left: 10px;
+}
+.container-img {
+  position: relative;
+}
+.info {
+  position: absolute;
+}
+.swiper-wrapper {
+  max-width: 350px;
+}
+.title {
+  color: #1c2a42;
+  font-weight: 600;
+}
+.description {
+  line-height: 1.4;
+  font-size: 16px;
+  color: rgba(28, 42, 66, 0.733);
+}
+.num-apartment {
+  background-color: #98c253;
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: 600;
+  border-radius: 6px;
 }
 </style>

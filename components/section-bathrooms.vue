@@ -48,7 +48,7 @@ export default {
 
 <style scoped>
 .section_two {
-  margin-top: 40px;
+  /* margin-top: 40px; */
   width: 600px;
 }
 .subhead {

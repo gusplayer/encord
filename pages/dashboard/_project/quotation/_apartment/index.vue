@@ -1,17 +1,19 @@
 <template>
   <!-- <div>User {{ $route.params.id }}</div> -->
-  <div class="piso">
+  <div class="apartment">
     <card>
       <template slot="header">
         <h2>
-          <nuxt-link to="/dashboard">Aria Condominio </nuxt-link>
-          <nuxt-link to="/dashboard/quotation">/ Cotizar </nuxt-link>
-          <a>/ {{ $route.params.id }}</a>
+          <nuxt-link :to="`/dashboard/${$route.params.project}`">Aria Condominio </nuxt-link>-
+          <nuxt-link :to="`/dashboard/${$route.params.project}/quotation`"> Cotizar </nuxt-link>-
+          <nuxt-link :to="`/dashboard/${$route.params.project}/quotation/${$route.params.apartment}`"> Acabados </nuxt-link>
+          <!-- <a>/{{ $route.params.id }}</a> -->
         </h2>
+        <div class="num-apartment">{{numApartment}}</div>
       </template>
       <div slot="section" class="section">
         <template>
-          <swiper :options="swiperOption" ref="mySwiper" @someSwiperEvent="callback">
+          <swiper :options="swiperOption" ref="mySwiper">
             <swiper-slide>
               <bathrooms @change="selectImagen" />
             </swiper-slide>
@@ -50,6 +52,9 @@ export default {
       set(newValue) {
         this.$store.commit('CHANGE_MODAL_STATE', newValue)
       }
+    },
+    numApartment() {
+      return this.$store.state.sentNum
     }
   },
   data() {
@@ -84,7 +89,7 @@ a {
   color: #aaa;
   font-size: 18px;
 }
-.piso {
+.apartment {
   background-color: #eee;
   display: flex;
   justify-content: center;
@@ -149,7 +154,8 @@ li {
   color: #fff;
 }
 .section {
-  padding: 20px 40px;
+  padding: 0 40px 0 50px;
+  max-width: 700px;
 }
 .group_bathrooms {
   display: grid;
@@ -160,4 +166,12 @@ li {
 .img_modal {
   width: 100%;
 }
+.num-apartment {
+  background-color: #98c253;
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: 600;
+  border-radius: 6px;
+}
 </style>
+

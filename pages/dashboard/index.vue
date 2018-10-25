@@ -55,11 +55,14 @@ export default {
     const config = {
       headers: {
         Authorization:
-          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjZlNWU4OWYwODliMTY5MzY3NjYzYWNmMGFjNGNhZGE2ZDYwOWRjOGI1OWNmYmYwY2Q2ZDg5OWM5N2E5NWM5ZGFlMGRiYWE1YmIyMGE0YzhkIn0.eyJhdWQiOiIyIiwianRpIjoiNmU1ZTg5ZjA4OWIxNjkzNjc2NjNhY2YwYWM0Y2FkYTZkNjA5ZGM4YjU5Y2ZiZjBjZDZkODk5Yzk3YTk1YzlkYWUwZGJhYTViYjIwYTRjOGQiLCJpYXQiOjE1NDAyNDQ5NTgsIm5iZiI6MTU0MDI0NDk1OCwiZXhwIjoxNTcxNzgwOTU4LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.ubAd51b66C3A_iHw4oDl5ComU9EN_DHqP_QL1yEXIe_7mi97YRhn8QfDtpm-9zUz24ax5HgyBOfKiw1Psy-4YCFb3MXZJ4eOdQnw_CfQL26ctPbS1H5vItF1eudU7vGa_aCrm0S0pCRQWKRFQ9VhtpuvVPH9jiRKVIMo6Tvad50lj8Eue2Jmq5QuB0iTheCD_ZlNYbzO0JWZAWBCm7pP4XDxUTsytVcQfFbE2ye0AEXafpdkRThJJNpDA4EVqvNK4WyB5YQZrWa9SJPuj2bEBhp2IyQ20f-dTFvrWcxCLK1UuM-7K4BBN-LZ3DmQZYwoineSC3oiOM2isS4AL3SzmkVHGvT4Tq54awjqmOdFstB0_gaMahR_XwYsTvEVz0RZ2rD9as5Mab-AbpsaFHHAvq6CqPbnvB-H_gW5aQH0fpO2OZQwcx27CnDULc2K0HEgDwkzJTLkO3YtxOEIlHltRoPzt6qGorx6BRQWdHtTcvTnfz60NnsenfonbLCUNmZq-0eJ1jAk1OIDUhWxwCy6hRsoJ-W_RkdqrT-ZjnT-FLYcgTlrRPWfDXPoKOs6_02E5SX7rLzD3Ji1AM-6teb__e2bzbPrlQTPNKeaK0-aeQgIIwbdwH3jVM-Row6j7nPUlWXfZYZBtZ8UUZ7nKJzK5y8PjEnS7J64EaqAWACJvrA',
-        'content-type': 'multipart/form-data',
-        'Access-Control-Allow-Origin': '*'
+          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjM2Nzc4ZDIwZjZjMzZkYTljNzg5YTM2YTdhNzJhMGUyMDFmZGNhNzM4ZGQwYjVlZTIwMjlhZjJlMmY5NTEyMzg1NzZlOWFiN2ZlNmJmNDhlIn0.eyJhdWQiOiIyIiwianRpIjoiMzY3NzhkMjBmNmMzNmRhOWM3ODlhMzZhN2E3MmEwZTIwMWZkY2E3MzhkZDBiNWVlMjAyOWFmMmUyZjk1MTIzODU3NmU5YWI3ZmU2YmY0OGUiLCJpYXQiOjE1NDA1MDA4OTgsIm5iZiI6MTU0MDUwMDg5OCwiZXhwIjoxNTQxNzk2ODk4LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Rxyq3SAJwykSbpbncwcDpQ9lDAlpeSTtXoesCv4ZFXreTUo5XVSUYSU-KpgnaJ09oSrIEQLZ7NjXWVHFtllNCiy4AHPD4zYbqFUtEFesL-SoWrJX3pBSMTXNvrKTLAlBgIq3ffL_RtolRbibPcRz35YO1Y3fm27zOolPFRHVbqh_jCOHeFRdpfjuQ6B8hWoR-An7B7KKcLW-SckTpBf94Tt1BstXOtJWCT3y0i6ZE0lLmRateQZ12mqdcjqO5HKqWw8JuE_GsmqAUWGhHX7fqQ2loqqzU74MgZQNUUxkcu9hNacx-IaOkN3gR3lGjaPe8hXtefMq97UmkZDjCLVOm6O42ePY5R6hrEzmjzaFF2NUpzJ_88U7jB_H0eI3pDvBQs7Idijwk2NQJe2YGvZXI4urC44hSZYr69-Ub-XJtV45Ki4qgRkHRCGA-uuiXfq1u2e2Dv1MQG7_dVsKPV_eyleSni9s-Y2gOHeH0eoZ9viUBka9o7tsfAtMFKN0R1yqXbJnPD4DcpR4l60VLQQbMMC2NZW5AFq4443HSm3wevYYHuHrxZ7enPMA3sSegxgK2zTPUZxJE5SMTnRS1H0eY_jzKWWDwnQghfLy_4UkxFBMmcBLwlCBE4bRzxj6RZFKKSS1j6LKrhSBKWO9GLIXlTqe5h69T6JMbz2aTjuswxY',
+        'content-type': 'application/json',
+        Accept: 'application/json',
+        'Access-Control-Allow-Credentials': true,
+        'Access-Control-Allow-Origin': true
       }
     }
+
     axios
       .get('http://administrador.app-encord.com/api/proyectos', config)
       .then(response => {
@@ -79,7 +82,7 @@ export default {
           subhead: 'subhead1',
           description:
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio.jpg')
+          img: require('~/assets/edificio2.jpg')
         },
         {
           name: 'proyecto 2',
@@ -95,7 +98,7 @@ export default {
           subhead: 'subhead3',
           description:
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio.jpg')
+          img: require('~/assets/edificio2.jpg')
         },
         {
           name: 'proyecto 4',
@@ -111,7 +114,7 @@ export default {
           subhead: 'subhead5',
           description:
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio.jpg')
+          img: require('~/assets/edificio2.jpg')
         },
         {
           name: 'proyecto 6',
@@ -127,7 +130,7 @@ export default {
           subhead: 'subhead7',
           description:
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio.jpg')
+          img: require('~/assets/edificio2.jpg')
         },
         {
           name: 'proyecto 8',
