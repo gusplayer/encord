@@ -6,23 +6,23 @@
         <search v-model="search" />
       </div>
       <div slot="section" class="section">
-        <nuxt-link :to="`/dashboard/${item.slug}`" v-for="(item, index) in list" :key="index" v-show="!search">
+        <nuxt-link :to="`/dashboard/${item.nombre.replace(/ /g, '_')}`" @click.native="sentInfo(index)" v-for="(item, index) in projects" :key="item.id" v-show="!search">
           <div class="project">
-            <h3 class="title">{{item.name}}</h3>
-            <p class="subhead">{{item.subhead}}</p>
-            <p class="description">{{item.description}}</p>
+            <h3 class="title">{{item.nombre}}</h3>
+            <p class="subhead">{{item.ubicacion}}</p>
+            <p class="description" v-html="item.descripcion.substr(0, 90).toLowerCase()"></p>
             <div class="container-img">
-              <img :src="item.img" alt="">
+              <img :src="`${urlEncord}imagenes_proyectos/${item.logo}`" alt="">
             </div>
           </div>
         </nuxt-link>
-        <nuxt-link to="/dashboard/5" v-for="(item, index) in newList" :key="index" v-hide>
+        <nuxt-link :to="`/dashboard/${item.nombre.replace(/ /g, '_')}`" @click.native="sentInfo(index)" v-for="(item, index) in newList" :key="item.id" v-hide>
           <div class="project">
-            <h3 class="title">{{item.name}}</h3>
-            <p class="subhead">{{item.subhead}}</p>
-            <p class="description">{{item.description}}</p>
+            <h3 class="title">{{item.nombre}}</h3>
+            <p class="subhead">{{item.ubicacion}}</p>
+            <p class="description" v-html="item.descripcion"></p>
             <div class="container-img">
-              <img :src="item.img" alt="">
+              <img :src="`${urlEncord}/imagenes_proyectos/${item.logo}`" alt="">         
             </div>
           </div>
         </nuxt-link>
@@ -66,7 +66,7 @@ export default {
     axios
       .get('http://administrador.app-encord.com/api/proyectos', config)
       .then(response => {
-        this.projects = response.data
+        this.projects = response.data.data.filter(project => project.estado == 1)
       })
       .catch(e => {
         console.log(e)
@@ -75,6 +75,7 @@ export default {
   data() {
     return {
       fuse: null,
+      urlEncord: 'http://administrador.app-encord.com/',
       list: [
         {
           name: 'proyecto 1',
@@ -176,13 +177,21 @@ export default {
         distance: 100,
         maxPatternLength: 32,
         minMatchCharLength: 1,
-        keys: ['name', 'subhead']
+        keys: ['nombre', 'ubicacion']
       }
+    }
+  },
+  methods: {
+    sentInfo(index) {
+      this.$store.commit(
+        'SET_SENTINFO',
+        this.projects[index]
+      )
     }
   },
   watch: {
     search(value) {
-      this.$search(value, this.list, this.options).then(results => {
+      this.$search(value, this.projects, this.options).then(results => {
         this.newList = results
       })
     }
@@ -248,6 +257,7 @@ h2 {
   color: rgba(28, 42, 66, 0.718);
 }
 .description {
+  font-style:normal;
   margin: 5px 0;
   font-size: 12px;
   line-height: 1.2;

@@ -11,7 +11,20 @@
             <list-card />
           </div>
           <div class="col right">
-            <img-card />
+            <template class="container-img">
+              <swiper :options="swiperOption" ref="mySwiper">
+                <swiper-slide>
+                  <img-card />
+                </swiper-slide>
+                <swiper-slide>
+                  <div class="info">
+                    <h3 class="title">Title</h3>
+                    <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum quam accusamus explicabo deserunt obcaecati doloremque maxime, aliquam quisquam.</p>
+                  </div>
+                </swiper-slide>
+              </swiper>
+            </template>
+            
           </div>
         </div>
       </div>
@@ -29,6 +42,20 @@ export default {
     Card,
     ListCard,
     ImgCard
+  },
+  data() {
+    return {
+      swiperOption: {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        mousewheel: true,
+        width: '350',
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        }
+      },
+    }
   }
 }
 </script>
@@ -64,5 +91,8 @@ h2 {
 }
 .section {
   padding: 20px 40px;
+}
+.swiper-wrapper {
+  max-width: 350px;
 }
 </style>

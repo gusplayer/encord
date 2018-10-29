@@ -57,10 +57,6 @@ input[type='text'] {
   cursor: pointer;
 }
 
-input[type='text']:focus:hover {
-  /* border-bottom: 1px solid #bbb; */
-}
-
 input[type='text']:focus {
   width: 200px;
   z-index: 1;

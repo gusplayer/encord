@@ -220,7 +220,6 @@ export default {
       this.numFlat = value
     },
     sentNum() {
-      console.log('ashdgfsdf')
       this.$store.commit(
         'SET_SENTNUM',
         this.flats[this.numFlat - 1][this.selected].num
@@ -334,9 +333,6 @@ h4 {
   align-items: center;
   align-self: flex-end;
   padding-left: 10px;
-}
-.container-img {
-  position: relative;
 }
 .info {
   position: absolute;

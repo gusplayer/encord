@@ -5,7 +5,8 @@ const createStore = () => {
     state: () => ({
       infoContract: null,
       showModal: false,
-      sentNum: ''
+      sentNum: '',
+      sentInfo: {}
     }),
     mutations: {
       CHANGE_MODAL_STATE(state, value) {
@@ -13,6 +14,9 @@ const createStore = () => {
       },
       SET_SENTNUM(state, value) {
         state.sentNum = value
+      },
+      SET_SENTINFO(state, value) {
+        state.sentInfo = value
       }
     }
   })

@@ -86,3 +86,13 @@
 .quotation .swiper-wrapper {
   width: 350px;
 }
+.index .swiper-wrapper {
+  width: 350px;
+}
+.description p {
+  /* font-style: normal;
+  text-transform: unset; */
+}
+.description i {
+  font-style: normal;
+}
