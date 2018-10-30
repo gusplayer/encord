@@ -11,8 +11,8 @@ import {
   Radio,
   RadioGroup,
   RadioButton,
-  Carousel,
-  CarouselItem
+  TableColumn,
+  Table
 } from 'element-ui'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
@@ -28,7 +28,7 @@ Vue.use(ButtonGroup)
 Vue.use(RadioGroup)
 Vue.use(RadioButton)
 Vue.use(Radio)
-Vue.use(Carousel)
-Vue.use(CarouselItem)
+Vue.use(Table)
+Vue.use(TableColumn)
 
 locale.use(lang)

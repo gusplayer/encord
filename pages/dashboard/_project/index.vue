@@ -3,7 +3,7 @@
     <!-- <nuxt-child /> -->
     <card>
       <div slot="header">
-        <h2>Aria Condominio</h2>
+        <h2>{{infoName}}</h2>
       </div>
       <div slot="section" class="section">
         <div class="container">
@@ -18,13 +18,13 @@
                 </swiper-slide>
                 <swiper-slide>
                   <div class="info">
-                    <h3 class="title">Title</h3>
-                    <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum quam accusamus explicabo deserunt obcaecati doloremque maxime, aliquam quisquam.</p>
+                    <h3 class="title">{{infoName}}</h3>
+                    <p v-html="infoDescription" class="description"></p>
                   </div>
                 </swiper-slide>
               </swiper>
             </template>
-            
+
           </div>
         </div>
       </div>
@@ -54,7 +54,15 @@ export default {
           el: '.swiper-pagination',
           clickable: true
         }
-      },
+      }
+    }
+  },
+  computed: {
+    infoDescription() {
+      return this.$store.state.sentInfo.descripcion
+    },
+    infoName() {
+      return this.$store.state.sentInfo.nombre
     }
   }
 }

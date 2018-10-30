@@ -22,7 +22,7 @@
             <p class="subhead">{{item.ubicacion}}</p>
             <p class="description" v-html="item.descripcion"></p>
             <div class="container-img">
-              <img :src="`${urlEncord}/imagenes_proyectos/${item.logo}`" alt="">         
+              <img :src="`${urlEncord}/imagenes_proyectos/${item.logo}`" alt="">
             </div>
           </div>
         </nuxt-link>
@@ -66,7 +66,9 @@ export default {
     axios
       .get('http://administrador.app-encord.com/api/proyectos', config)
       .then(response => {
-        this.projects = response.data.data.filter(project => project.estado == 1)
+        this.projects = response.data.data.filter(
+          project => project.estado == 1
+        )
       })
       .catch(e => {
         console.log(e)
@@ -183,10 +185,7 @@ export default {
   },
   methods: {
     sentInfo(index) {
-      this.$store.commit(
-        'SET_SENTINFO',
-        this.projects[index]
-      )
+      this.$store.commit('SET_SENTINFO', this.projects[index])
     }
   },
   watch: {
@@ -257,7 +256,7 @@ h2 {
   color: rgba(28, 42, 66, 0.718);
 }
 .description {
-  font-style:normal;
+  font-style: normal;
   margin: 5px 0;
   font-size: 12px;
   line-height: 1.2;

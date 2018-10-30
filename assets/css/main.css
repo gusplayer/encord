@@ -75,23 +75,11 @@
 .quotation .el-radio {
   color: rgba(37, 42, 68, 0.623);
 }
-/* #signature {
-  border: double 3px transparent;
-  border-radius: 5px;
-  background-image: linear-gradient(white, white),
-    radial-gradient(circle at top left, #4bc5e8, #9f6274);
-  background-origin: border-box;
-  background-clip: content-box, border-box;
-} */
 .quotation .swiper-wrapper {
   width: 350px;
 }
 .index .swiper-wrapper {
   width: 350px;
-}
-.description p {
-  /* font-style: normal;
-  text-transform: unset; */
 }
 .description i {
   font-style: normal;

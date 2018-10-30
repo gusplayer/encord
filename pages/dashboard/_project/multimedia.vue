@@ -3,7 +3,7 @@
     <card>
       <template slot="header">
         <h2>
-          <nuxt-link to="/dashboard/5">Aria Condominio </nuxt-link>
+          <nuxt-link to="/dashboard">Aria Condominio </nuxt-link>
           <span>/ Multimedia</span>
         </h2>
       </template>

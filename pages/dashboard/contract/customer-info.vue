@@ -142,7 +142,7 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Nombre" v-model="getCostumer.name">
+              <input class="inputClinte" type="text" placeholder="Nombre" v-model="getCostumer.name" disabled>
             </div>
           </el-col>
         </el-row>
@@ -152,7 +152,7 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Apellido" v-model="getCostumer.lastName">
+              <input class="inputClinte" type="text" placeholder="Apellido" v-model="getCostumer.lastName" disabled>
             </div>
           </el-col>
         </el-row>
@@ -162,7 +162,7 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Celular" v-model="getCostumer.phone">
+              <input class="inputClinte" type="text" placeholder="Celular" v-model="getCostumer.phone" disabled>
             </div>
           </el-col>
         </el-row>
@@ -172,7 +172,7 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Dirección" v-model="getCostumer.address">
+              <input class="inputClinte" type="text" placeholder="Dirección" v-model="getCostumer.address" disabled>
             </div>
           </el-col>
         </el-row>

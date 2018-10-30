@@ -3,7 +3,7 @@
     <card>
       <template slot="header">
         <h2>
-          <nuxt-link :to="`/dashboard/${$route.params.project}`">Aria Condominio</nuxt-link> -
+          <nuxt-link :to="`/dashboard/${$route.params.project}`">{{nameProject}}</nuxt-link> -
           <span>Cotizar</span>
         </h2>
         <div class="num-apartment">{{numApartment}}</div>
@@ -11,10 +11,11 @@
       <div slot="section" class="section">
         <div class="section_one">
           <div class="col left">
-            <building :limit="flats.length" @change="getFlat" />
+            <building @change="getFlat" />
             <div>
               <div class="group">
-                <div class="btn_flat" :class="{btn_select: selected == index, btn_disabled: flats[numFlat-1][index].state == 'disabled' }" @click="select(index)" v-for="(item, index) in flats[numFlat - 1]" :key="index">{{item.num}}</div>
+                <!-- <div class="btn_flat" :class="{btn_select: selected == index, btn_disabled: flats[0][index].estado == 0 }" @click="select(index)" v-for="(item, index) in flats" :key="index">{{item.piso}}</div> -->
+                <div class="btn_flat" @click="select(index)" v-for="(item, index) in flats" :key="index">{{item.piso}}</div>
               </div>
             </div>
           </div>
@@ -34,7 +35,7 @@
             </div>
           </div>
         </div>
-        <nuxt-link class="btn_link" @click.native="sentNum" :to="`${$route.path}/${numFlat}`">Siguiente <i class="icon-right-open-big"></i></nuxt-link>
+        <!-- <nuxt-link class="btn_link" @click.native="sentNum" :to="`${$route.path}/${numFlat}`">Siguiente <i class="icon-right-open-big"></i></nuxt-link> -->
       </div>
     </card>
   </div>
@@ -58,8 +59,14 @@ export default {
         this.$store.commit('CHANGE_MODAL_STATE', newValue)
       }
     },
-    numApartment() {
-      return this.flats[this.numFlat - 1][this.selected].num
+    // numApartment() {
+    //   return this.flats[this.numFlat - 1][this.selected].piso
+    // },
+    flats() {
+      return this.$store.state.sentInfo.pisos
+    },
+    nameProject() {
+      return this.$store.state.sentInfo.nombre
     }
   },
   data() {
@@ -77,139 +84,7 @@ export default {
           el: '.swiper-pagination',
           clickable: true
         }
-      },
-      flats: [
-        [
-          {
-            num: 101,
-            state: 'available'
-          },
-          {
-            num: 102,
-            state: 'available'
-          },
-          {
-            num: 103,
-            state: 'available'
-          },
-          {
-            num: 104,
-            state: 'available'
-          },
-          {
-            num: 105,
-            state: 'available'
-          },
-          {
-            num: 106,
-            state: 'disabled'
-          }
-        ],
-        [
-          {
-            num: 201,
-            state: 'available'
-          },
-          {
-            num: 202,
-            state: 'disabled'
-          },
-          {
-            num: 203,
-            state: 'available'
-          },
-          {
-            num: 204,
-            state: 'available'
-          },
-          {
-            num: 205,
-            state: 'disabled'
-          },
-          {
-            num: 206,
-            state: 'available'
-          }
-        ],
-        [
-          {
-            num: 301,
-            state: 'available'
-          },
-          {
-            num: 302,
-            state: 'available'
-          },
-          {
-            num: 303,
-            state: 'available'
-          },
-          {
-            num: 304,
-            state: 'available'
-          },
-          {
-            num: 305,
-            state: 'disabled'
-          },
-          {
-            num: 306,
-            state: 'available'
-          }
-        ],
-        [
-          {
-            num: 401,
-            state: 'available'
-          },
-          {
-            num: 402,
-            state: 'available'
-          },
-          {
-            num: 403,
-            state: 'available'
-          },
-          {
-            num: 404,
-            state: 'disabled'
-          },
-          {
-            num: 405,
-            state: 'disabled'
-          },
-          {
-            num: 406,
-            state: 'available'
-          }
-        ],
-        [
-          {
-            num: 501,
-            state: 'disabled'
-          },
-          {
-            num: 502,
-            state: 'disabled'
-          },
-          {
-            num: 503,
-            state: 'available'
-          },
-          {
-            num: 504,
-            state: 'available'
-          },
-          {
-            num: 505,
-            state: 'disabled'
-          },
-          {
-            num: 506,
-            state: 'available'
-          }
-        ]
-      ]
+      }
     }
   },
   methods: {
@@ -218,13 +93,13 @@ export default {
     },
     getFlat(value) {
       this.numFlat = value
-    },
-    sentNum() {
-      this.$store.commit(
-        'SET_SENTNUM',
-        this.flats[this.numFlat - 1][this.selected].num
-      )
     }
+    // sentNum() {
+    //   this.$store.commit(
+    //     'SET_SENTNUM',
+    //     this.flats[this.numFlat - 1][this.selected].piso
+    //   )
+    // }
   }
 }
 </script>

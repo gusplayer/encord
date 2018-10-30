@@ -29,10 +29,12 @@
             <i class="icon-file-1"></i>
             <p :class="classActive">Crear Informe</p>
           </li>
-          <li class="list-item">
-            <i class="icon-folder-14"></i>
-            <p :class="classActive">Base de Datos</p>
-          </li>
+          <nuxt-link to="/dashboard/customers/list-customers">
+            <li class="list-item">
+              <i class="icon-folder-14"></i>
+              <p :class="classActive">Clientes</p>
+            </li>
+          </nuxt-link>
           <nuxt-link to="/dashboard/contract/list-contracts">
             <li class="list-item">
               <i class="icon-diploma"></i>

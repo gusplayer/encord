@@ -13,27 +13,28 @@
           <i class="icon-down-open-big"></i>
         </div>
       </div>
-      <!-- <input type="range" name="range" min="1" max="5" step="1" v-model="value" /> -->
     </div>
-
-    <!-- <div class="content">
-      <input type="text" v-model="value">
-      <nuxt-link to="quotation/piso/5">
-        <div class="btn">Mostrar</div>
-      </nuxt-link>
-    </div> -->
-
   </div>
 </template>
 
 <script>
 export default {
-  props: {
-    limit: Number
+  created() {
+    if (this.$store.state.sentInfo.pisos.length) {
+      this.value = this.flats
+    } else {
+      this.value = 1
+    }
+    this.limit = this.value
   },
   data() {
     return {
       value: 1
+    }
+  },
+  computed: {
+    flats() {
+      return this.$store.state.sentInfo.pisos.length
     }
   },
   watch: {
