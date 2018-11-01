@@ -42,7 +42,6 @@ header {
   justify-content: space-between;
   position: sticky;
   padding: 10px 40px;
-  /* background-color: rgb(255, 0, 43); */
 }
 section {
   width: 100%;

@@ -16,7 +16,7 @@
               </div>
               <span class="hidden">Usuario</span>
             </label>
-            <input id="login__username" type="text" name="username" v-model="user" class="form__input" placeholder="Usuario" required>
+            <input id="login__username" type="text" name="username" v-model="email" class="form__input" placeholder="Usuario" required>
           </div>
 
           <div class="form__field">
@@ -46,42 +46,41 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   data() {
     return {
-      user: '',
+      email: '',
       password: ''
     }
   },
   mounted() {
-    console.log(this.$router)
+    // console.log(this.$router)
   },
   computed: {
     url() {
       return window.location.origin
-      // console.log(window.location)
     }
   },
   methods: {
-    getUrl() {
-      location.href = `${window.location.origin}/dashboard`
-    },
+    // getUrl() {
+    //   location.href = `${window.location.origin}/dashboard`
+    // },
     login() {
-      const params = {
-        username: this.user,
-        password: this.password,
-        grant_type: 'password',
-        client_id: 2,
-        client_secret: 'rC5O6gpTRhi5Ya252gPUO9udecm5fuKcBQvB1Hgp',
-        theNewProvider: 'usuario'
-      }
-      axios
-        .post('http://administrador.app-encord.com/oauth/token', params)
-        .then(response => {
-          this.$router.push('/dashboard')
+      this.$auth
+        .loginWith('local', {
+          data: {
+            username: this.email,
+            password: this.password,
+            grant_type: 'password',
+            client_id: 2,
+            client_secret: 'rC5O6gpTRhi5Ya252gPUO9udecm5fuKcBQvB1Hgp',
+            theNewProvider: 'usuario'
+          }
         })
+        .then(response => {
+          console.log(response, 'Why?')
+        })
+      // this.$router.push('/dashboard')
     }
   }
 }

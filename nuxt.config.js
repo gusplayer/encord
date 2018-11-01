@@ -28,6 +28,31 @@ module.exports = {
   ** Customize the progress bar color
   */
   loading: { color: '#3B8470' },
+  modules: ['@nuxtjs/axios', '@nuxtjs/auth'],
+  axios: {
+    baseURL: 'http://administrador.app-encord.com'
+  },
+  auth: {
+    redirect: {
+      login: '/auth/login',
+      logout: '/auth/login',
+      callback: '/dashboard',
+      home: '/dashboard'
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/oauth/token',
+            method: 'post',
+            propertyName: 'token.access_token'
+          },
+          user: false,
+          logout: { url: 'logout', method: 'post' }
+        }
+      }
+    }
+  },
   mode: 'spa',
   /*
   ** Build configuration
@@ -58,5 +83,9 @@ module.exports = {
     '~/plugins/element-ui',
     '~/plugins/vue-signature',
     '~/plugins/swiper.js'
-  ]
+    // '~plugins/mixins/user.js'
+  ],
+  router: {
+    middleware: ['auth']
+  }
 }

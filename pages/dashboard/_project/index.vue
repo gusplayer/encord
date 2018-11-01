@@ -38,6 +38,7 @@ import ListCard from '@/components/list-card'
 import ImgCard from '@/components/img-card'
 
 export default {
+  // auth: false,
   components: {
     Card,
     ListCard,

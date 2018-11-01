@@ -90,7 +90,8 @@ export default {
         'btn-deploy-collapse'
       ]
     },
-    logout() {
+    async logout() {
+      await this.$auth.logout()
       location.href = `${window.location.origin}/auth/login`
     }
   }
@@ -112,12 +113,10 @@ a {
   display: flex;
   flex-direction: column;
   transition: all ease 0.5s;
-  /* position: fixed; */
   height: 100vh;
 }
 .panel-collapse {
   width: 90px;
-  /* transition: all ease 0.5s; */
 }
 .head {
   width: 100%;
