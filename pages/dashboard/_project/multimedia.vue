@@ -3,7 +3,7 @@
     <card>
       <template slot="header">
         <h2>
-          <nuxt-link to="/dashboard">Aria Condominio </nuxt-link>
+          <nuxt-link :to="`/dashboard/${$route.params.project}`">{{nameProject}} </nuxt-link>
           <span>/ Multimedia</span>
         </h2>
       </template>
@@ -36,6 +36,11 @@ export default {
   },
   mounted() {
     this.image = this.multimedia[0].img
+  },
+  computed: {
+    nameProject() {
+      return this.$store.state.sentInfo.nombre
+    }
   },
   data() {
     return {

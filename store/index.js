@@ -1,4 +1,5 @@
 import Vuex from 'vuex'
+import axios from 'axios'
 
 const createStore = () => {
   return new Vuex.Store({
@@ -6,7 +7,8 @@ const createStore = () => {
       infoContract: null,
       showModal: false,
       sentNum: '',
-      sentInfo: {}
+      sentInfo: {},
+      authUser: null
     }),
     mutations: {
       CHANGE_MODAL_STATE(state, value) {
@@ -17,6 +19,35 @@ const createStore = () => {
       },
       SET_SENTINFO(state, value) {
         state.sentInfo = value
+      },
+      SET_USER: function(state, user) {
+        state.authUser = user
+      }
+    },
+    actions: {
+      nuxtServerInit({ commit }, { req }) {
+        if (req.session && req.session.authUser) {
+          commit('SET_USER', req.session.authUser)
+        }
+      },
+      async login({ commit }, { email, password }) {
+        try {
+          const { data } = await axios.post('/auth/login', {
+            email,
+            password
+          })
+          commit('SET_USER', data)
+        } catch (error) {
+          if (error.response && error.response.status === 401) {
+            throw new Error('Bad credentials')
+          }
+          throw error
+        }
+      },
+
+      async logout({ commit }) {
+        await axios.post('/auth/logout')
+        commit('SET_USER', null)
       }
     }
   })

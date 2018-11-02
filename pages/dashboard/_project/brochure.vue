@@ -3,12 +3,14 @@
     <card>
       <template slot="header">
         <h2>
-          <nuxt-link to="/dashboard">Aria Condominio </nuxt-link>
-          <span>/ Brochure</span>
+          <nuxt-link :to="`/dashboard/${$route.params.project}`">{{nameProject}} </nuxt-link>
+          <span>- Brochure</span>
         </h2>
       </template>
       <div slot="section" class="section">
-        <pdf src="~/static/vue.pdf"></pdf>
+        <div class="pdf">
+          <iframe src="https://e.issuu.com/anonymous-embed.html?u=astegiudiziarie&d=nazionale_n7-2017" width="944" height="500" frameborder="0" allowfullscreen="true"></iframe>
+        </div>
       </div>
     </card>
   </div>
@@ -16,11 +18,14 @@
 
 <script>
 import Card from '~/components/card'
-import pdf from 'vue-pdf'
 export default {
   components: {
-    Card,
-    pdf
+    Card
+  },
+  computed: {
+    nameProject() {
+      return this.$store.state.sentInfo.nombre
+    }
   }
 }
 </script>
@@ -32,6 +37,7 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  padding: 0 20px;
 }
 a {
   text-decoration: none;
@@ -67,5 +73,8 @@ h2 span {
 }
 .section {
   padding: 20px 40px;
+}
+iframe {
+  max-width: 100%;
 }
 </style>

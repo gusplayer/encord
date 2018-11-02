@@ -84,3 +84,17 @@
 .description i {
   font-style: normal;
 }
+.price-list .el-table thead {
+  background: #98c253;
+  /* color: aqua; */
+}
+.el-table th {
+  background: #98c253;
+  color: #fff;
+}
+.el-table tr {
+  color: rgba(57, 59, 68, 0.663);
+}
+.price-list .bold {
+  font-weight: 600;
+}

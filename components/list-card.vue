@@ -32,7 +32,7 @@ export default {
         {
           name: 'Lista de precios',
           icon: 'icon-004-results',
-          link: '#'
+          link: 'price-list'
         }
       ]
     }

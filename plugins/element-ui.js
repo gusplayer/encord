@@ -12,6 +12,7 @@ import {
   RadioGroup,
   RadioButton,
   TableColumn,
+  Tag,
   Table
 } from 'element-ui'
 import lang from 'element-ui/lib/locale/lang/en'
@@ -30,5 +31,6 @@ Vue.use(RadioButton)
 Vue.use(Radio)
 Vue.use(Table)
 Vue.use(TableColumn)
+Vue.use(Tag)
 
 locale.use(lang)

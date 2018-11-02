@@ -9,6 +9,7 @@
       <div class="grid">
         <div class="form login" submit.prevent="login">
 
+          <p v-if="error" class="error">{{ error }}</p>
           <div class="form__field">
             <label for="login__username">
               <div class="icon">
@@ -16,7 +17,7 @@
               </div>
               <span class="hidden">Usuario</span>
             </label>
-            <input id="login__username" type="text" name="username" v-model="email" class="form__input" placeholder="Usuario" required>
+            <input id="login__username" type="text" name="email" v-model="email" class="form__input" placeholder="Usuario" required>
           </div>
 
           <div class="form__field">
@@ -50,7 +51,8 @@ export default {
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      error: null
     }
   },
   mounted() {
