@@ -19,6 +19,7 @@
                 <swiper-slide>
                   <div class="info">
                     <h3 class="title">{{infoName}}</h3>
+                    <p class="location">{{infoLocation}}</p>
                     <p v-html="infoDescription" class="description"></p>
                   </div>
                 </swiper-slide>
@@ -62,6 +63,9 @@ export default {
     infoDescription() {
       return this.$store.state.sentInfo.descripcion
     },
+    infoLocation() {
+      return this.$store.state.sentInfo.ubicacion
+    },
     infoName() {
       return this.$store.state.sentInfo.nombre
     }
@@ -103,5 +107,11 @@ h2 {
 }
 .swiper-wrapper {
   max-width: 350px;
+}
+.location {
+  line-height: 1;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: rgb(77, 91, 119);
 }
 </style>
