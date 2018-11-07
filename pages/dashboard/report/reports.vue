@@ -10,7 +10,7 @@
       <div slot="section" class="section">
         <h3 class="title-reports">Reportes Mensuales</h3>
         <div class="head">
-          <div v-for="(item, index) in items" :key="index" class="item">
+          <div v-for="(item, index) in items" :key="index" class="item" @click="changeSlide(index)">
             <div class="num">{{item.num}}</div>
             <div class="content">
               <p class="sales">{{item.name}}</p>
@@ -58,6 +58,7 @@ export default {
     return {
       swiperOption: {
         slidesPerView: 1,
+        activeIndex: 2,
         spaceBetween: 30,
         mousewheel: true,
         width: '650',
@@ -98,6 +99,16 @@ export default {
           num: 63
         }
       ]
+    }
+  },
+  computed: {
+    swiper() {
+      return this.$refs.mySwiper.swiper
+    }
+  },
+  methods: {
+    changeSlide(index) {
+      this.swiper.slideTo(index + 1, 1000, false)
     }
   }
 }
@@ -151,6 +162,7 @@ h2 span {
   border-bottom: 3px solid transparent;
   color: var(--main-txt-color);
   font-weight: 300;
+  margin-bottom: 20px;
 }
 /* .right {
   display: flex;

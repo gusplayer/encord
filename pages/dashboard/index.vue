@@ -6,9 +6,9 @@
         <search v-model="search" />
       </div>
       <div slot="section" class="section">
-        <nuxt-link :to="`/dashboard/${item.nombre.replace(/ /g, '_')}`" @click.native="sentInfo(index)" v-for="(item, index) in projects" :key="item.id" v-show="!search">
+        <nuxt-link :to="`/dashboard/${item.nombre.replace(/ /g, '_')}`" @click.native="sentInfo(item.id)" v-for="item in projects" :key="item.id" v-show="!search">
           <div class="project">
-            <h3 class="title">{{item.nombre}}</h3>
+            <h3 class="title">{{item.nombre.toLowerCase()}}</h3>
             <p class="subhead">{{item.ubicacion}}</p>
             <p class="description" v-html="item.descripcion.substr(0, 90).toLowerCase()"></p>
             <div class="container-img">
@@ -16,11 +16,11 @@
             </div>
           </div>
         </nuxt-link>
-        <nuxt-link :to="`/dashboard/${item.nombre.replace(/ /g, '_')}`" @click.native="sentInfo(index)" v-for="(item, index) in newList" :key="item.id" v-hide>
+        <nuxt-link :to="`/dashboard/${item.nombre.replace(/ /g, '_')}`" @click.native="sentInfo(item.id)" v-for="item in newList" :key="item.id" v-hide>
           <div class="project">
-            <h3 class="title">{{item.nombre}}</h3>
+            <h3 class="title">{{item.nombre.toLowerCase()}}</h3>
             <p class="subhead">{{item.ubicacion}}</p>
-            <p class="description" v-html="item.descripcion"></p>
+            <p class="description" v-html="item.descripcion.substr(0, 90).toLowerCase()"></p>
             <div class="container-img">
               <img :src="`${urlEncord}/imagenes_proyectos/${item.logo}`" alt="">
             </div>
@@ -78,96 +78,6 @@ export default {
     return {
       fuse: null,
       urlEncord: 'http://administrador.app-encord.com/',
-      list: [
-        {
-          name: 'proyecto 1',
-          slug: 'proyecto-1',
-          subhead: 'subhead1',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio2.jpg')
-        },
-        {
-          name: 'proyecto 2',
-          slug: 'proyecto-2',
-          subhead: 'subhead2',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio.jpg')
-        },
-        {
-          name: 'proyecto 3',
-          slug: 'proyecto-3',
-          subhead: 'subhead3',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio2.jpg')
-        },
-        {
-          name: 'proyecto 4',
-          slug: 'proyecto-4',
-          subhead: 'subhead4',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio.jpg')
-        },
-        {
-          name: 'proyecto 5',
-          slug: 'proyecto-5',
-          subhead: 'subhead5',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio2.jpg')
-        },
-        {
-          name: 'proyecto 6',
-          slug: 'proyecto-6',
-          subhead: 'subhead6',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio.jpg')
-        },
-        {
-          name: 'proyecto 7',
-          slug: 'proyecto-7',
-          subhead: 'subhead7',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio2.jpg')
-        },
-        {
-          name: 'proyecto 8',
-          slug: 'proyecto-8',
-          subhead: 'subhead8',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio.jpg')
-        },
-        {
-          name: 'proyecto 9',
-          slug: 'proyecto-9',
-          subhead: 'subhead9',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio.jpg')
-        },
-        {
-          name: 'proyecto 10',
-          slug: 'proyecto-10',
-          subhead: 'subhead10',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio.jpg')
-        },
-        {
-          name: 'proyecto 11',
-          slug: 'proyecto-11',
-          subhead: 'subhead11',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio.jpg')
-        }
-      ],
       projects: [],
       search: '',
       newList: [],
@@ -184,8 +94,11 @@ export default {
     }
   },
   methods: {
-    sentInfo(index) {
-      this.$store.commit('SET_SENTINFO', this.projects[index])
+    sentInfo(id) {
+      this.$store.commit(
+        'SET_SENTINFO',
+        this.projects.find(project => project.id === id)
+      )
     }
   },
   watch: {

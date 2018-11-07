@@ -1,17 +1,21 @@
 <template>
   <div class="sales">
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="date" label="Fecha" sortable width="180" :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]" :filter-method="filterHandler">
+    <el-table height="330px" :data="tableData" style="width: 100%" stripe border>
+      <el-table-column prop="mounth" label="Mes" :filters="[{text: 'Octubre', value: 'Octubre'}, {text: 'Septiembre', value: 'Septiembre'}, {text: 'Diciembre', value: 'Diciembre'}, {text: 'Agosto', value: 'Agosto'}]" :filter-method="filterHandler">
       </el-table-column>
-      <el-table-column prop="name" label="Nombre" width="180">
+      <el-table-column prop="project" label="Proyecto">
       </el-table-column>
-      <el-table-column prop="address" label="Dirección" :formatter="formatter">
+      <el-table-column prop="flat" label="Piso/Unid." width="90px">
       </el-table-column>
-      <el-table-column prop="tag" label="Etiqueta" width="100" :filters="[{ text: 'Home', value: 'Home' }, { text: 'Office', value: 'Office' }]" :filter-method="filterTag" filter-placement="bottom-end">
+      <el-table-column prop="customer" label="Cliente">
+      </el-table-column>
+      <el-table-column prop="price" label="Valor">
+      </el-table-column>
+      <!-- <el-table-column prop="tag" label="Etiqueta" :filters="[{ text: 'Home', value: 'Home' }, { text: 'Office', value: 'Office' }]" :filter-method="filterTag" filter-placement="bottom-end">
         <template slot-scope="scope">
           <el-tag :type="scope.row.tag === 'Home' ? 'primary' : 'success'" disable-transitions>{{scope.row.tag}}</el-tag>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
   </div>
 </template>
@@ -22,27 +26,59 @@ export default {
     return {
       tableData: [
         {
-          date: '2016-05-03',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
+          mounth: 'Octubre',
+          project: 'Aria Condominio',
+          flat: '106',
+          customer: 'Diego Coy',
+          price: '250.000.000',
           tag: 'Home'
         },
         {
-          date: '2016-05-02',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
+          mounth: 'Octubre',
+          project: 'Aria Condominio',
+          flat: '306',
+          customer: 'Diego Coy',
+          price: '250.000.000',
           tag: 'Office'
         },
         {
-          date: '2016-05-04',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
+          mounth: 'Septiembre',
+          project: 'Aria Condominio',
+          flat: '108',
+          customer: 'Diego Coy',
+          price: '250.000.000',
           tag: 'Home'
         },
         {
-          date: '2016-05-01',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
+          mounth: 'Octubre',
+          project: 'Aria Condominio',
+          flat: '205',
+          customer: 'Diego Coy',
+          price: '250.000.000',
+          tag: 'Home'
+        },
+        {
+          mounth: 'Octubre',
+          project: 'Tom',
+          flat: '106',
+          customer: 'Diego Coy',
+          price: '250.000.000',
+          tag: 'Office'
+        },
+        {
+          mounth: 'Septiembre',
+          project: 'Tom',
+          flat: '106',
+          customer: 'Diego Coy',
+          price: '250.000.000',
+          tag: 'Home'
+        },
+        {
+          mounth: 'Diciembre',
+          project: 'Tom',
+          flat: '106',
+          customer: 'Diego Coy',
+          price: '250.000.000',
           tag: 'Office'
         }
       ]

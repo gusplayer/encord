@@ -15,7 +15,7 @@
             <div>
               <div class="group">
                 <!-- <div class="btn_flat" :class="{btn_select: selected == index, btn_disabled: flats[0][index].estado == 0 }" @click="select(index)" v-for="(item, index) in flats" :key="index">{{item.piso}}</div> -->
-                <div class="btn_flat" @click="select(index)" v-for="(item, index) in flats" :key="index">{{item.piso}}</div>
+                <!-- <div class="btn_flat" @click="select(index)" v-for="(item, index) in flats" :key="index">{{item.piso}}</div> -->
               </div>
             </div>
           </div>
@@ -44,11 +44,37 @@
 <script>
 import Card from '~/components/card'
 import Building from '~/components/building'
+import axios from 'axios'
 
 export default {
   components: {
     Card,
     Building
+  },
+  created() {
+    const config = {
+      headers: {
+        Authorization:
+          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjM2Nzc4ZDIwZjZjMzZkYTljNzg5YTM2YTdhNzJhMGUyMDFmZGNhNzM4ZGQwYjVlZTIwMjlhZjJlMmY5NTEyMzg1NzZlOWFiN2ZlNmJmNDhlIn0.eyJhdWQiOiIyIiwianRpIjoiMzY3NzhkMjBmNmMzNmRhOWM3ODlhMzZhN2E3MmEwZTIwMWZkY2E3MzhkZDBiNWVlMjAyOWFmMmUyZjk1MTIzODU3NmU5YWI3ZmU2YmY0OGUiLCJpYXQiOjE1NDA1MDA4OTgsIm5iZiI6MTU0MDUwMDg5OCwiZXhwIjoxNTQxNzk2ODk4LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Rxyq3SAJwykSbpbncwcDpQ9lDAlpeSTtXoesCv4ZFXreTUo5XVSUYSU-KpgnaJ09oSrIEQLZ7NjXWVHFtllNCiy4AHPD4zYbqFUtEFesL-SoWrJX3pBSMTXNvrKTLAlBgIq3ffL_RtolRbibPcRz35YO1Y3fm27zOolPFRHVbqh_jCOHeFRdpfjuQ6B8hWoR-An7B7KKcLW-SckTpBf94Tt1BstXOtJWCT3y0i6ZE0lLmRateQZ12mqdcjqO5HKqWw8JuE_GsmqAUWGhHX7fqQ2loqqzU74MgZQNUUxkcu9hNacx-IaOkN3gR3lGjaPe8hXtefMq97UmkZDjCLVOm6O42ePY5R6hrEzmjzaFF2NUpzJ_88U7jB_H0eI3pDvBQs7Idijwk2NQJe2YGvZXI4urC44hSZYr69-Ub-XJtV45Ki4qgRkHRCGA-uuiXfq1u2e2Dv1MQG7_dVsKPV_eyleSni9s-Y2gOHeH0eoZ9viUBka9o7tsfAtMFKN0R1yqXbJnPD4DcpR4l60VLQQbMMC2NZW5AFq4443HSm3wevYYHuHrxZ7enPMA3sSegxgK2zTPUZxJE5SMTnRS1H0eY_jzKWWDwnQghfLy_4UkxFBMmcBLwlCBE4bRzxj6RZFKKSS1j6LKrhSBKWO9GLIXlTqe5h69T6JMbz2aTjuswxY',
+        'content-type': 'application/json',
+        Accept: 'application/json',
+        'Access-Control-Allow-Credentials': true,
+        'Access-Control-Allow-Origin': true
+      }
+    }
+    axios
+      .get(
+        `http://administrador.app-encord.com/api/proyectos/${
+          this.changeIdProject
+        }/pisos`,
+        config
+      )
+      .then(response => {
+        this.flats = response.data.data
+      })
+      .catch(e => {
+        console.log(e)
+      })
   },
   computed: {
     showModal: {
@@ -59,14 +85,19 @@ export default {
         this.$store.commit('CHANGE_MODAL_STATE', newValue)
       }
     },
+
     // numApartment() {
     //   return this.flats[this.numFlat - 1][this.selected].piso
     // },
-    flats() {
-      return this.$store.state.sentInfo.pisos
-    },
+
+    // flats() {
+    //   return this.$store.state.sentFlats
+    // },
     nameProject() {
       return this.$store.state.sentInfo.nombre
+    },
+    changeIdProject() {
+      return this.$store.state.sentInfo.id
     }
   },
   data() {
@@ -75,6 +106,7 @@ export default {
       numFlat: 1,
       radio: '1',
       url: '',
+      flats: [],
       swiperOption: {
         slidesPerView: 1,
         spaceBetween: 30,

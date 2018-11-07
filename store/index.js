@@ -8,6 +8,7 @@ const createStore = () => {
       showModal: false,
       sentNum: '',
       sentInfo: {},
+      sentFlats: {},
       authUser: null
     }),
     mutations: {
@@ -19,6 +20,9 @@ const createStore = () => {
       },
       SET_SENTINFO(state, value) {
         state.sentInfo = value
+      },
+      SET_SENTFLATS(state, value) {
+        state.sentFlats = value
       },
       SET_USER: function(state, user) {
         state.authUser = user

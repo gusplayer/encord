@@ -20,7 +20,7 @@
 <script>
 export default {
   created() {
-    if (this.$store.state.sentInfo.pisos.length) {
+    if (this.$store.state.sentFlats.length) {
       this.value = this.flats
     } else {
       this.value = 1
@@ -29,12 +29,13 @@ export default {
   },
   data() {
     return {
-      value: 1
+      value: 1,
+      limit: 1
     }
   },
   computed: {
     flats() {
-      return this.$store.state.sentInfo.pisos.length
+      return this.$store.state.sentFlats.length
     }
   },
   watch: {
