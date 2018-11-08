@@ -92,17 +92,17 @@ export default {
         'btn-deploy-collapse'
       ]
     },
-    async logout() {
-      try {
-        await this.$store.dispatch('logout')
-      } catch (e) {
-        this.formError = e.message
-      }
-    }
     // async logout() {
-    //   await this.$auth.logout()
-    //   location.href = `${window.location.origin}/auth/login`
+    //   try {
+    //     await this.$store.dispatch('logout')
+    //   } catch (e) {
+    //     this.formError = e.message
+    //   }
     // }
+    async logout() {
+      await this.$auth.logout()
+      // location.href = `${window.location.origin}/auth/login`
+    }
   }
 }
 </script>

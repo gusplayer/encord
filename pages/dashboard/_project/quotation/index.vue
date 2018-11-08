@@ -23,7 +23,7 @@
             <div class="container-img">
               <swiper :options="swiperOption" ref="mySwiper">
                 <swiper-slide>
-                  <img class="plano" src="../../../../assets/plano.jpg">
+                  <img class="plano" :src="`http://administrador.app-encord.com/imagenes_pisos/${flatImage}`">
                 </swiper-slide>
                 <swiper-slide>
                   <div class="info">
@@ -70,7 +70,13 @@ export default {
         config
       )
       .then(response => {
-        this.flats = response.data.data
+        this.flats = response.data.data.sort(
+          (a, b) => parseInt(a.piso) - parseInt(b.piso)
+        )
+        this.$store.commit(
+          'SET_SENTFLATS',
+          response.data.data.sort((a, b) => parseInt(a.piso) - parseInt(b.piso))
+        )
       })
       .catch(e => {
         console.log(e)
@@ -86,6 +92,11 @@ export default {
       }
     },
 
+    flatImage() {
+      if (this.$store.state.sentFlats[this.numFlat - 1]) {
+        return this.$store.state.sentFlats[this.numFlat - 1].imagen
+      }
+    },
     // numApartment() {
     //   return this.flats[this.numFlat - 1][this.selected].piso
     // },

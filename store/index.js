@@ -8,7 +8,7 @@ const createStore = () => {
       showModal: false,
       sentNum: '',
       sentInfo: {},
-      sentFlats: {},
+      sentFlats: [],
       authUser: null
     }),
     mutations: {

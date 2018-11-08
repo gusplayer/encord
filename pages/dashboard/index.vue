@@ -10,7 +10,7 @@
           <div class="project">
             <h3 class="title">{{item.nombre.toLowerCase()}}</h3>
             <p class="subhead">{{item.ubicacion}}</p>
-            <p class="description" v-html="item.descripcion.substr(0, 90).toLowerCase()"></p>
+            <p class="description" v-html="item.descripcion.substr(0, 85).toLowerCase()"></p>
             <div class="container-img">
               <img :src="`${urlEncord}imagenes_proyectos/${item.logo}`" alt="">
             </div>
@@ -20,7 +20,7 @@
           <div class="project">
             <h3 class="title">{{item.nombre.toLowerCase()}}</h3>
             <p class="subhead">{{item.ubicacion}}</p>
-            <p class="description" v-html="item.descripcion.substr(0, 90).toLowerCase()"></p>
+            <p class="description" v-html="item.descripcion.substr(0, 85).toLowerCase()"></p>
             <div class="container-img">
               <img :src="`${urlEncord}/imagenes_proyectos/${item.logo}`" alt="">
             </div>
