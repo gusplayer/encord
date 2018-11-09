@@ -16,6 +16,7 @@
     "@nuxtjs/auth": "^4.5.2",
     "@nuxtjs/axios": "^5.3.4",
     "axios": "^0.18.0",
+    "debounce": "^1.2.0",
     "element-ui": "^2.4.8",
     "frappe-charts": "^1.1.0",
     "html2canvas": "^1.0.0-alpha.12",

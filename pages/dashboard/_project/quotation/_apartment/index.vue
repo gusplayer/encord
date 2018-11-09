@@ -12,6 +12,7 @@
         <div class="num-apartment">{{numApartment}}</div>
       </template>
       <div slot="section" class="section">
+        <div class="total">Total: $505.200.000</div>
         <template>
           <swiper :options="swiperOption" ref="mySwiper">
             <swiper-slide>
@@ -156,6 +157,7 @@ li {
 .section {
   padding: 0 40px 0 50px;
   max-width: 700px;
+  /* position: relative; */
 }
 .group_bathrooms {
   display: grid;
@@ -172,6 +174,16 @@ li {
   padding: 5px 10px;
   font-weight: 600;
   border-radius: 6px;
+}
+.total {
+  position: absolute;
+  top: 0;
+  right: calc(50% - 80px);
+  border-radius: 5px;
+  border: 1px solid #98c253;
+  padding: 7px 10px;
+  background-color: #49526da4;
+  color: #fff;
 }
 </style>
 
