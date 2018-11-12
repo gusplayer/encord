@@ -16,7 +16,9 @@
     "@nuxtjs/auth": "^4.5.2",
     "@nuxtjs/axios": "^5.3.4",
     "axios": "^0.18.0",
+    "debounce": "^1.2.0",
     "element-ui": "^2.4.8",
+    "frappe-charts": "^1.1.0",
     "html2canvas": "^1.0.0-alpha.12",
     "jspdf": "^1.4.1",
     "jspdf-autotable": "^2.3.5",
@@ -28,6 +30,7 @@
     "vue-pdf": "^3.3.1",
     "vue-signature": "^2.3.3",
     "vue-signature-pad": "^1.1.0",
+    "vue2-frappe": "^1.0.23",
     "yarn": "^1.9.4"
   },
   "devDependencies": {

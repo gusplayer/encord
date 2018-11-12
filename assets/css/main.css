@@ -1,3 +1,7 @@
+:root {
+  --main-txt-color: rgba(103, 123, 158, 0.822);
+  --main-title-color: rgba(100, 120, 150, 0.822);
+}
 .grid-content .el-select .el-input__inner {
   padding: 0;
   background-color: transparent;

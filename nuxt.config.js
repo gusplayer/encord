@@ -59,6 +59,7 @@ module.exports = {
   */
   build: {
     vendor: ['vue-fuse'],
+    postcss: false,
     /*
     ** Run ESLint on save
     */
@@ -82,7 +83,8 @@ module.exports = {
     '~/plugins/vue-fuse',
     '~/plugins/element-ui',
     '~/plugins/vue-signature',
-    '~/plugins/swiper.js'
+    '~/plugins/swiper.js',
+    '~/plugins/vue2-frappe.js'
     // '~plugins/mixins/user.js'
   ],
   router: {

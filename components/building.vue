@@ -19,14 +19,14 @@
 
 <script>
 export default {
-  created() {
-    if (this.$store.state.sentInfo.pisos.length) {
-      this.value = this.flats
-    } else {
-      this.value = 1
-    }
-    this.limit = this.value
-  },
+  // created() {
+  //   if (this.$store.state.sentFlats.length) {
+  //     this.value = this.flats
+  //   } else {
+  //     this.value = 1
+  //   }
+  //   this.limit = this.value
+  // },
   data() {
     return {
       value: 1
@@ -34,7 +34,10 @@ export default {
   },
   computed: {
     flats() {
-      return this.$store.state.sentInfo.pisos.length
+      return this.$store.state.sentFlats.length
+    },
+    limit() {
+      return this.$store.state.sentFlats.length || 1
     }
   },
   watch: {

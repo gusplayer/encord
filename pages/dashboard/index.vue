@@ -6,21 +6,21 @@
         <search v-model="search" />
       </div>
       <div slot="section" class="section">
-        <nuxt-link :to="`/dashboard/${item.nombre.replace(/ /g, '_')}`" @click.native="sentInfo(index)" v-for="(item, index) in projects" :key="item.id" v-show="!search">
+        <nuxt-link :to="`/dashboard/${item.nombre.replace(/ /g, '_')}`" @click.native="sentInfo(item.id)" v-for="item in projects" :key="item.id" v-show="!search">
           <div class="project">
-            <h3 class="title">{{item.nombre}}</h3>
+            <h3 class="title">{{item.nombre.toLowerCase()}}</h3>
             <p class="subhead">{{item.ubicacion}}</p>
-            <p class="description" v-html="item.descripcion.substr(0, 90).toLowerCase()"></p>
+            <p class="description" v-html="item.descripcion.substr(0, 85).toLowerCase()"></p>
             <div class="container-img">
               <img :src="`${urlEncord}imagenes_proyectos/${item.logo}`" alt="">
             </div>
           </div>
         </nuxt-link>
-        <nuxt-link :to="`/dashboard/${item.nombre.replace(/ /g, '_')}`" @click.native="sentInfo(index)" v-for="(item, index) in newList" :key="item.id" v-hide>
+        <nuxt-link :to="`/dashboard/${item.nombre.replace(/ /g, '_')}`" @click.native="sentInfo(item.id)" v-for="item in newList" :key="item.id" v-hide>
           <div class="project">
-            <h3 class="title">{{item.nombre}}</h3>
+            <h3 class="title">{{item.nombre.toLowerCase()}}</h3>
             <p class="subhead">{{item.ubicacion}}</p>
-            <p class="description" v-html="item.descripcion"></p>
+            <p class="description" v-html="item.descripcion.substr(0, 85).toLowerCase()"></p>
             <div class="container-img">
               <img :src="`${urlEncord}/imagenes_proyectos/${item.logo}`" alt="">
             </div>
@@ -55,7 +55,7 @@ export default {
     const config = {
       headers: {
         Authorization:
-          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjM2Nzc4ZDIwZjZjMzZkYTljNzg5YTM2YTdhNzJhMGUyMDFmZGNhNzM4ZGQwYjVlZTIwMjlhZjJlMmY5NTEyMzg1NzZlOWFiN2ZlNmJmNDhlIn0.eyJhdWQiOiIyIiwianRpIjoiMzY3NzhkMjBmNmMzNmRhOWM3ODlhMzZhN2E3MmEwZTIwMWZkY2E3MzhkZDBiNWVlMjAyOWFmMmUyZjk1MTIzODU3NmU5YWI3ZmU2YmY0OGUiLCJpYXQiOjE1NDA1MDA4OTgsIm5iZiI6MTU0MDUwMDg5OCwiZXhwIjoxNTQxNzk2ODk4LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Rxyq3SAJwykSbpbncwcDpQ9lDAlpeSTtXoesCv4ZFXreTUo5XVSUYSU-KpgnaJ09oSrIEQLZ7NjXWVHFtllNCiy4AHPD4zYbqFUtEFesL-SoWrJX3pBSMTXNvrKTLAlBgIq3ffL_RtolRbibPcRz35YO1Y3fm27zOolPFRHVbqh_jCOHeFRdpfjuQ6B8hWoR-An7B7KKcLW-SckTpBf94Tt1BstXOtJWCT3y0i6ZE0lLmRateQZ12mqdcjqO5HKqWw8JuE_GsmqAUWGhHX7fqQ2loqqzU74MgZQNUUxkcu9hNacx-IaOkN3gR3lGjaPe8hXtefMq97UmkZDjCLVOm6O42ePY5R6hrEzmjzaFF2NUpzJ_88U7jB_H0eI3pDvBQs7Idijwk2NQJe2YGvZXI4urC44hSZYr69-Ub-XJtV45Ki4qgRkHRCGA-uuiXfq1u2e2Dv1MQG7_dVsKPV_eyleSni9s-Y2gOHeH0eoZ9viUBka9o7tsfAtMFKN0R1yqXbJnPD4DcpR4l60VLQQbMMC2NZW5AFq4443HSm3wevYYHuHrxZ7enPMA3sSegxgK2zTPUZxJE5SMTnRS1H0eY_jzKWWDwnQghfLy_4UkxFBMmcBLwlCBE4bRzxj6RZFKKSS1j6LKrhSBKWO9GLIXlTqe5h69T6JMbz2aTjuswxY',
+          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijc2MDQ2YmNmMmJiMDljNTJiN2Q3ZjRlYmM3MGU5Zjc2ZTU4MTBjYWE5NmI2NjI4NDJlNGJlYjQ1NmQ0YTA5M2ExNzc3YWQyNTUyM2FhMjllIn0.eyJhdWQiOiIyIiwianRpIjoiNzYwNDZiY2YyYmIwOWM1MmI3ZDdmNGViYzcwZTlmNzZlNTgxMGNhYTk2YjY2Mjg0MmU0YmViNDU2ZDRhMDkzYTE3NzdhZDI1NTIzYWEyOWUiLCJpYXQiOjE1NDE3OTk5NTAsIm5iZiI6MTU0MTc5OTk1MCwiZXhwIjoxNTQzMDk1OTUwLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.ju_IkJp65C7djqPTRlM1r4F3G_mqHcseCVzCoExr0yJkiq9goDWR9yrRv2mBTN0l9LLuB2HzOV1OUdWDlk26pMDC8vxxvx_wAu68kwsPixcg5fW1gRfAhjCdLcD_m5uHigHFckK1dluY5E8ujjTo2dHubtnsrRSOQXYd6EGxI1r2fuzSQuzmdoysWYqSf4gyyfUamcggdLNzIUtCc4Gv95Q-NzCTZc4auO7Rsi6-VN_-T6LoHbzYwlOmP8r4eD-83e4oP7PhynqakhiO1i24nG1F6iUqzj7lrhgBiSLk-cuF38xL73XNBcR77BH_LztAVPYzdrkSRH76P4285O49Zg7loMmr0yQ6O8_AGul5wcJdZi-5Ph2r1gZ8ycRQE7k7It9uzKMjWsgSsaUPWl0lcsxiYWVIw6QhC7bUzyPdeJ_QSWXXiNfTzueTAqwBpTXBuzPTqDLFB8HCkBN-A57M2AE6heO5r1wGNu0WN5kPvB2BQOgus7qLiyPjI-BwFL_xiHmpZWxURYfB5pv3hd5TmMpi97qQEIKC5yRdGnm9rpvLYhHbnFFVnNRSL9KpW3cDUKBYpyVfWGacqgSLAI_n434Uozoj6WlD93MsKqjsC1Y-DnrYBYEti42VtQSd4vx6QOJYluiir_HQxazMTAeq2aDy79eRrSB0Hm7GYHtmVHQ',
         'content-type': 'application/json',
         Accept: 'application/json',
         'Access-Control-Allow-Credentials': true,
@@ -78,96 +78,6 @@ export default {
     return {
       fuse: null,
       urlEncord: 'http://administrador.app-encord.com/',
-      list: [
-        {
-          name: 'proyecto 1',
-          slug: 'proyecto-1',
-          subhead: 'subhead1',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio2.jpg')
-        },
-        {
-          name: 'proyecto 2',
-          slug: 'proyecto-2',
-          subhead: 'subhead2',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio.jpg')
-        },
-        {
-          name: 'proyecto 3',
-          slug: 'proyecto-3',
-          subhead: 'subhead3',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio2.jpg')
-        },
-        {
-          name: 'proyecto 4',
-          slug: 'proyecto-4',
-          subhead: 'subhead4',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio.jpg')
-        },
-        {
-          name: 'proyecto 5',
-          slug: 'proyecto-5',
-          subhead: 'subhead5',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio2.jpg')
-        },
-        {
-          name: 'proyecto 6',
-          slug: 'proyecto-6',
-          subhead: 'subhead6',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio.jpg')
-        },
-        {
-          name: 'proyecto 7',
-          slug: 'proyecto-7',
-          subhead: 'subhead7',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio2.jpg')
-        },
-        {
-          name: 'proyecto 8',
-          slug: 'proyecto-8',
-          subhead: 'subhead8',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio.jpg')
-        },
-        {
-          name: 'proyecto 9',
-          slug: 'proyecto-9',
-          subhead: 'subhead9',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio.jpg')
-        },
-        {
-          name: 'proyecto 10',
-          slug: 'proyecto-10',
-          subhead: 'subhead10',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio.jpg')
-        },
-        {
-          name: 'proyecto 11',
-          slug: 'proyecto-11',
-          subhead: 'subhead11',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi dolorem illo repudiandae.',
-          img: require('~/assets/edificio.jpg')
-        }
-      ],
       projects: [],
       search: '',
       newList: [],
@@ -184,8 +94,11 @@ export default {
     }
   },
   methods: {
-    sentInfo(index) {
-      this.$store.commit('SET_SENTINFO', this.projects[index])
+    sentInfo(id) {
+      this.$store.commit(
+        'SET_SENTINFO',
+        this.projects.find(project => project.id === id)
+      )
     }
   },
   watch: {

@@ -9,18 +9,20 @@
       </template>
       <div slot="section" class="section">
         <el-table :data="tableData" style="width: 100%">
-          <el-table-column prop="date" label="Fecha" sortable width="100" :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]" :filter-method="filterHandler">
+          <el-table-column prop="date" label="Fecha" width="100" :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]" :filter-method="filterHandler">
           </el-table-column>
-          <el-table-column prop="name" label="Photo" width="100">
+          <el-table-column label="Photo" width="60">
             <template slot-scope="scope">
               <div class="circle">JD</div>
             </template>
           </el-table-column>
-          <el-table-column prop="name" label="Nombre" width="180">
+          <el-table-column prop="name" label="Nombre">
+          </el-table-column>
+          <el-table-column prop="phone" label="Telefono" width="100">
           </el-table-column>
           <el-table-column prop="address" label="Dirección" :formatter="formatter">
           </el-table-column>
-          <el-table-column prop="tag" label="Etiqueta" width="100" :filters="[{ text: 'Home', value: 'Home' }, { text: 'Office', value: 'Office' }]" :filter-method="filterTag" filter-placement="bottom-end">
+          <el-table-column prop="tag" label="Etiqueta" width="80">
             <template slot-scope="scope">
               <el-tag :type="scope.row.tag === 'Home' ? 'primary' : 'success'" disable-transitions>{{scope.row.tag}}</el-tag>
             </template>
@@ -41,28 +43,32 @@ export default {
     return {
       tableData: [
         {
-          date: '2016-05-03',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-          tag: 'Home'
+          date: '2018-05-03',
+          name: 'Tom Coy',
+          phone: '321654987',
+          address: 'No. 189, Grove St',
+          tag: 'Ver'
         },
         {
-          date: '2016-05-02',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-          tag: 'Office'
+          date: '2018-05-02',
+          name: 'Tom Coy',
+          phone: '321654987',
+          address: 'No. 189, Grove St',
+          tag: 'Ver'
         },
         {
-          date: '2016-05-04',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-          tag: 'Home'
+          date: '2018-05-04',
+          name: 'Tom Coy',
+          phone: '321654987',
+          address: 'No. 189, Grove St',
+          tag: 'Ver'
         },
         {
-          date: '2016-05-01',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-          tag: 'Office'
+          date: '2018-05-01',
+          name: 'Tom Coy',
+          phone: '321654987',
+          address: 'No. 189, Grove St',
+          tag: 'Ver'
         }
       ]
     }
@@ -90,7 +96,7 @@ export default {
   background-color: #eee;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   padding: 20px 0;
   height: 100vh;
   overflow: auto;

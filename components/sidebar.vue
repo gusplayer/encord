@@ -25,10 +25,12 @@
               <p :class="classActive">Cotizar Proyectos</p>
             </li>
           </nuxt-link>
-          <li class="list-item">
-            <i class="icon-file-1"></i>
-            <p :class="classActive">Crear Informe</p>
-          </li>
+          <nuxt-link to="/dashboard/report/reports">
+            <li class="list-item">
+              <i class="icon-file-1"></i>
+              <p :class="classActive">Crear Informe</p>
+            </li>
+          </nuxt-link>
           <nuxt-link to="/dashboard/customers/list-customers">
             <li class="list-item">
               <i class="icon-folder-14"></i>
@@ -90,17 +92,17 @@ export default {
         'btn-deploy-collapse'
       ]
     },
-    async logout() {
-      try {
-        await this.$store.dispatch('logout')
-      } catch (e) {
-        this.formError = e.message
-      }
-    }
     // async logout() {
-    //   await this.$auth.logout()
-    //   location.href = `${window.location.origin}/auth/login`
+    //   try {
+    //     await this.$store.dispatch('logout')
+    //   } catch (e) {
+    //     this.formError = e.message
+    //   }
     // }
+    async logout() {
+      await this.$auth.logout()
+      // location.href = `${window.location.origin}/auth/login`
+    }
   }
 }
 </script>
