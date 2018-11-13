@@ -121,7 +121,7 @@
           <el-col :span="12">
             <div class="grid-content">
               <el-select v-model="typeFloor" size="mini" placeholder="Tipo de piso">
-                <el-option v-for="(item, index) in floors" :key="index" :label="item" :value="item">
+                <el-option v-for="(item, index) in acabados.floor" :key="index" :label="item.name" :value="item.price">
                 </el-option>
               </el-select>
             </div>
@@ -133,23 +133,32 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <el-select v-model="typeFloor" size="mini" placeholder="Tipo de cocina">
-                <el-option v-for="(item, index) in floors" :key="index" :label="item" :value="item">
+              <el-select v-model="typeKitchen" size="mini" placeholder="Tipo de cocina">
+                <el-option v-for="(item, index) in acabados.kitchen" :key="index" :label="item.name" :value="item.price">
                 </el-option>
               </el-select>
             </div>
           </el-col>
         </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Domótica:</p>
+          </el-col>
+          <el-col :span="12">
+            <div>
+              <el-radio v-model="checkDomotica" :label="1" size="mini">Si</el-radio>
+              <el-radio v-model="checkDomotica" :label="0" size="mini">No</el-radio>
+            </div>
+          </el-col>
+        </el-row>
         <el-row>
           <el-col :span="12">
-            <p class="item grid-content">Domotica:</p>
+            <p class="item grid-content">Total Acabados:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <el-select v-model="typeFloor" size="mini" placeholder="Tipo de cocina">
-                <el-option v-for="(item, index) in floors" :key="index" :label="item" :value="item">
-                </el-option>
-              </el-select>
+              <p class="inputClinte">{{total | formatNum}}</p>
+              <!-- <input class="inputClinte" type="text" placeholder="Nombre" v-model="total" disabled> -->
             </div>
           </el-col>
         </el-row>
@@ -197,16 +206,6 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <p class="item grid-content">Apellido:</p>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Apellido" v-model="getCostumer.lastName" disabled>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row class="background">
-          <el-col :span="12">
             <p class="item grid-content">Celular:</p>
           </el-col>
           <el-col :span="12">
@@ -215,7 +214,7 @@
             </div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row class="background">
           <el-col :span="12">
             <p class="item grid-content">Dirección:</p>
           </el-col>
@@ -243,6 +242,16 @@
                 <el-option v-for="(item, index) in contracts" :key="index" :label="item" :value="item">
                 </el-option>
               </el-select>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Separación Inicial:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <input class="inputClinte" type="text" placeholder="Separación Inicial" v-model="inputInitialSeparation">
             </div>
           </el-col>
         </el-row>
@@ -334,16 +343,14 @@ export default {
         {
           id: 1,
           document: '123456789',
-          name: 'Camilo',
-          lastName: 'Diaz',
+          name: 'Camilo Diaz',
           phone: '321654987',
           address: 'Calle 15 # 8-45 Villavicencio'
         },
         {
           id: 2,
           document: '1127899999',
-          name: 'Diego',
-          lastName: 'Coy',
+          name: 'Diego Coy',
           phone: '321789456',
           address: 'Carrera 85 # 2-95 Bogota'
         }
@@ -398,6 +405,8 @@ export default {
       unitNumber: '',
       typeIdentification: '',
       typeFloor: '',
+      typeKitchen: '',
+      checkDomotica: 0,
       identification: [
         'Cédula',
         'Cédula de Extranjería',
@@ -406,21 +415,59 @@ export default {
         'ID Extranjero',
         'Tarjeta  de Identidad'
       ],
-      floors: [
-        'Madera',
-        'Laminados',
-        'Cerámicas y porcelanatos',
-        'Piedra',
+      acabados: {
+        floor: [
+          {
+            name: 'Ninguno',
+            price: 0
+          },
+          {
+            name: 'Madera',
+            price: 2000000
+          },
+          {
+            name: 'Laminados',
+            price: 3000000
+          },
+          {
+            name: 'Porcelanato',
+            price: 4000000
+          }
+        ],
+        kitchen: [
+          {
+            name: 'Ninguno',
+            price: 0
+          },
+          {
+            name: 'Opcion 1',
+            price: 2000000
+          },
+          {
+            name: 'Opcion 2',
+            price: 3000000
+          },
+          {
+            name: 'Opcion 3',
+            price: 4000000
+          }
+        ],
+        domotica: 8000000
+      },
+      // total: 0,
+      contracts: [
+        'Fiduciario',
+        'Promesa de compraventa',
+        'En separación (10%)'
       ],
-      contracts: ['Fiduciario', 'Promesa de compraventa'],
       contract: '',
       inputValue: '',
+      inputInitialSeparation: '',
       inputFee: '',
       inputDate: '',
 
       inputIdentification: '',
       inputNombre: '',
-      inputApellido: '',
       inputCelular: '',
       inputDireccion: ''
     }
@@ -436,6 +483,12 @@ export default {
       return (
         this.units.find(unit => unit.unit == this.unitNumber) || this.emptyUnit
       )
+    },
+    domoticaPrice() {
+      return this.checkDomotica ? this.acabados.domotica : 0
+    },
+    total() {
+      return this.typeFloor + this.typeKitchen + this.domoticaPrice
     }
   },
   watch: {
@@ -445,14 +498,12 @@ export default {
         this.getCostumer.id = result.id
         this.getCostumer.document = result.document
         this.getCostumer.name = result.name
-        this.getCostumer.lastName = result.lastName
         this.getCostumer.phone = result.phone
         this.getCostumer.address = result.address
       } else {
         this.getCostumer.id = ''
         this.getCostumer.document = ''
         this.getCostumer.name = ''
-        this.getCostumer.lastName = ''
         this.getCostumer.phone = ''
         this.getCostumer.address = ''
       }
@@ -465,6 +516,13 @@ export default {
         project: this.currentProject
       }
       this.$router.push('/dashboard/contract/contract')
+    }
+  },
+  filters: {
+    formatNum(value) {
+      if (value) {
+        return `$${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`
+      }
     }
   }
 }
