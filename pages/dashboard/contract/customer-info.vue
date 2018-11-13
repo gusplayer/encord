@@ -106,6 +106,55 @@
           </el-col>
         </el-row>
       </div>
+
+      <!--  Info Acabados  -->
+      <div slot="section" class="section">
+        <el-row>
+          <el-col :span="12">
+            <h3 class="grid-content">Acabados:</h3>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Piso:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <el-select v-model="typeFloor" size="mini" placeholder="Tipo de piso">
+                <el-option v-for="(item, index) in floors" :key="index" :label="item" :value="item">
+                </el-option>
+              </el-select>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Cocina:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <el-select v-model="typeFloor" size="mini" placeholder="Tipo de cocina">
+                <el-option v-for="(item, index) in floors" :key="index" :label="item" :value="item">
+                </el-option>
+              </el-select>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Domotica:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <el-select v-model="typeFloor" size="mini" placeholder="Tipo de cocina">
+                <el-option v-for="(item, index) in floors" :key="index" :label="item" :value="item">
+                </el-option>
+              </el-select>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+
       <!-- Info Comprador -->
       <div slot="section" class="section">
         <el-row>
@@ -323,7 +372,6 @@ export default {
         }
       ],
       value: '',
-      pisos: [],
       emptyProject: {
         name: 'Aria Condominio',
         city: 'Bogotá',
@@ -349,6 +397,7 @@ export default {
       },
       unitNumber: '',
       typeIdentification: '',
+      typeFloor: '',
       identification: [
         'Cédula',
         'Cédula de Extranjería',
@@ -356,6 +405,12 @@ export default {
         'Pasaporte',
         'ID Extranjero',
         'Tarjeta  de Identidad'
+      ],
+      floors: [
+        'Madera',
+        'Laminados',
+        'Cerámicas y porcelanatos',
+        'Piedra',
       ],
       contracts: ['Fiduciario', 'Promesa de compraventa'],
       contract: '',

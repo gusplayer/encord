@@ -27,7 +27,7 @@
 
 <script>
 import Card from '~/components/card'
-import jsPDF from 'jsPDF'
+import jsPDF from 'jspdf'
 import canvas from 'html2canvas'
 // import SignaturePad from 'signature_pad'
 
