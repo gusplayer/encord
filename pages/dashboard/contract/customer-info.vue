@@ -8,15 +8,15 @@
         </h2>
       </template>
       <!-- Info proyecto -->
-      <div slot="section" class="section">
+      <div slot="section" class="section" v-if="currentProject">
         <el-row>
           <el-col :span="12">
             <h3 class="grid-content">Proyecto:</h3>
           </el-col>
           <el-col :span="7" :offset="5">
-            <div class="grid-content">
+            <div class="grid-content" v-if="projects.length">
               <el-select v-model="value" placeholder="Buscar proyecto">
-                <el-option v-for="item in projects" :key="item.value" :label="item.name" :value="item.id">
+                <el-option v-for="(item, index) in projects" :key="index" :label="item.nombre" :value="item.id">
                 </el-option>
               </el-select>
             </div>
@@ -28,7 +28,7 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <p class="item-get">{{currentProject.name}}</p>
+              <p class="item-get">{{currentProject.nombre}}</p>
             </div>
           </el-col>
         </el-row>
@@ -38,7 +38,7 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <p class="item-get">{{currentProject.city}}</p>
+              <p class="item-get">{{currentProject.ubicacion}}</p>
             </div>
           </el-col>
         </el-row>
@@ -71,7 +71,7 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <p class="item-get">{{currentUnit.price}}</p>
+              <p class="item-get">{{currentUnit.price | formatNum}}</p>
             </div>
           </el-col>
         </el-row>
@@ -225,11 +225,11 @@
           </el-col>
         </el-row>
       </div>
-      <!-- Info forma de pago -->
+      <!-- Info Separacion -->
       <div slot="section" class="section">
         <el-row>
           <el-col :span="12">
-            <h3 class="grid-content">Forma de pago:</h3>
+            <h3 class="grid-content">Separación:</h3>
           </el-col>
         </el-row>
         <el-row class="background">
@@ -247,21 +247,80 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <p class="item grid-content">Separación Inicial:</p>
+            <p class="item grid-content">Porcentaje de separación:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Separación Inicial" v-model="inputInitialSeparation">
+              <money class="inputClinte" v-model="separationPercentage" v-bind="percent"></money>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Costo de separación:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <p class="item-get">{{separationValue | formatNum}}</p>
             </div>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <p class="item grid-content">Valor:</p>
+            <p class="item grid-content">Separación inicial:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Valor" v-model="inputValue">
+              <money class="inputClinte" v-model="inputInitialSeparation" v-bind="money"></money>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Saldo separación:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <p class="item-get">{{separationBalance | formatNum}}</p>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Fecha limite de separación:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <el-date-picker v-model="paydayLimit" type="date" placeholder="Selecciona un día">
+              </el-date-picker>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+      <!-- Info Forma de Pago -->
+      <div slot="section" class="section">
+        <el-row>
+          <el-col :span="12">
+            <h3 class="grid-content">Forma de pago:</h3>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Porcentaje de cuota inicial:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <money class="inputClinte" v-model="initialFeePercentage" v-bind="percent"></money>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Valor cuota inicial:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <p class="item-get">{{initialFee | formatNum}}</p>
             </div>
           </el-col>
         </el-row>
@@ -277,7 +336,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <p class="item grid-content">Fecha de inicio:</p>
+            <p class="item grid-content">Fecha de inicio primera cuota:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
@@ -286,59 +345,55 @@
             </div>
           </el-col>
         </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Financiación:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <p class="item-get">{{financing | formatNum}}</p>
+            </div>
+          </el-col>
+        </el-row>
         <el-row>
-          <el-col :span="4" :offset="20">
-            <el-button class="btn-save" @click="saveInfo" type="success">Guardar</el-button>
+          <el-col :span="12">
+            <div class="tag"> <span class="bold">Valor Total: </span><span class="total"> {{totalValue | formatNum}}</span></div>
+          </el-col>
+          <el-col :span="4" :offset="8">
+            <div class="btn-save" @click="saveInfo">Guardar</div>
           </el-col>
         </el-row>
       </div>
-
     </card>
   </div>
 </template>
 
 <script>
 import Card from '~/components/card'
+import { Money } from 'v-money'
 export default {
   components: {
-    Card
+    Card,
+    Money
   },
   data() {
     return {
-      projects: [
-        {
-          name: 'Aria Condominio',
-          city: 'Bogotá',
-          price: 250000000,
-          bedrooms: 3,
-          area: '80 m2',
-          id: 1
-        },
-        {
-          name: 'Dublin',
-          city: 'Bogotá',
-          price: 200000000,
-          bedrooms: 2,
-          area: '65 m2',
-          id: 2
-        },
-        {
-          name: 'Armonia',
-          city: 'Villavicencio',
-          price: 180000000,
-          bedrooms: 4,
-          area: '60 m2',
-          id: 3
-        },
-        {
-          name: 'Messantia',
-          city: 'Medellin',
-          price: 195000000,
-          bedrooms: 4,
-          area: '78 m2',
-          id: 4
-        }
-      ],
+      money: {
+        decimal: ',',
+        thousands: '.',
+        prefix: '$',
+        suffix: '',
+        precision: 0,
+        masked: false
+      },
+      percent: {
+        decimal: ',',
+        thousands: '.',
+        prefix: '',
+        suffix: '%',
+        precision: 0,
+        masked: false
+      },
       customers: [
         {
           id: 1,
@@ -380,12 +435,14 @@ export default {
       ],
       value: '',
       emptyProject: {
-        name: 'Aria Condominio',
-        city: 'Bogotá',
+        nombre: 'Aria Condominio',
+        ubicacion: 'Bogotá',
         price: 250000000,
-        bedrooms: 3,
-        area: '80 m2',
-        id: 1
+        id: 1,
+        descripcion: '',
+        user_id: 0,
+        logo: null,
+        estado: 0
       },
       getCostumer: {
         id: '',
@@ -404,8 +461,8 @@ export default {
       },
       unitNumber: '',
       typeIdentification: '',
-      typeFloor: '',
-      typeKitchen: '',
+      typeFloor: 0,
+      typeKitchen: 0,
       checkDomotica: 0,
       identification: [
         'Cédula',
@@ -464,6 +521,9 @@ export default {
       inputValue: '',
       inputInitialSeparation: '',
       inputFee: '',
+      initialFeePercentage: '',
+      separationPercentage: '',
+      paydayLimit: '',
       inputDate: '',
 
       inputIdentification: '',
@@ -473,6 +533,9 @@ export default {
     }
   },
   computed: {
+    projects() {
+      return this.$store.state.projectsData
+    },
     currentProject() {
       return (
         this.projects.find(project => project.id == this.value) ||
@@ -489,6 +552,21 @@ export default {
     },
     total() {
       return this.typeFloor + this.typeKitchen + this.domoticaPrice
+    },
+    totalValue() {
+      return this.total + this.currentUnit.price || 0
+    },
+    separationValue() {
+      return this.totalValue * (this.separationPercentage / 100)
+    },
+    separationBalance() {
+      return this.separationValue - this.inputInitialSeparation
+    },
+    initialFee() {
+      return this.totalValue * (this.initialFeePercentage / 100)
+    },
+    financing() {
+      return this.totalValue - this.initialFee
     }
   },
   watch: {
@@ -640,12 +718,43 @@ div.el-input__inner {
     Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 .btn-save {
-  margin-top: 20px;
   font-size: 18px;
   font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  background-color: #b0d871;
+  line-height: 1;
+  border-radius: 4px;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+}
+div.el-row .btn-save:hover {
+  background-color: #caee90;
 }
 .el-col.el-col-4.el-col-offset-20 {
   display: flex;
   justify-content: flex-end;
+}
+div.el-row .tag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  background-color: rgba(103, 123, 158, 0.075);
+  border: 1px solid rgba(103, 123, 158, 0.822);
+  line-height: 1;
+  border-radius: 4px;
+  color: rgba(38, 52, 75, 0.6);
+}
+.total {
+  font-size: 20px;
+  font-weight: 400;
+}
+.bold {
+  font-weight: 600;
+  font-size: 20px;
+  margin-right: 10px;
 }
 </style>

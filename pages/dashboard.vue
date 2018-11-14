@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-    <sidebar/>
+    <sidebar />
     <nuxt-child class="dashboard-view" />
   </div>
 </template>
@@ -10,6 +10,9 @@ import Sidebar from '~/components/sidebar'
 export default {
   components: {
     Sidebar
+  },
+  created() {
+    this.$store.dispatch('GET_PROJECTS')
   }
 }
 </script>
