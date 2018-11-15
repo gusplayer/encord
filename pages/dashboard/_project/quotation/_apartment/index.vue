@@ -16,14 +16,13 @@
         <template>
           <swiper :options="swiperOption" ref="mySwiper">
             <swiper-slide>
-              <bathrooms @change="selectImagen" />
+              <bathrooms @change="selectImagen" @selected="saveAcabado($event, 0)"/>
             </swiper-slide>
             <swiper-slide>
-              <floors @change="selectImagen" />
+              <floors @change="selectImagen" @selected="saveAcabado($event, 1)"/>
             </swiper-slide>
           </swiper>
-          <div class="tag"> <span class="bold">Valor Total: </span><span class="total">1.000.000</span></div>
-
+          <div class="tag"> <span class="bold">Valor Total: </span><span class="total">{{ total | formatPrice }}</span></div>
           <modal v-if="showModal" @close="showModal = false">
             <h3 slot="header">custom header</h3>
             <img class="img_modal" slot="body" :src="img" alt="">
@@ -57,11 +56,18 @@ export default {
     },
     numApartment() {
       return this.$store.state.sentNum
+    },
+    currentUnit() {
+      return this.$store.state.currentUnit
+    },
+    total() {
+      return this.acabados.reduce((total, acabado) => { return total + parseInt(acabado.precio)}, 0) + parseInt(this.currentUnit.valor) || 0
     }
   },
   data() {
     return {
       img: '',
+      acabados: [],
       swiperOption: {
         slidesPerView: 1,
         spaceBetween: 30,
@@ -75,11 +81,20 @@ export default {
     }
   },
   methods: {
-    selectCard(value) {
-      this.card = value
-    },
     selectImagen(value) {
       this.img = value
+    },
+    saveAcabado(item, index) {
+      this.acabados.splice(index, 1, item)
+    }
+  },
+  filters: {
+    formatPrice(value) {
+      if (value) {
+        return `$${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`
+      } else {
+        return '$0'
+      }
     }
   }
 }

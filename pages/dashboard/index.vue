@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <card>
+    <card v-loading="loading">
       <div slot="header" class="header">
         <h2>Proyectos</h2>
         <search v-model="search" />
@@ -80,6 +80,9 @@ export default {
   computed: {
     projects() {
       return this.$store.state.projectsData
+    },
+    loading() {
+      return this.projects.length ? false : true
     }
   },
   watch: {
