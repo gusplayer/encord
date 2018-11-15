@@ -9,7 +9,7 @@ const createStore = () => {
       sentNum: '',
       sentInfo: {},
       sentFlats: [],
-      sentApartments: [],
+      apartments: [],
       authUser: null,
       projectsData: []
     }),
@@ -26,8 +26,8 @@ const createStore = () => {
       SET_SENTFLATS(state, value) {
         state.sentFlats = value
       },
-      SET_SENTAPARTMENTS(state, value) {
-        state.sentApartments = value
+      SET_APARTMENTS(state, value) {
+        state.apartments = value
       },
       SET_USER: function(state, user) {
         state.authUser = user

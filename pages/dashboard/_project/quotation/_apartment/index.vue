@@ -12,7 +12,7 @@
         <div class="num-apartment">{{numApartment}}</div>
       </template>
       <div slot="section" class="section">
-        <div class="total">Total: $505.200.000</div>
+        <!-- <div class="total">Total: $505.200.000</div> -->
         <template>
           <swiper :options="swiperOption" ref="mySwiper">
             <swiper-slide>
@@ -22,6 +22,7 @@
               <floors @change="selectImagen" />
             </swiper-slide>
           </swiper>
+          <div class="tag"> <span class="bold">Valor Total: </span><span class="total">1.000.000</span></div>
 
           <modal v-if="showModal" @close="showModal = false">
             <h3 slot="header">custom header</h3>
@@ -175,7 +176,7 @@ li {
   font-weight: 600;
   border-radius: 6px;
 }
-.total {
+/* .total {
   position: absolute;
   top: 0;
   right: calc(50% - 80px);
@@ -184,6 +185,28 @@ li {
   padding: 7px 10px;
   background-color: #49526da4;
   color: #fff;
+} */
+.tag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  background-color: rgba(103, 123, 158, 0.075);
+  border: 1px solid rgba(103, 123, 158, 0.822);
+  line-height: 1;
+  border-radius: 4px;
+  color: rgba(38, 52, 75, 0.6);
+  margin: 20px auto 0;
+  width: 300px;
+}
+.total {
+  font-size: 20px;
+  font-weight: 400;
+}
+.bold {
+  font-weight: 600;
+  font-size: 20px;
+  margin-right: 10px;
 }
 </style>
 
