@@ -1,7 +1,7 @@
 module.exports = {
   /*
-  ** Headers of the page
-  */
+   ** Headers of the page
+   */
   // router: {
   //   base: '/encord/'
   // },
@@ -25,8 +25,8 @@ module.exports = {
     ]
   },
   /*
-  ** Customize the progress bar color
-  */
+   ** Customize the progress bar color
+   */
   loading: { color: '#3B8470' },
   modules: ['@nuxtjs/axios', '@nuxtjs/auth'],
   axios: {
@@ -55,14 +55,14 @@ module.exports = {
   },
   mode: 'spa',
   /*
-  ** Build configuration
-  */
+   ** Build configuration
+   */
   build: {
     vendor: ['vue-fuse'],
     postcss: false,
     /*
-    ** Run ESLint on save
-    */
+     ** Run ESLint on save
+     */
     extend(config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({
@@ -70,12 +70,12 @@ module.exports = {
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /(node_modules)/
-        })
+        });
       }
     }
   },
   css: [
-    'element-ui/lib/theme-chalk/index.css',
+    '~/static/index.css',
     '~/assets/css/main.css',
     'swiper/dist/css/swiper.css'
   ],
@@ -90,4 +90,4 @@ module.exports = {
   router: {
     middleware: ['auth']
   }
-}
+};
