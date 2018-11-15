@@ -3,8 +3,8 @@
     <card>
       <template slot="header">
         <h2>
-          <nuxt-link to="/dashboard/5">Formulario de contrato</nuxt-link>
-          <span>/ Contrato</span>
+          <nuxt-link to="/dashboard/contract/customer-info">Formulario de contrato</nuxt-link>
+          <span> / Contrato</span>
         </h2>
       </template>
       <div slot="section" class="section">

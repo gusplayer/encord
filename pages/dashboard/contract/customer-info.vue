@@ -3,7 +3,7 @@
     <card>
       <template slot="header">
         <h2>
-          <nuxt-link to="/dashboard/5">Formulario de contrato</nuxt-link>
+          <nuxt-link to="/dashboard/contract/customer-info">Formulario de contrato</nuxt-link>
           <!-- <span>/ Datos</span> -->
         </h2>
       </template>
@@ -16,7 +16,7 @@
           <el-col :span="7" :offset="5">
             <div class="grid-content" v-if="projects.length">
               <el-select v-model="value" placeholder="Buscar proyecto">
-                <el-option v-for="(item, index) in projects" :key="index" :label="item.nombre" :value="item.id">
+                <el-option v-for="(item, index) in projects" :key="index" :label="item.nombre" :value="item.nombre">
                 </el-option>
               </el-select>
             </div>
@@ -129,6 +129,19 @@
         </el-row>
         <el-row>
           <el-col :span="12">
+            <p class="item grid-content">Baño:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <el-select v-model="typeBathroom" size="mini" placeholder="Tipo de piso">
+                <el-option v-for="(item, index) in acabados.bathroom" :key="index" :label="item.name" :value="item.price">
+                </el-option>
+              </el-select>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
             <p class="item grid-content">Cocina:</p>
           </el-col>
           <el-col :span="12">
@@ -140,7 +153,7 @@
             </div>
           </el-col>
         </el-row>
-        <el-row class="background">
+        <el-row>
           <el-col :span="12">
             <p class="item grid-content">Domótica:</p>
           </el-col>
@@ -151,7 +164,7 @@
             </div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row class="background">
           <el-col :span="12">
             <p class="item grid-content">Total Acabados:</p>
           </el-col>
@@ -462,6 +475,7 @@ export default {
       unitNumber: '',
       typeIdentification: '',
       typeFloor: 0,
+      typeBathroom: 0,
       typeKitchen: 0,
       checkDomotica: 0,
       identification: [
@@ -497,15 +511,33 @@ export default {
             price: 0
           },
           {
-            name: 'Opcion 1',
+            name: 'Cocina 1',
             price: 2000000
           },
           {
-            name: 'Opcion 2',
+            name: 'Cocina 2',
             price: 3000000
           },
           {
-            name: 'Opcion 3',
+            name: 'Cocina 3',
+            price: 4000000
+          }
+        ],
+        bathroom: [
+          {
+            name: 'Ninguno',
+            price: 0
+          },
+          {
+            name: 'Baño 1',
+            price: 2000000
+          },
+          {
+            name: 'Baño 2',
+            price: 3000000
+          },
+          {
+            name: 'Baño 3',
             price: 4000000
           }
         ],
@@ -529,7 +561,51 @@ export default {
       inputIdentification: '',
       inputNombre: '',
       inputCelular: '',
-      inputDireccion: ''
+      inputDireccion: '',
+
+      formContract: {
+        project: {
+          name: '',
+          city: ''
+        },
+        unit: {
+          numUnit: '',
+          price: '',
+          bedrooms: '',
+          bathrooms: '',
+          area: ''
+        },
+        finishes: {
+          floor: '',
+          bathroom: '',
+          kitchen: '',
+          domotica: '',
+          total: 0
+        },
+        customer: {
+          idType: '',
+          numId: '',
+          name: '',
+          phone: '',
+          address: ''
+        },
+        setApart: {
+          typeContract: '',
+          percent: 0,
+          cost: 0,
+          initial: 0,
+          residue: 0,
+          date: ''
+        },
+        payment: {
+          percentQuota: 0,
+          costQuota: 0,
+          numQuotas: 0,
+          startDate: '',
+          financing: 0,
+          total: 0
+        }
+      }
     }
   },
   computed: {
@@ -538,7 +614,7 @@ export default {
     },
     currentProject() {
       return (
-        this.projects.find(project => project.id == this.value) ||
+        this.projects.find(project => project.nombre == this.value) ||
         this.emptyProject
       )
     },
@@ -551,7 +627,12 @@ export default {
       return this.checkDomotica ? this.acabados.domotica : 0
     },
     total() {
-      return this.typeFloor + this.typeKitchen + this.domoticaPrice
+      return (
+        this.typeFloor +
+        this.typeKitchen +
+        this.domoticaPrice +
+        this.typeBathroom
+      )
     },
     totalValue() {
       return this.total + this.currentUnit.price || 0
@@ -594,6 +675,9 @@ export default {
         project: this.currentProject
       }
       this.$router.push('/dashboard/contract/contract')
+    },
+    dataContract() {
+      this.formContract.project.name = this.value
     }
   },
   filters: {
