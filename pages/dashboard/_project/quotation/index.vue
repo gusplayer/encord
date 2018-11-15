@@ -8,7 +8,7 @@
         </h2>
         <div class="num-apartment">{{numApartment}}</div>
       </template>
-      <div slot="section" class="section">
+      <div slot="section" class="section" v-loading="loading" element-spinner-color="red">
         <div class="section_one">
           <div class="col left">
             <building @change="getFlat" />
@@ -117,6 +117,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       selected: 0,
       numFlat: 1,
       radio: '1',
@@ -143,6 +144,7 @@ export default {
       this.getUnits()
     },
     getUnits: debounce(function(e) {
+      this.loading = true
       const config = {
         headers: {
           Authorization:
@@ -163,6 +165,7 @@ export default {
         .then(response => {
           this.units = response.data.data
           this.$store.commit('SET_APARTMENTS', response.data.data)
+          this.loading = false
         })
     }, 1000),
     sentNum() {
