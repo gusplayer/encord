@@ -23,7 +23,6 @@
             </swiper-slide>
           </swiper>
           <div class="tag"> <span class="bold">Valor Total: </span><span class="total">{{ total | formatPrice }}</span></div>
-
           <modal v-if="showModal" @close="showModal = false">
             <h3 slot="header">custom header</h3>
             <img class="img_modal" slot="body" :src="img" alt="">
@@ -58,8 +57,11 @@ export default {
     numApartment() {
       return this.$store.state.sentNum
     },
+    currentUnit() {
+      return this.$store.state.currentUnit
+    },
     total() {
-      return this.acabados.reduce((total, acabado) => { return total + parseInt(acabado.precio)}, 0) || 0
+      return this.acabados.reduce((total, acabado) => { return total + parseInt(acabado.precio)}, 0) + parseInt(this.currentUnit.valor) || 0
     }
   },
   data() {

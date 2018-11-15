@@ -200,6 +200,7 @@ export default {
     }, 800),
     sentNum() {
       this.$store.commit('SET_SENTNUM', this.units[this.selected].numero)
+      this.$store.commit('SET_CURRENTUNIT', this.currentUnit)
     }
   }
 }
