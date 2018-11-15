@@ -16,13 +16,13 @@
         <template>
           <swiper :options="swiperOption" ref="mySwiper">
             <swiper-slide>
-              <bathrooms @change="selectImagen" />
+              <bathrooms @change="selectImagen" @selected="saveAcabado($event, 0)"/>
             </swiper-slide>
             <swiper-slide>
-              <floors @change="selectImagen" />
+              <floors @change="selectImagen" @selected="saveAcabado($event, 1)"/>
             </swiper-slide>
           </swiper>
-          <div class="tag"> <span class="bold">Valor Total: </span><span class="total">1.000.000</span></div>
+          <div class="tag"> <span class="bold">Valor Total: </span><span class="total">{{ total | formatPrice }}</span></div>
 
           <modal v-if="showModal" @close="showModal = false">
             <h3 slot="header">custom header</h3>
@@ -57,11 +57,15 @@ export default {
     },
     numApartment() {
       return this.$store.state.sentNum
+    },
+    total() {
+      return this.acabados.reduce((total, acabado) => { return total + parseInt(acabado.precio)}, 0) || 0
     }
   },
   data() {
     return {
       img: '',
+      acabados: [],
       swiperOption: {
         slidesPerView: 1,
         spaceBetween: 30,
@@ -75,11 +79,20 @@ export default {
     }
   },
   methods: {
-    selectCard(value) {
-      this.card = value
-    },
     selectImagen(value) {
       this.img = value
+    },
+    saveAcabado(item, index) {
+      this.acabados.splice(index, 1, item)
+    }
+  },
+  filters: {
+    formatPrice(value) {
+      if (value) {
+        return `$${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`
+      } else {
+        return '$0'
+      }
     }
   }
 }
