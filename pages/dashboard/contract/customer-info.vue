@@ -54,12 +54,12 @@
         </el-row>
         <el-row class="background">
           <el-col :span="12">
-            <p class="item grid-content">No. Unidad Vendida:</p>
+            <p class="item grid-content">Nùmero de piso:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <el-select v-model="unitNumber" size="mini" placeholder="Unidad">
-                <el-option v-for="(item, index) in units" :key="index" :label="item.unit" :value="item.unit">
+              <el-select v-model="flat" size="mini" placeholder="Unidad">
+                <el-option v-for="(item, index) in flats" :key="index" :label="item.piso" :value="item.piso">
                 </el-option>
               </el-select>
             </div>
@@ -67,41 +67,34 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <p class="item grid-content">Precio:</p>
+            <p class="item grid-content">Nùmero de unidad:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <p class="item-get">{{currentUnit.price | formatNum}}</p>
+              <el-select v-model="unitNumber" size="mini" placeholder="Unidad">
+                <el-option v-for="(item, index) in units" :key="index" :label="item.numero" :value="item.numero">
+                </el-option>
+              </el-select>
             </div>
           </el-col>
         </el-row>
         <el-row class="background">
           <el-col :span="12">
-            <p class="item grid-content">Habitaciones:</p>
+            <p class="item grid-content">Precio:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <p class="item-get">{{currentUnit.bedrooms}}</p>
+              <p class="item-get">{{currentUnit.valor | formatNum}}</p>
             </div>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <p class="item grid-content">Baños:</p>
+            <p class="item grid-content">Tipo de Unidad:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <p class="item-get">{{currentUnit.bathrooms}}</p>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row class="background">
-          <el-col :span="12">
-            <p class="item grid-content">Area:</p>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content">
-              <p class="item-get">{{currentUnit.area}}</p>
+              <p class="item-get">{{currentUnit.tipo_unidad}}</p>
             </div>
           </el-col>
         </el-row>
@@ -384,6 +377,7 @@
 <script>
 import Card from '~/components/card'
 import { Money } from 'v-money'
+import axios from 'axios'
 export default {
   components: {
     Card,
@@ -423,33 +417,28 @@ export default {
           address: 'Carrera 85 # 2-95 Bogota'
         }
       ],
+      flats: [],
       units: [
         {
-          unit: '801',
-          area: '85 m2',
-          price: 260000000,
-          bedrooms: 4,
-          bathrooms: 2
+          numero: '801',
+          valor: 260000000,
+          tipo_unidad: 'Apartamento'
         },
         {
-          unit: '802',
-          area: '65 m2',
-          price: 150000000,
-          bedrooms: 3,
-          bathrooms: 2
+          numero: '802',
+          valor: 150000000,
+          tipo_unidad: 'Apartamento'
         },
         {
-          unit: '803',
-          area: '78 m2',
-          price: 130000000,
-          bedrooms: 3,
-          bathrooms: 2
+          numero: '803',
+          valor: 130000000,
+          tipo_unidad: 'Apartamento'
         }
       ],
-      value: '',
+      value: {},
       emptyProject: {
-        nombre: 'Aria Condominio',
-        ubicacion: 'Bogotá',
+        nombre: '',
+        ubicacion: '',
         price: 250000000,
         id: 1,
         descripcion: '',
@@ -466,13 +455,12 @@ export default {
         address: ''
       },
       emptyUnit: {
-        unit: '',
-        area: '',
-        price: 0,
-        bedrooms: 0,
-        bathrooms: 0
+        numero: '',
+        valor: 0,
+        tipo_unidad: ''
       },
       unitNumber: '',
+      flat: '',
       typeIdentification: '',
       typeFloor: 0,
       typeBathroom: 0,
@@ -571,9 +559,7 @@ export default {
         unit: {
           numUnit: '',
           price: '',
-          bedrooms: '',
-          bathrooms: '',
-          area: ''
+          typeUnit: ''
         },
         finishes: {
           floor: '',
@@ -620,7 +606,8 @@ export default {
     },
     currentUnit() {
       return (
-        this.units.find(unit => unit.unit == this.unitNumber) || this.emptyUnit
+        this.units.find(unit => unit.numero == this.unitNumber) ||
+        this.emptyUnit
       )
     },
     domoticaPrice() {
@@ -646,6 +633,9 @@ export default {
     initialFee() {
       return this.totalValue * (this.initialFeePercentage / 100)
     },
+    changeIdProject() {
+      return this.$store.state.sentInfo.id
+    },
     financing() {
       return this.totalValue - this.initialFee
     }
@@ -666,6 +656,12 @@ export default {
         this.getCostumer.phone = ''
         this.getCostumer.address = ''
       }
+    },
+    value(value) {
+      const result = this.projects.find(project => project.nombre == value)
+      if (result) {
+        this.getDataProject(result.id)
+      }
     }
   },
   methods: {
@@ -677,7 +673,43 @@ export default {
       this.$router.push('/dashboard/contract/contract')
     },
     dataContract() {
-      this.formContract.project.name = this.value
+      this.formContract.project.name = this.currentProject.nombre
+      this.formContract.project.city = this.currentProject.ubicacion
+      this.formContract.unit.numUnit = this.unitNumber
+      this.formContract.unit.price = this.currentUnit.valor
+      this.formContract.unit.typeUnit = this.currentUnit.tipo_unidad
+    },
+    getDataProject(id) {
+      console.log('entró')
+      const config = {
+        headers: {
+          Authorization:
+            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjEzM2U2YWU4MDVjMTM4YTlkZmVhZjYwNzQyNWE4NDU5YjE3YjE0NGRlNjA2Mzk5MDE1NjQ0YTMwNjlmMTI2YWU3NmZhOGQxOWIyYzU5YzY4In0.eyJhdWQiOiIyIiwianRpIjoiMTMzZTZhZTgwNWMxMzhhOWRmZWFmNjA3NDI1YTg0NTliMTdiMTQ0ZGU2MDYzOTkwMTU2NDRhMzA2OWYxMjZhZTc2ZmE4ZDE5YjJjNTljNjgiLCJpYXQiOjE1NDIyOTM1NzgsIm5iZiI6MTU0MjI5MzU3OCwiZXhwIjoxNTQzNTg5NTc3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.k9M0E6XuYlVB-BlsgMO2DOwF6Jt-R4mAWgKOsj_0GdUwjIjJC3we1Fs2q2HkqKlpcIUeuU2UQ7lQPKWyLX1sspxJVIo0hrn_qhs2cafyTqKnFlq5ofQB9F79Mi0NwhHAfS-7IcSGS25c22ER4SMdAqNTeg44oei79xYISCFBUOsmzV690n7r83bG8NI4lS7qmnrzmogQu2dzx4GF6rzFzKzmUxedTAIPz2I9Wdk2JvSqgKEZtrJ6MOfwFiaJvnJfLo_cpMXTZ06MFi4R-VwfV87t_t678IU6ACZ08nwV5pGTPfDbBV6-SF--uW_u6128tcnFqhT05Q336EVhCjhoNRbY34BEh3lot3y3Pio-areh1bYQA_XcUfAbkqgnFvEfMK3IQz9dTWj519o1UqLnE0y6gPOLjJwLYGQejwFUnWsi-4jMyDvZA_gwsNqrkutPSMAc_DVQ-acoRj0ybzVcXmwyhzlQJoJbKaDhTKpL_sMdJbi1c7FvDSpnlEue0aba1bhGZn_DIO61iNQRyZtinvUULgJWHUh8ICfYzRfVnN4BVswc9XUTF_elkOuF1Y4_H6iY9eI45Ca95mjks8xevo7CdQl5gDaIBBJrZFsdKkhiAI6NiaHeS3LUQ4trNAOUeRXV0ogI-fGP5UG5GpfSJ6JvFasA3ta8o5xC7pfV2TM',
+          'content-type': 'application/json',
+          Accept: 'application/json',
+          'Access-Control-Allow-Credentials': true,
+          'Access-Control-Allow-Origin': true
+        }
+      }
+      axios
+        .get(
+          `http://administrador.app-encord.com/api/proyectos/${id}/pisos`,
+          config
+        )
+        .then(response => {
+          this.flats = response.data.data.sort(
+            (a, b) => parseInt(a.piso) - parseInt(b.piso)
+          )
+          this.$store.commit(
+            'SET_SENTFLATS',
+            response.data.data.sort(
+              (a, b) => parseInt(a.piso) - parseInt(b.piso)
+            )
+          )
+        })
+        .catch(e => {
+          console.log(e)
+        })
     }
   },
   filters: {
@@ -743,15 +775,12 @@ h2 span {
   font-weight: 400;
   font-size: 18px;
   padding-left: 15px;
-  /* padding-bottom: 10px; */
 }
 div.el-row {
   padding: 10px;
   display: flex;
   align-items: center;
   border-bottom: 1px solid rgba(168, 187, 219, 0.301);
-  /* padding-left: 0;
-  background-color: transparent; */
 }
 div.el-row :first-child {
   border: 0;
