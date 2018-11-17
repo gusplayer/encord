@@ -31,7 +31,7 @@
               <p :class="classActive">Crear Informe</p>
             </li>
           </nuxt-link>
-          <nuxt-link to="/dashboard/customers/list-customers">
+          <nuxt-link to="/dashboard/customers">
             <li class="list-item">
               <i class="icon-folder-14"></i>
               <p :class="classActive">Clientes</p>
