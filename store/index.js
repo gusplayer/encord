@@ -1,5 +1,5 @@
-import Vuex from 'vuex';
-import axios from 'axios';
+import Vuex from 'vuex'
+import axios from 'axios'
 
 const createStore = () => {
   return new Vuex.Store({
@@ -16,28 +16,28 @@ const createStore = () => {
     }),
     mutations: {
       CHANGE_MODAL_STATE(state, value) {
-        state.showModal = value;
+        state.showModal = value
       },
       SET_SENTNUM(state, value) {
-        state.sentNum = value;
+        state.sentNum = value
       },
       SET_SENTINFO(state, value) {
-        state.sentInfo = value;
+        state.sentInfo = value
       },
       SET_SENTFLATS(state, value) {
-        state.sentFlats = value;
+        state.sentFlats = value
       },
       SET_APARTMENTS(state, value) {
-        state.apartments = value;
+        state.apartments = value
       },
       SET_USER: function(state, user) {
-        state.authUser = user;
+        state.authUser = user
       },
       SET_PROJECTS(state, value) {
-        state.projectsData = value;
+        state.projectsData = value
       },
       SET_CURRENTUNIT(state, value) {
-        state.currentUnit = value;
+        state.currentUnit = value
       }
     },
     actions: {
@@ -51,23 +51,23 @@ const createStore = () => {
             'Access-Control-Allow-Credentials': true,
             'Access-Control-Allow-Origin': true
           }
-        };
+        }
 
         axios
-          .get('http://administrador.app-encord.com/api/proyectos', config)
+          .get('https://administrador.app-encord.com/api/proyectos', config)
           .then(response => {
             commit(
               'SET_PROJECTS',
               response.data.data.filter(project => project.estado == 1)
-            );
+            )
           })
           .catch(e => {
-            console.log(e);
-          });
+            console.log(e)
+          })
       },
       nuxtServerInit({ commit }, { req }) {
         if (req.session && req.session.authUser) {
-          commit('SET_USER', req.session.authUser);
+          commit('SET_USER', req.session.authUser)
         }
       },
       async login({ commit }, { email, password }) {
@@ -75,22 +75,22 @@ const createStore = () => {
           const { data } = await axios.post('/auth/login', {
             email,
             password
-          });
-          commit('SET_USER', data);
+          })
+          commit('SET_USER', data)
         } catch (error) {
           if (error.response && error.response.status === 401) {
-            throw new Error('Bad credentials');
+            throw new Error('Bad credentials')
           }
-          throw error;
+          throw error
         }
       },
 
       async logout({ commit }) {
-        await axios.post('/auth/logout');
-        commit('SET_USER', null);
+        await axios.post('/auth/logout')
+        commit('SET_USER', null)
       }
     }
-  });
-};
+  })
+}
 
-export default createStore;
+export default createStore
