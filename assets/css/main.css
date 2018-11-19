@@ -102,3 +102,16 @@
 .price-list .bold {
   font-weight: 600;
 }
+.el-radio__input.is-checked .el-radio__inner {
+  border-color: #98c253;
+  background: #98c253;
+}
+.el-radio__input.is-checked + .el-radio__label {
+  color: #98c253;
+}
+.info .el-radio {
+  font-weight: 300;
+}
+.accion .el-date-editor--date .el-input__inner {
+  background-color: rgb(248, 250, 255);
+}

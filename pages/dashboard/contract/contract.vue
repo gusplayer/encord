@@ -3,13 +3,17 @@
     <card>
       <template slot="header">
         <h2>
-          <nuxt-link to="/dashboard/5">Formulario de contrato</nuxt-link>
-          <span>/ Contrato</span>
+          <nuxt-link to="/dashboard/contract/customer-info">Formulario de contrato</nuxt-link>
+          <span> / Contrato</span>
         </h2>
       </template>
       <div slot="section" class="section">
         <div id="pdf">
           <div id="infoContract" class="infoContract" v-html="contract"></div>
+          <p>Nombre del proyecto: {{dataContract.project.name}}</p>
+          <p>Valor apartamento: {{dataContract.payment.total | formatNum}}</p>
+          <p>Cuota Inicial: {{dataContract.payment.costQuota | formatNum}}</p>
+          <p>Numero de cuotas: {{dataContract.payment.numQuotas}}</p>
           <!-- <div class="line"></div> -->
           <VueSignaturePad width="300px" height="150px" id="signaturePad" ref="signaturePad" />
           <p class="firm">Firma</p>
@@ -27,7 +31,7 @@
 
 <script>
 import Card from '~/components/card'
-import jsPDF from 'jsPDF'
+import jsPDF from 'jspdf'
 import canvas from 'html2canvas'
 // import SignaturePad from 'signature_pad'
 
@@ -41,16 +45,21 @@ export default {
     this.setContract(
       '<h2>Contrato de compra</h2><p>Lorem %name% dolor, sit amet consectetur adipisicing elit. Hic ab doloribus %document% libero, tenetur eveniet aliquam. Distinctio quae veniam consequuntur, incidunt, %area% quaerat odio reprehenderit molestias tenetur laborum atque eos.</p><p>Lorem ipsum dolor, sit amet consectetur %precio% elit. Hic ab doloribus praesentium libero, tenetur eveniet aliquam. Distinctio quae veniam consequuntur, incidunt, dolorum quaerat odio reprehenderit molestias tenetur laborum atque eos.</p>'
     )
+    this.$store.state.dataContract
   },
   data() {
     return {
       contract: '',
-      name: ''
+      name: '',
+
     }
   },
   computed: {
     infoContract() {
       return this.$store.state.infoContract
+    },
+    dataContract() {
+      return this.$store.state.dataContract
     }
   },
   watch: {
@@ -116,6 +125,13 @@ export default {
     clear() {
       this.$refs.signaturePad.clearSignature()
     }
+  },
+   filters: {
+    formatNum(value) {
+      if (value) {
+        return `$${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`
+      }
+    }
   }
 }
 </script>
@@ -163,6 +179,7 @@ h2 span {
   margin: 40px 0px 0px;
 }
 #signaturePad {
+  margin-top: 50px;
   border: 1px solid #eee;
   border-bottom: 2px solid #ccc;
   /* border: double 3px transparent;
@@ -173,9 +190,13 @@ h2 span {
   background-clip: content-box, border-box; */
 }
 .infoContract {
-  margin-bottom: 50px;
+  margin-bottom: 10px;
 }
 .btn_download {
   align-self: flex-end;
+}
+p {
+  color: rgba(67, 71, 87, 0.796);
+  line-height: 1.4;
 }
 </style>

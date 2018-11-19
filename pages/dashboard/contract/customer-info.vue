@@ -3,20 +3,20 @@
     <card>
       <template slot="header">
         <h2>
-          <nuxt-link to="/dashboard/5">Formulario de contrato</nuxt-link>
+          <nuxt-link to="/dashboard/contract/customer-info">Formulario de contrato</nuxt-link>
           <!-- <span>/ Datos</span> -->
         </h2>
       </template>
       <!-- Info proyecto -->
-      <div slot="section" class="section">
+      <div slot="section" class="section" v-if="currentProject">
         <el-row>
           <el-col :span="12">
             <h3 class="grid-content">Proyecto:</h3>
           </el-col>
           <el-col :span="7" :offset="5">
-            <div class="grid-content">
+            <div class="grid-content" v-if="projects.length">
               <el-select v-model="value" placeholder="Buscar proyecto">
-                <el-option v-for="item in projects" :key="item.value" :label="item.name" :value="item.id">
+                <el-option v-for="(item, index) in projects" :key="index" :label="item.nombre" :value="item.nombre">
                 </el-option>
               </el-select>
             </div>
@@ -28,7 +28,7 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <p class="item-get">{{currentProject.name}}</p>
+              <p class="item-get">{{currentProject.nombre}}</p>
             </div>
           </el-col>
         </el-row>
@@ -38,7 +38,7 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <p class="item-get">{{currentProject.city}}</p>
+              <p class="item-get">{{currentProject.ubicacion}}</p>
             </div>
           </el-col>
         </el-row>
@@ -54,12 +54,12 @@
         </el-row>
         <el-row class="background">
           <el-col :span="12">
-            <p class="item grid-content">No. Unidad Vendida:</p>
+            <p class="item grid-content">Nùmero de piso:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <el-select v-model="unitNumber" size="mini" placeholder="Unidad">
-                <el-option v-for="(item, index) in units" :key="index" :label="item.unit" :value="item.unit">
+              <el-select v-model="flat" size="mini" placeholder="Unidad">
+                <el-option v-for="(item, index) in flats" :key="index" :label="item.piso" :value="item.piso">
                 </el-option>
               </el-select>
             </div>
@@ -67,45 +67,109 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <p class="item grid-content">Precio:</p>
+            <p class="item grid-content">Nùmero de unidad:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <p class="item-get">{{currentUnit.price}}</p>
+              <el-select v-model="unitNumber" size="mini" placeholder="Unidad">
+                <el-option v-for="(item, index) in units" :key="index" :label="item.numero" :value="item.numero">
+                </el-option>
+              </el-select>
             </div>
           </el-col>
         </el-row>
         <el-row class="background">
           <el-col :span="12">
-            <p class="item grid-content">Habitaciones:</p>
+            <p class="item grid-content">Precio:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <p class="item-get">{{currentUnit.bedrooms}}</p>
+              <p class="item-get">{{currentUnit.valor | formatNum}}</p>
             </div>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <p class="item grid-content">Baños:</p>
+            <p class="item grid-content">Tipo de Unidad:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <p class="item-get">{{currentUnit.bathrooms}}</p>
+              <p class="item-get">{{currentUnit.tipo_unidad}}</p>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+
+      <!--  Info Acabados  -->
+      <div slot="section" class="section">
+        <el-row>
+          <el-col :span="12">
+            <h3 class="grid-content">Acabados:</h3>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Piso:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <el-select v-model="typeFloor" size="mini" placeholder="Tipo de piso">
+                <el-option v-for="(item, index) in acabados.floor" :key="index" :label="item.name" :value="item.price">
+                </el-option>
+              </el-select>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Baño:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <el-select v-model="typeBathroom" size="mini" placeholder="Tipo de piso">
+                <el-option v-for="(item, index) in acabados.bathroom" :key="index" :label="item.name" :value="item.price">
+                </el-option>
+              </el-select>
             </div>
           </el-col>
         </el-row>
         <el-row class="background">
           <el-col :span="12">
-            <p class="item grid-content">Area:</p>
+            <p class="item grid-content">Cocina:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <p class="item-get">{{currentUnit.area}}</p>
+              <el-select v-model="typeKitchen" size="mini" placeholder="Tipo de cocina">
+                <el-option v-for="(item, index) in acabados.kitchen" :key="index" :label="item.name" :value="item.price">
+                </el-option>
+              </el-select>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Domótica:</p>
+          </el-col>
+          <el-col :span="12">
+            <div>
+              <el-radio v-model="checkDomotica" :label="1" size="mini">Si</el-radio>
+              <el-radio v-model="checkDomotica" :label="0" size="mini">No</el-radio>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Total Acabados:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <p class="inputClinte">{{total | formatNum}}</p>
+              <!-- <input class="inputClinte" type="text" placeholder="Nombre" v-model="total" disabled> -->
             </div>
           </el-col>
         </el-row>
       </div>
+
       <!-- Info Comprador -->
       <div slot="section" class="section">
         <el-row>
@@ -148,16 +212,6 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <p class="item grid-content">Apellido:</p>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Apellido" v-model="getCostumer.lastName" disabled>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row class="background">
-          <el-col :span="12">
             <p class="item grid-content">Celular:</p>
           </el-col>
           <el-col :span="12">
@@ -166,7 +220,7 @@
             </div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row class="background">
           <el-col :span="12">
             <p class="item grid-content">Dirección:</p>
           </el-col>
@@ -177,11 +231,11 @@
           </el-col>
         </el-row>
       </div>
-      <!-- Info forma de pago -->
+      <!-- Info Separacion -->
       <div slot="section" class="section">
         <el-row>
           <el-col :span="12">
-            <h3 class="grid-content">Forma de pago:</h3>
+            <h3 class="grid-content">Separación:</h3>
           </el-col>
         </el-row>
         <el-row class="background">
@@ -199,17 +253,86 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <p class="item grid-content">Valor:</p>
+            <p class="item grid-content">Porcentaje de separación:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Valor" v-model="inputValue">
+              <money class="inputClinte" v-model="separationPercentage" v-bind="percent"></money>
             </div>
           </el-col>
         </el-row>
         <el-row class="background">
           <el-col :span="12">
-            <p class="item grid-content">Nùmero de Cuotas:</p>
+            <p class="item grid-content">Costo de separación:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <p class="item-get">{{separationValue | formatNum}}</p>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Separación inicial:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <money class="inputClinte" v-model="inputInitialSeparation" v-bind="money"></money>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Saldo separación:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <p class="item-get">{{separationBalance | formatNum}}</p>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Fecha limite de separación:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <el-date-picker v-model="paydayLimit" type="date" placeholder="Selecciona un día">
+              </el-date-picker>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+      <!-- Info Forma de Pago -->
+      <div slot="section" class="section">
+        <el-row>
+          <el-col :span="12">
+            <h3 class="grid-content">Forma de pago:</h3>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Porcentaje de cuota inicial:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <money class="inputClinte" v-model="initialFeePercentage" v-bind="percent"></money>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Valor cuota inicial:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <p class="item-get">{{initialFee | formatNum}}</p>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Número de Cuotas:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
@@ -219,7 +342,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <p class="item grid-content">Fecha de inicio:</p>
+            <p class="item grid-content">Fecha de inicio primera cuota:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
@@ -228,109 +351,100 @@
             </div>
           </el-col>
         </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Financiación:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <p class="item-get">{{financing | formatNum}}</p>
+            </div>
+          </el-col>
+        </el-row>
         <el-row>
-          <el-col :span="4" :offset="20">
-            <el-button class="btn-save" @click="saveInfo" type="success">Guardar</el-button>
+          <el-col :span="12">
+            <div class="tag"> <span class="bold">Valor Total: </span><span class="total"> {{totalValue | formatNum}}</span></div>
+          </el-col>
+          <el-col :span="4" :offset="8">
+            <div class="btn-save" @click="saveInfo">Guardar</div>
           </el-col>
         </el-row>
       </div>
-
     </card>
   </div>
 </template>
 
 <script>
 import Card from '~/components/card'
+import { Money } from 'v-money'
+import axios from 'axios'
 export default {
   components: {
-    Card
+    Card,
+    Money
   },
   data() {
     return {
-      projects: [
-        {
-          name: 'Aria Condominio',
-          city: 'Bogotá',
-          price: 250000000,
-          bedrooms: 3,
-          area: '80 m2',
-          id: 1
-        },
-        {
-          name: 'Dublin',
-          city: 'Bogotá',
-          price: 200000000,
-          bedrooms: 2,
-          area: '65 m2',
-          id: 2
-        },
-        {
-          name: 'Armonia',
-          city: 'Villavicencio',
-          price: 180000000,
-          bedrooms: 4,
-          area: '60 m2',
-          id: 3
-        },
-        {
-          name: 'Messantia',
-          city: 'Medellin',
-          price: 195000000,
-          bedrooms: 4,
-          area: '78 m2',
-          id: 4
-        }
-      ],
+      money: {
+        decimal: ',',
+        thousands: '.',
+        prefix: '$',
+        suffix: '',
+        precision: 0,
+        masked: false
+      },
+      percent: {
+        decimal: ',',
+        thousands: '.',
+        prefix: '',
+        suffix: '%',
+        precision: 0,
+        masked: false
+      },
       customers: [
         {
           id: 1,
           document: '123456789',
-          name: 'Camilo',
-          lastName: 'Diaz',
+          name: 'Camilo Diaz',
           phone: '321654987',
           address: 'Calle 15 # 8-45 Villavicencio'
         },
         {
           id: 2,
           document: '1127899999',
-          name: 'Diego',
-          lastName: 'Coy',
+          name: 'Diego Coy',
           phone: '321789456',
           address: 'Carrera 85 # 2-95 Bogota'
         }
       ],
+      flats: [],
       units: [
         {
-          unit: '801',
-          area: '85 m2',
-          price: 260000000,
-          bedrooms: 4,
-          bathrooms: 2
+          numero: '801',
+          valor: 260000000,
+          tipo_unidad: 'Apartamento'
         },
         {
-          unit: '802',
-          area: '65 m2',
-          price: 150000000,
-          bedrooms: 3,
-          bathrooms: 2
+          numero: '802',
+          valor: 150000000,
+          tipo_unidad: 'Apartamento'
         },
         {
-          unit: '803',
-          area: '78 m2',
-          price: 130000000,
-          bedrooms: 3,
-          bathrooms: 2
+          numero: '803',
+          valor: 130000000,
+          tipo_unidad: 'Apartamento'
         }
       ],
-      value: '',
-      pisos: [],
+      value: {},
       emptyProject: {
-        name: 'Aria Condominio',
-        city: 'Bogotá',
+        nombre: '',
+        ubicacion: '',
         price: 250000000,
-        bedrooms: 3,
-        area: '80 m2',
-        id: 1
+        id: 1,
+        descripcion: '',
+        user_id: 0,
+        logo: null,
+        estado: 0
       },
       getCostumer: {
         id: '',
@@ -341,14 +455,17 @@ export default {
         address: ''
       },
       emptyUnit: {
-        unit: '',
-        area: '',
-        price: 0,
-        bedrooms: 0,
-        bathrooms: 0
+        numero: '',
+        valor: 0,
+        tipo_unidad: ''
       },
       unitNumber: '',
+      flat: '',
       typeIdentification: '',
+      typeFloor: 0,
+      typeBathroom: 0,
+      typeKitchen: 0,
+      checkDomotica: 0,
       identification: [
         'Cédula',
         'Cédula de Extranjería',
@@ -357,30 +474,170 @@ export default {
         'ID Extranjero',
         'Tarjeta  de Identidad'
       ],
-      contracts: ['Fiduciario', 'Promesa de compraventa'],
+      acabados: {
+        floor: [
+          {
+            name: 'Ninguno',
+            price: 0
+          },
+          {
+            name: 'Madera',
+            price: 2000000
+          },
+          {
+            name: 'Laminados',
+            price: 3000000
+          },
+          {
+            name: 'Porcelanato',
+            price: 4000000
+          }
+        ],
+        kitchen: [
+          {
+            name: 'Ninguno',
+            price: 0
+          },
+          {
+            name: 'Cocina 1',
+            price: 2000000
+          },
+          {
+            name: 'Cocina 2',
+            price: 3000000
+          },
+          {
+            name: 'Cocina 3',
+            price: 4000000
+          }
+        ],
+        bathroom: [
+          {
+            name: 'Ninguno',
+            price: 0
+          },
+          {
+            name: 'Baño 1',
+            price: 2000000
+          },
+          {
+            name: 'Baño 2',
+            price: 3000000
+          },
+          {
+            name: 'Baño 3',
+            price: 4000000
+          }
+        ],
+        domotica: 8000000
+      },
+      // total: 0,
+      contracts: [
+        'Fiduciario',
+        'Promesa de compraventa',
+        'En separación (10%)'
+      ],
       contract: '',
       inputValue: '',
-      inputFee: '',
+      inputInitialSeparation: '',
+      inputFee: 0,
+      initialFeePercentage: '',
+      separationPercentage: '',
+      paydayLimit: '',
       inputDate: '',
 
       inputIdentification: '',
       inputNombre: '',
-      inputApellido: '',
       inputCelular: '',
-      inputDireccion: ''
+      inputDireccion: '',
+
+      formContract: {
+        project: {
+          name: '',
+          city: ''
+        },
+        unit: {
+          numUnit: '',
+          price: '',
+          typeUnit: ''
+        },
+        finishes: {
+          floor: '',
+          bathroom: '',
+          kitchen: '',
+          domotica: '',
+          total: 0
+        },
+        customer: {
+          idType: '',
+          numId: '',
+          name: '',
+          phone: '',
+          address: ''
+        },
+        setApart: {
+          typeContract: '',
+          percent: 0,
+          cost: 0,
+          initial: 0,
+          residue: 0,
+          date: ''
+        },
+        payment: {
+          percentQuota: 0,
+          costQuota: 0,
+          numQuotas: 0,
+          startDate: '',
+          financing: 0,
+          total: 0
+        }
+      }
     }
   },
   computed: {
+    projects() {
+      return this.$store.state.projectsData
+    },
     currentProject() {
       return (
-        this.projects.find(project => project.id == this.value) ||
+        this.projects.find(project => project.nombre == this.value) ||
         this.emptyProject
       )
     },
     currentUnit() {
       return (
-        this.units.find(unit => unit.unit == this.unitNumber) || this.emptyUnit
+        this.units.find(unit => unit.numero == this.unitNumber) ||
+        this.emptyUnit
       )
+    },
+    domoticaPrice() {
+      return this.checkDomotica ? this.acabados.domotica : 0
+    },
+    total() {
+      return (
+        this.typeFloor +
+        this.typeKitchen +
+        this.domoticaPrice +
+        this.typeBathroom
+      )
+    },
+    totalValue() {
+      return this.total + this.currentUnit.valor || 0
+    },
+    separationValue() {
+      return this.totalValue * (this.separationPercentage / 100)
+    },
+    separationBalance() {
+      return this.separationValue - this.inputInitialSeparation
+    },
+    initialFee() {
+      return this.totalValue * (this.initialFeePercentage / 100)
+    },
+    changeIdProject() {
+      return this.$store.state.sentInfo.id
+    },
+    financing() {
+      return this.totalValue - this.initialFee
     }
   },
   watch: {
@@ -390,26 +647,90 @@ export default {
         this.getCostumer.id = result.id
         this.getCostumer.document = result.document
         this.getCostumer.name = result.name
-        this.getCostumer.lastName = result.lastName
         this.getCostumer.phone = result.phone
         this.getCostumer.address = result.address
       } else {
         this.getCostumer.id = ''
         this.getCostumer.document = ''
         this.getCostumer.name = ''
-        this.getCostumer.lastName = ''
         this.getCostumer.phone = ''
         this.getCostumer.address = ''
+      }
+    },
+    value(value) {
+      const result = this.projects.find(project => project.nombre == value)
+      if (result) {
+        this.getDataProject(result.id)
       }
     }
   },
   methods: {
+    
     saveInfo() {
       this.$store.state.infoContract = {
         customer: this.getCostumer,
         project: this.currentProject
       }
       this.$router.push('/dashboard/contract/contract')
+      this.dataContract()
+      this.sentData()
+    },
+    sentData() {
+      this.$store.commit(
+        'SET_DATACONTRACT',
+        this.formContract
+      )
+    },
+    dataContract() {
+      console.log(this.unitNumber + 'hola')
+      this.formContract.project.name = this.currentProject.nombre
+      this.formContract.project.city = this.currentProject.ubicacion
+      this.formContract.unit.numUnit = this.unitNumber
+      this.formContract.unit.price = this.currentUnit.valor
+      this.formContract.unit.typeUnit = this.currentUnit.tipo_unidad
+      this.formContract.finishes.total = this.total
+      this.formContract.payment.numQuotas = this.inputFee
+      this.formContract.payment.costQuota = this.initialFee
+      this.formContract.payment.total = this.totalValue
+    },
+    getDataProject(id) {
+      console.log('entró')
+      const config = {
+        headers: {
+          Authorization:
+            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjEzM2U2YWU4MDVjMTM4YTlkZmVhZjYwNzQyNWE4NDU5YjE3YjE0NGRlNjA2Mzk5MDE1NjQ0YTMwNjlmMTI2YWU3NmZhOGQxOWIyYzU5YzY4In0.eyJhdWQiOiIyIiwianRpIjoiMTMzZTZhZTgwNWMxMzhhOWRmZWFmNjA3NDI1YTg0NTliMTdiMTQ0ZGU2MDYzOTkwMTU2NDRhMzA2OWYxMjZhZTc2ZmE4ZDE5YjJjNTljNjgiLCJpYXQiOjE1NDIyOTM1NzgsIm5iZiI6MTU0MjI5MzU3OCwiZXhwIjoxNTQzNTg5NTc3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.k9M0E6XuYlVB-BlsgMO2DOwF6Jt-R4mAWgKOsj_0GdUwjIjJC3we1Fs2q2HkqKlpcIUeuU2UQ7lQPKWyLX1sspxJVIo0hrn_qhs2cafyTqKnFlq5ofQB9F79Mi0NwhHAfS-7IcSGS25c22ER4SMdAqNTeg44oei79xYISCFBUOsmzV690n7r83bG8NI4lS7qmnrzmogQu2dzx4GF6rzFzKzmUxedTAIPz2I9Wdk2JvSqgKEZtrJ6MOfwFiaJvnJfLo_cpMXTZ06MFi4R-VwfV87t_t678IU6ACZ08nwV5pGTPfDbBV6-SF--uW_u6128tcnFqhT05Q336EVhCjhoNRbY34BEh3lot3y3Pio-areh1bYQA_XcUfAbkqgnFvEfMK3IQz9dTWj519o1UqLnE0y6gPOLjJwLYGQejwFUnWsi-4jMyDvZA_gwsNqrkutPSMAc_DVQ-acoRj0ybzVcXmwyhzlQJoJbKaDhTKpL_sMdJbi1c7FvDSpnlEue0aba1bhGZn_DIO61iNQRyZtinvUULgJWHUh8ICfYzRfVnN4BVswc9XUTF_elkOuF1Y4_H6iY9eI45Ca95mjks8xevo7CdQl5gDaIBBJrZFsdKkhiAI6NiaHeS3LUQ4trNAOUeRXV0ogI-fGP5UG5GpfSJ6JvFasA3ta8o5xC7pfV2TM',
+          'content-type': 'application/json',
+          Accept: 'application/json',
+          'Access-Control-Allow-Credentials': true,
+          'Access-Control-Allow-Origin': true
+        }
+      }
+      axios
+        .get(
+          `http://administrador.app-encord.com/api/proyectos/${id}/pisos`,
+          config
+        )
+        .then(response => {
+          this.flats = response.data.data.sort(
+            (a, b) => parseInt(a.piso) - parseInt(b.piso)
+          )
+          this.$store.commit(
+            'SET_SENTFLATS',
+            response.data.data.sort(
+              (a, b) => parseInt(a.piso) - parseInt(b.piso)
+            )
+          )
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }
+  },
+  filters: {
+    formatNum(value) {
+      if (value) {
+        return `$${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`
+      }
     }
   }
 }
@@ -468,15 +789,12 @@ h2 span {
   font-weight: 400;
   font-size: 18px;
   padding-left: 15px;
-  /* padding-bottom: 10px; */
 }
 div.el-row {
   padding: 10px;
   display: flex;
   align-items: center;
   border-bottom: 1px solid rgba(168, 187, 219, 0.301);
-  /* padding-left: 0;
-  background-color: transparent; */
 }
 div.el-row :first-child {
   border: 0;
@@ -527,12 +845,43 @@ div.el-input__inner {
     Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 .btn-save {
-  margin-top: 20px;
   font-size: 18px;
   font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  background-color: #b0d871;
+  line-height: 1;
+  border-radius: 4px;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+}
+div.el-row .btn-save:hover {
+  background-color: #caee90;
 }
 .el-col.el-col-4.el-col-offset-20 {
   display: flex;
   justify-content: flex-end;
+}
+div.el-row .tag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  background-color: rgba(103, 123, 158, 0.075);
+  border: 1px solid rgba(103, 123, 158, 0.822);
+  line-height: 1;
+  border-radius: 4px;
+  color: rgba(38, 52, 75, 0.6);
+}
+.total {
+  font-size: 20px;
+  font-weight: 400;
+}
+.bold {
+  font-weight: 600;
+  font-size: 20px;
+  margin-right: 10px;
 }
 </style>

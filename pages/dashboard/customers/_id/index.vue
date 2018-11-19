@@ -1,32 +1,35 @@
 <template>
-  <div class="list-costumers">
-    <card>
+  <div class="customer">
+    <card v-if="currentCustomer">
       <template slot="header">
         <h2>
-          <nuxt-link to="/dashboard">Listado de Clientes</nuxt-link>
+          <nuxt-link to="/dashboard/customers">Listado de Clientes</nuxt-link> -
+          <span>{{currentCustomer.nombre}}</span>
         </h2>
-        <el-button class="btn-save" @click="saveInfo" type="success">Nuevo</el-button>
+        <nuxt-link :to="`${$route.path}/accion`">
+          <el-button class="btn-save" type="success">Nuevo</el-button>
+        </nuxt-link>
       </template>
       <div slot="section" class="section">
-        <el-table :data="tableData" style="width: 100%">
-          <el-table-column prop="date" label="Fecha" width="100" :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]" :filter-method="filterHandler">
+        <el-table :data="actionsData" style="width: 100%">
+          <el-table-column prop="fecha" label="Fecha" width="100" :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]" :filter-method="filterHandler">
           </el-table-column>
-          <el-table-column label="Photo" width="60">
+          <!-- <el-table-column label="Photo" width="60">
             <template slot-scope="scope">
               <div class="circle">JD</div>
             </template>
+          </el-table-column> -->
+          <el-table-column prop="hora" label="Hora">
           </el-table-column>
-          <el-table-column prop="name" label="Nombre">
+          <el-table-column prop="tipo_accion" label="Acción" width="100">
           </el-table-column>
-          <el-table-column prop="phone" label="Telefono" width="100">
+          <el-table-column prop="descripcion" label="Descripción">
           </el-table-column>
-          <el-table-column prop="address" label="Dirección" :formatter="formatter">
-          </el-table-column>
-          <el-table-column prop="tag" label="Etiqueta" width="80">
+          <!-- <el-table-column label="Etiqueta" width="80">
             <template slot-scope="scope">
-              <el-tag :type="scope.row.tag === 'Home' ? 'primary' : 'success'" disable-transitions>{{scope.row.tag}}</el-tag>
+              <el-tag type="success" disable-transitions>Ver</el-tag>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
       </div>
     </card>
@@ -38,6 +41,9 @@ import Card from '~/components/card'
 export default {
   components: {
     Card
+  },
+  created() {
+    this.$store.dispatch('GET_ACTIONS_BY_CUSTOMER', this.$route.params.id)
   },
   data() {
     return {
@@ -73,12 +79,17 @@ export default {
       ]
     }
   },
+  computed: {
+    actionsData() {
+      return this.$store.state.actionsData
+    },
+    currentCustomer() {
+        return this.$store.state.currentCustomer
+    }
+  },
   methods: {
     saveInfo() {
-      this.$router.push('/dashboard/customers/new-customer')
-    },
-    formatter(row, column) {
-      return row.address
+      this.$router.push('/dashboard/customers/new')
     },
     filterTag(value, row) {
       return row.tag === value
@@ -92,7 +103,7 @@ export default {
 </script>
 
 <style scoped>
-.list-costumers {
+.customer {
   background-color: #eee;
   display: flex;
   justify-content: center;

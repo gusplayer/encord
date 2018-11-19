@@ -8,18 +8,34 @@
         </h2>
         <div class="num-apartment">{{numApartment}}</div>
       </template>
-      <div slot="section" class="section">
+      <div slot="section" class="section" v-loading="loading" element-spinner-color="red">
         <div class="section_one">
           <div class="col left">
             <building @change="getFlat" />
             <div>
               <div class="group">
-                <div class="btn_flat" :class="{btn_select: selected == index, btn_disabled: units.estado == 0 }" @click="select(index)" v-for="(item, index) in units" :key="index">{{item.id}}</div>
+                <div class="btn_flat" :class="{btn_select: selected == index, btn_disabled: units.estado == 0 }" @click="select({item, index})" v-for="(item, index) in units" :key="index">{{item.numero}}</div>
                 <!-- <div class="btn_flat" @click="select(index)" v-for="(item, index) in flats" :key="index">{{item.piso}}</div> -->
               </div>
             </div>
           </div>
-          <div class="col right">
+          <div class="col right" v-if="currentUnit">
+            <div class="container-img">
+              <swiper :options="swiperOption" ref="mySwiper">
+                <swiper-slide>
+                  <img class="plano" :src="`http://administrador.app-encord.com/imagenes_unidades/${currentUnit.imagenes[0].imagen}`">
+                </swiper-slide>
+                <swiper-slide>
+                  <div class="info">
+                    <h3 class="title">Title</h3>
+                    <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum quam accusamus explicabo deserunt obcaecati doloremque maxime, aliquam quisquam.</p>
+                  </div>
+                </swiper-slide>
+              </swiper>
+            </div>
+          </div>
+
+          <div class="col right" v-else>
             <div class="container-img">
               <swiper :options="swiperOption" ref="mySwiper">
                 <swiper-slide>
@@ -34,6 +50,7 @@
               </swiper>
             </div>
           </div>
+
         </div>
         <nuxt-link class="btn_link" @click.native="sentNum" :to="`${$route.path}/${numFlat}`">Siguiente <i class="icon-right-open-big"></i></nuxt-link>
       </div>
@@ -56,7 +73,7 @@ export default {
     const config = {
       headers: {
         Authorization:
-          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjM2Nzc4ZDIwZjZjMzZkYTljNzg5YTM2YTdhNzJhMGUyMDFmZGNhNzM4ZGQwYjVlZTIwMjlhZjJlMmY5NTEyMzg1NzZlOWFiN2ZlNmJmNDhlIn0.eyJhdWQiOiIyIiwianRpIjoiMzY3NzhkMjBmNmMzNmRhOWM3ODlhMzZhN2E3MmEwZTIwMWZkY2E3MzhkZDBiNWVlMjAyOWFmMmUyZjk1MTIzODU3NmU5YWI3ZmU2YmY0OGUiLCJpYXQiOjE1NDA1MDA4OTgsIm5iZiI6MTU0MDUwMDg5OCwiZXhwIjoxNTQxNzk2ODk4LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Rxyq3SAJwykSbpbncwcDpQ9lDAlpeSTtXoesCv4ZFXreTUo5XVSUYSU-KpgnaJ09oSrIEQLZ7NjXWVHFtllNCiy4AHPD4zYbqFUtEFesL-SoWrJX3pBSMTXNvrKTLAlBgIq3ffL_RtolRbibPcRz35YO1Y3fm27zOolPFRHVbqh_jCOHeFRdpfjuQ6B8hWoR-An7B7KKcLW-SckTpBf94Tt1BstXOtJWCT3y0i6ZE0lLmRateQZ12mqdcjqO5HKqWw8JuE_GsmqAUWGhHX7fqQ2loqqzU74MgZQNUUxkcu9hNacx-IaOkN3gR3lGjaPe8hXtefMq97UmkZDjCLVOm6O42ePY5R6hrEzmjzaFF2NUpzJ_88U7jB_H0eI3pDvBQs7Idijwk2NQJe2YGvZXI4urC44hSZYr69-Ub-XJtV45Ki4qgRkHRCGA-uuiXfq1u2e2Dv1MQG7_dVsKPV_eyleSni9s-Y2gOHeH0eoZ9viUBka9o7tsfAtMFKN0R1yqXbJnPD4DcpR4l60VLQQbMMC2NZW5AFq4443HSm3wevYYHuHrxZ7enPMA3sSegxgK2zTPUZxJE5SMTnRS1H0eY_jzKWWDwnQghfLy_4UkxFBMmcBLwlCBE4bRzxj6RZFKKSS1j6LKrhSBKWO9GLIXlTqe5h69T6JMbz2aTjuswxY',
+          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjEzM2U2YWU4MDVjMTM4YTlkZmVhZjYwNzQyNWE4NDU5YjE3YjE0NGRlNjA2Mzk5MDE1NjQ0YTMwNjlmMTI2YWU3NmZhOGQxOWIyYzU5YzY4In0.eyJhdWQiOiIyIiwianRpIjoiMTMzZTZhZTgwNWMxMzhhOWRmZWFmNjA3NDI1YTg0NTliMTdiMTQ0ZGU2MDYzOTkwMTU2NDRhMzA2OWYxMjZhZTc2ZmE4ZDE5YjJjNTljNjgiLCJpYXQiOjE1NDIyOTM1NzgsIm5iZiI6MTU0MjI5MzU3OCwiZXhwIjoxNTQzNTg5NTc3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.k9M0E6XuYlVB-BlsgMO2DOwF6Jt-R4mAWgKOsj_0GdUwjIjJC3we1Fs2q2HkqKlpcIUeuU2UQ7lQPKWyLX1sspxJVIo0hrn_qhs2cafyTqKnFlq5ofQB9F79Mi0NwhHAfS-7IcSGS25c22ER4SMdAqNTeg44oei79xYISCFBUOsmzV690n7r83bG8NI4lS7qmnrzmogQu2dzx4GF6rzFzKzmUxedTAIPz2I9Wdk2JvSqgKEZtrJ6MOfwFiaJvnJfLo_cpMXTZ06MFi4R-VwfV87t_t678IU6ACZ08nwV5pGTPfDbBV6-SF--uW_u6128tcnFqhT05Q336EVhCjhoNRbY34BEh3lot3y3Pio-areh1bYQA_XcUfAbkqgnFvEfMK3IQz9dTWj519o1UqLnE0y6gPOLjJwLYGQejwFUnWsi-4jMyDvZA_gwsNqrkutPSMAc_DVQ-acoRj0ybzVcXmwyhzlQJoJbKaDhTKpL_sMdJbi1c7FvDSpnlEue0aba1bhGZn_DIO61iNQRyZtinvUULgJWHUh8ICfYzRfVnN4BVswc9XUTF_elkOuF1Y4_H6iY9eI45Ca95mjks8xevo7CdQl5gDaIBBJrZFsdKkhiAI6NiaHeS3LUQ4trNAOUeRXV0ogI-fGP5UG5GpfSJ6JvFasA3ta8o5xC7pfV2TM',
         'content-type': 'application/json',
         Accept: 'application/json',
         'Access-Control-Allow-Credentials': true,
@@ -78,6 +95,7 @@ export default {
           'SET_SENTFLATS',
           response.data.data.sort((a, b) => parseInt(a.piso) - parseInt(b.piso))
         )
+        this.getUnits()
       })
       .catch(e => {
         console.log(e)
@@ -98,25 +116,38 @@ export default {
         return this.$store.state.sentFlats[this.numFlat - 1].imagen
       }
     },
-    units() {
-      return this.$store.state.sentApartments
+    units: {
+      get() {
+        return this.$store.state.apartments
+      },
+      set(newValue) {
+        this.$store.commit('SET_APARTMENTS', newValue)
+      }
     },
     numApartment() {
-      return this.units[this.selected].id
+      if (this.units.length) {
+        return this.units[this.selected].numero
+      }
+      return ' '
     },
     nameProject() {
       return this.$store.state.sentInfo.nombre
     },
     changeIdProject() {
       return this.$store.state.sentInfo.id
+    },
+    currentFlat() {
+      return this.flats.find(flat => flat.piso == this.numFlat) || {id: 0}
     }
   },
   data() {
     return {
+      loading: true,
       selected: 0,
       numFlat: 1,
       radio: '1',
       url: '',
+      currentUnit: null,
       flats: [],
       swiperOption: {
         slidesPerView: 1,
@@ -131,18 +162,23 @@ export default {
     }
   },
   methods: {
-    select(value) {
-      this.selected = value
+    select({item, index}) {
+      this.selected = index
+      this.currentUnit = item
     },
     getFlat(value) {
+      this.units = []
       this.numFlat = value
       this.getUnits()
+      this.currentUnit = null
+      this.selected = 0
     },
     getUnits: debounce(function(e) {
+      this.loading = true
       const config = {
         headers: {
           Authorization:
-            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjM2Nzc4ZDIwZjZjMzZkYTljNzg5YTM2YTdhNzJhMGUyMDFmZGNhNzM4ZGQwYjVlZTIwMjlhZjJlMmY5NTEyMzg1NzZlOWFiN2ZlNmJmNDhlIn0.eyJhdWQiOiIyIiwianRpIjoiMzY3NzhkMjBmNmMzNmRhOWM3ODlhMzZhN2E3MmEwZTIwMWZkY2E3MzhkZDBiNWVlMjAyOWFmMmUyZjk1MTIzODU3NmU5YWI3ZmU2YmY0OGUiLCJpYXQiOjE1NDA1MDA4OTgsIm5iZiI6MTU0MDUwMDg5OCwiZXhwIjoxNTQxNzk2ODk4LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Rxyq3SAJwykSbpbncwcDpQ9lDAlpeSTtXoesCv4ZFXreTUo5XVSUYSU-KpgnaJ09oSrIEQLZ7NjXWVHFtllNCiy4AHPD4zYbqFUtEFesL-SoWrJX3pBSMTXNvrKTLAlBgIq3ffL_RtolRbibPcRz35YO1Y3fm27zOolPFRHVbqh_jCOHeFRdpfjuQ6B8hWoR-An7B7KKcLW-SckTpBf94Tt1BstXOtJWCT3y0i6ZE0lLmRateQZ12mqdcjqO5HKqWw8JuE_GsmqAUWGhHX7fqQ2loqqzU74MgZQNUUxkcu9hNacx-IaOkN3gR3lGjaPe8hXtefMq97UmkZDjCLVOm6O42ePY5R6hrEzmjzaFF2NUpzJ_88U7jB_H0eI3pDvBQs7Idijwk2NQJe2YGvZXI4urC44hSZYr69-Ub-XJtV45Ki4qgRkHRCGA-uuiXfq1u2e2Dv1MQG7_dVsKPV_eyleSni9s-Y2gOHeH0eoZ9viUBka9o7tsfAtMFKN0R1yqXbJnPD4DcpR4l60VLQQbMMC2NZW5AFq4443HSm3wevYYHuHrxZ7enPMA3sSegxgK2zTPUZxJE5SMTnRS1H0eY_jzKWWDwnQghfLy_4UkxFBMmcBLwlCBE4bRzxj6RZFKKSS1j6LKrhSBKWO9GLIXlTqe5h69T6JMbz2aTjuswxY',
+            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjEzM2U2YWU4MDVjMTM4YTlkZmVhZjYwNzQyNWE4NDU5YjE3YjE0NGRlNjA2Mzk5MDE1NjQ0YTMwNjlmMTI2YWU3NmZhOGQxOWIyYzU5YzY4In0.eyJhdWQiOiIyIiwianRpIjoiMTMzZTZhZTgwNWMxMzhhOWRmZWFmNjA3NDI1YTg0NTliMTdiMTQ0ZGU2MDYzOTkwMTU2NDRhMzA2OWYxMjZhZTc2ZmE4ZDE5YjJjNTljNjgiLCJpYXQiOjE1NDIyOTM1NzgsIm5iZiI6MTU0MjI5MzU3OCwiZXhwIjoxNTQzNTg5NTc3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.k9M0E6XuYlVB-BlsgMO2DOwF6Jt-R4mAWgKOsj_0GdUwjIjJC3we1Fs2q2HkqKlpcIUeuU2UQ7lQPKWyLX1sspxJVIo0hrn_qhs2cafyTqKnFlq5ofQB9F79Mi0NwhHAfS-7IcSGS25c22ER4SMdAqNTeg44oei79xYISCFBUOsmzV690n7r83bG8NI4lS7qmnrzmogQu2dzx4GF6rzFzKzmUxedTAIPz2I9Wdk2JvSqgKEZtrJ6MOfwFiaJvnJfLo_cpMXTZ06MFi4R-VwfV87t_t678IU6ACZ08nwV5pGTPfDbBV6-SF--uW_u6128tcnFqhT05Q336EVhCjhoNRbY34BEh3lot3y3Pio-areh1bYQA_XcUfAbkqgnFvEfMK3IQz9dTWj519o1UqLnE0y6gPOLjJwLYGQejwFUnWsi-4jMyDvZA_gwsNqrkutPSMAc_DVQ-acoRj0ybzVcXmwyhzlQJoJbKaDhTKpL_sMdJbi1c7FvDSpnlEue0aba1bhGZn_DIO61iNQRyZtinvUULgJWHUh8ICfYzRfVnN4BVswc9XUTF_elkOuF1Y4_H6iY9eI45Ca95mjks8xevo7CdQl5gDaIBBJrZFsdKkhiAI6NiaHeS3LUQ4trNAOUeRXV0ogI-fGP5UG5GpfSJ6JvFasA3ta8o5xC7pfV2TM',
           'content-type': 'application/json',
           Accept: 'application/json',
           'Access-Control-Allow-Credentials': true,
@@ -152,17 +188,19 @@ export default {
       axios
         .get(
           `http://administrador.app-encord.com/api/pisos/${
-            this.numFlat
+            this.currentFlat.id
           }/unidades`,
           config
         )
         .then(response => {
           this.units = response.data.data
-          this.$store.commit('SET_SENTAPARTMENTS', response.data.data)
+          this.$store.commit('SET_APARTMENTS', response.data.data)
+          this.loading = false
         })
-    }, 500),
+    }, 800),
     sentNum() {
-      this.$store.commit('SET_SENTNUM', this.units[this.selected].id)
+      this.$store.commit('SET_SENTNUM', this.units[this.selected].numero)
+      this.$store.commit('SET_CURRENTUNIT', this.currentUnit)
     }
   }
 }
@@ -295,4 +333,13 @@ h4 {
   font-weight: 600;
   border-radius: 6px;
 }
+/* .Related {
+  max-width: 100%;
+  height: 450px;
+}
+.Related img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+} */
 </style>
