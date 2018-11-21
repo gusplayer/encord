@@ -109,8 +109,8 @@ export default {
     //   }
     // }
     async logout() {
-      await this.$auth.logout()
-      // location.href = `${window.location.origin}/auth/login`
+      await this.$auth.logout();
+      console.log(this.$auth.loggedIn)
     }
   }
 }

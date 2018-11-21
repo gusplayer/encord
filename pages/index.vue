@@ -19,7 +19,7 @@ export default {
     Card
   },
   created() {
-    this.$router.push('/dashboard/')
+    this.$router.push('/dashboard')
   }
 }
 </script>

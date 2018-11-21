@@ -8,10 +8,12 @@
 <script>
 import Sidebar from '~/components/sidebar'
 export default {
+  middleware: 'auth',
   components: {
     Sidebar
   },
   created() {
+    this.$store.commit('SET_TOKEN')
     this.$store.dispatch('GET_PROJECTS')
   }
 }

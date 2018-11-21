@@ -1,214 +1,194 @@
-import Vuex from 'vuex';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
-const createStore = () => {
-  return new Vuex.Store({
-    state: () => ({
-      infoContract: null,
-      showModal: false,
-      sentNum: '',
-      sentInfo: {},
-      sentFlats: [],
-      apartments: [],
-      authUser: null,
-      projectsData: [],
-      currentUnit: null,
-      customersData: null,
-      actionsData: null,
-      currentCustomer: null,
-      deparmentsData: null,
-      dataContract: {}
-    }),
-    mutations: {
-      CHANGE_MODAL_STATE(state, value) {
-        state.showModal = value;
-      },
-      SET_SENTNUM(state, value) {
-        state.sentNum = value;
-      },
-      SET_SENTINFO(state, value) {
-        state.sentInfo = value;
-      },
-      SET_SENTFLATS(state, value) {
-        state.sentFlats = value;
-      },
-      SET_APARTMENTS(state, value) {
-        state.apartments = value;
-      },
-      SET_USER: function(state, user) {
-        state.authUser = user;
-      },
-      SET_PROJECTS(state, value) {
-        state.projectsData = value;
-      },
-      SET_CURRENTUNIT(state, value) {
-        state.currentUnit = value;
-      },
-      SET_CUSTOMERS(state, value) {
-        state.customersData = value;
-      },
-      SET_ACTIONS(state, value) {
-        state.actionsData = value;
-      },
-      SET_CURRENTCUSTOMER(state, value) {
-        state.currentCustomer = value;
-      },
-      SET_DEPARTMENTS(state, value) {
-        state.deparmentsData = value;
-      },
-      SET_DATACONTRACT(state, value) {
-        state.dataContract = value;
+export default {
+  state: () => ({
+    axiosConfig: {
+      headers: {
+        Authorization: Cookies.get('auth._token.local'),
+        'content-type': 'application/json',
+        Accept: 'application/json',
+        'Access-Control-Allow-Credentials': true,
+        'Access-Control-Allow-Origin': true
       }
     },
-    actions: {
-      GET_PROJECTS({ commit }) {
-        const config = {
-          headers: {
-            Authorization:
-              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijc2MDQ2YmNmMmJiMDljNTJiN2Q3ZjRlYmM3MGU5Zjc2ZTU4MTBjYWE5NmI2NjI4NDJlNGJlYjQ1NmQ0YTA5M2ExNzc3YWQyNTUyM2FhMjllIn0.eyJhdWQiOiIyIiwianRpIjoiNzYwNDZiY2YyYmIwOWM1MmI3ZDdmNGViYzcwZTlmNzZlNTgxMGNhYTk2YjY2Mjg0MmU0YmViNDU2ZDRhMDkzYTE3NzdhZDI1NTIzYWEyOWUiLCJpYXQiOjE1NDE3OTk5NTAsIm5iZiI6MTU0MTc5OTk1MCwiZXhwIjoxNTQzMDk1OTUwLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.ju_IkJp65C7djqPTRlM1r4F3G_mqHcseCVzCoExr0yJkiq9goDWR9yrRv2mBTN0l9LLuB2HzOV1OUdWDlk26pMDC8vxxvx_wAu68kwsPixcg5fW1gRfAhjCdLcD_m5uHigHFckK1dluY5E8ujjTo2dHubtnsrRSOQXYd6EGxI1r2fuzSQuzmdoysWYqSf4gyyfUamcggdLNzIUtCc4Gv95Q-NzCTZc4auO7Rsi6-VN_-T6LoHbzYwlOmP8r4eD-83e4oP7PhynqakhiO1i24nG1F6iUqzj7lrhgBiSLk-cuF38xL73XNBcR77BH_LztAVPYzdrkSRH76P4285O49Zg7loMmr0yQ6O8_AGul5wcJdZi-5Ph2r1gZ8ycRQE7k7It9uzKMjWsgSsaUPWl0lcsxiYWVIw6QhC7bUzyPdeJ_QSWXXiNfTzueTAqwBpTXBuzPTqDLFB8HCkBN-A57M2AE6heO5r1wGNu0WN5kPvB2BQOgus7qLiyPjI-BwFL_xiHmpZWxURYfB5pv3hd5TmMpi97qQEIKC5yRdGnm9rpvLYhHbnFFVnNRSL9KpW3cDUKBYpyVfWGacqgSLAI_n434Uozoj6WlD93MsKqjsC1Y-DnrYBYEti42VtQSd4vx6QOJYluiir_HQxazMTAeq2aDy79eRrSB0Hm7GYHtmVHQ',
-            'content-type': 'application/json',
-            Accept: 'application/json',
-            'Access-Control-Allow-Credentials': true,
-            'Access-Control-Allow-Origin': true
-          }
-        };
-
-        axios
-          .get('http://administrador.app-encord.com/api/proyectos', config)
-          .then(response => {
-            commit(
-              'SET_PROJECTS',
-              response.data.data.filter(project => project.estado == 1)
-            );
-          })
-          .catch(e => {
-            console.log(e);
-          });
-      },
-      GET_CUSTOMERS({ commit }) {
-        const config = {
-          headers: {
-            Authorization:
-              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijc2MDQ2YmNmMmJiMDljNTJiN2Q3ZjRlYmM3MGU5Zjc2ZTU4MTBjYWE5NmI2NjI4NDJlNGJlYjQ1NmQ0YTA5M2ExNzc3YWQyNTUyM2FhMjllIn0.eyJhdWQiOiIyIiwianRpIjoiNzYwNDZiY2YyYmIwOWM1MmI3ZDdmNGViYzcwZTlmNzZlNTgxMGNhYTk2YjY2Mjg0MmU0YmViNDU2ZDRhMDkzYTE3NzdhZDI1NTIzYWEyOWUiLCJpYXQiOjE1NDE3OTk5NTAsIm5iZiI6MTU0MTc5OTk1MCwiZXhwIjoxNTQzMDk1OTUwLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.ju_IkJp65C7djqPTRlM1r4F3G_mqHcseCVzCoExr0yJkiq9goDWR9yrRv2mBTN0l9LLuB2HzOV1OUdWDlk26pMDC8vxxvx_wAu68kwsPixcg5fW1gRfAhjCdLcD_m5uHigHFckK1dluY5E8ujjTo2dHubtnsrRSOQXYd6EGxI1r2fuzSQuzmdoysWYqSf4gyyfUamcggdLNzIUtCc4Gv95Q-NzCTZc4auO7Rsi6-VN_-T6LoHbzYwlOmP8r4eD-83e4oP7PhynqakhiO1i24nG1F6iUqzj7lrhgBiSLk-cuF38xL73XNBcR77BH_LztAVPYzdrkSRH76P4285O49Zg7loMmr0yQ6O8_AGul5wcJdZi-5Ph2r1gZ8ycRQE7k7It9uzKMjWsgSsaUPWl0lcsxiYWVIw6QhC7bUzyPdeJ_QSWXXiNfTzueTAqwBpTXBuzPTqDLFB8HCkBN-A57M2AE6heO5r1wGNu0WN5kPvB2BQOgus7qLiyPjI-BwFL_xiHmpZWxURYfB5pv3hd5TmMpi97qQEIKC5yRdGnm9rpvLYhHbnFFVnNRSL9KpW3cDUKBYpyVfWGacqgSLAI_n434Uozoj6WlD93MsKqjsC1Y-DnrYBYEti42VtQSd4vx6QOJYluiir_HQxazMTAeq2aDy79eRrSB0Hm7GYHtmVHQ',
-            'content-type': 'application/json',
-            Accept: 'application/json',
-            'Access-Control-Allow-Credentials': true,
-            'Access-Control-Allow-Origin': true
-          }
-        };
-        axios
-          .get('http://administrador.app-encord.com/api/clientes', config)
-          .then(response => {
-            commit('SET_CUSTOMERS', response.data.clientes);
-          })
-          .catch(e => {
-            console.log(e);
-          });
-      },
-      async CREATE_CUSTOMER({}, customer) {
-        const config = {
-          headers: {
-            Authorization:
-              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijc2MDQ2YmNmMmJiMDljNTJiN2Q3ZjRlYmM3MGU5Zjc2ZTU4MTBjYWE5NmI2NjI4NDJlNGJlYjQ1NmQ0YTA5M2ExNzc3YWQyNTUyM2FhMjllIn0.eyJhdWQiOiIyIiwianRpIjoiNzYwNDZiY2YyYmIwOWM1MmI3ZDdmNGViYzcwZTlmNzZlNTgxMGNhYTk2YjY2Mjg0MmU0YmViNDU2ZDRhMDkzYTE3NzdhZDI1NTIzYWEyOWUiLCJpYXQiOjE1NDE3OTk5NTAsIm5iZiI6MTU0MTc5OTk1MCwiZXhwIjoxNTQzMDk1OTUwLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.ju_IkJp65C7djqPTRlM1r4F3G_mqHcseCVzCoExr0yJkiq9goDWR9yrRv2mBTN0l9LLuB2HzOV1OUdWDlk26pMDC8vxxvx_wAu68kwsPixcg5fW1gRfAhjCdLcD_m5uHigHFckK1dluY5E8ujjTo2dHubtnsrRSOQXYd6EGxI1r2fuzSQuzmdoysWYqSf4gyyfUamcggdLNzIUtCc4Gv95Q-NzCTZc4auO7Rsi6-VN_-T6LoHbzYwlOmP8r4eD-83e4oP7PhynqakhiO1i24nG1F6iUqzj7lrhgBiSLk-cuF38xL73XNBcR77BH_LztAVPYzdrkSRH76P4285O49Zg7loMmr0yQ6O8_AGul5wcJdZi-5Ph2r1gZ8ycRQE7k7It9uzKMjWsgSsaUPWl0lcsxiYWVIw6QhC7bUzyPdeJ_QSWXXiNfTzueTAqwBpTXBuzPTqDLFB8HCkBN-A57M2AE6heO5r1wGNu0WN5kPvB2BQOgus7qLiyPjI-BwFL_xiHmpZWxURYfB5pv3hd5TmMpi97qQEIKC5yRdGnm9rpvLYhHbnFFVnNRSL9KpW3cDUKBYpyVfWGacqgSLAI_n434Uozoj6WlD93MsKqjsC1Y-DnrYBYEti42VtQSd4vx6QOJYluiir_HQxazMTAeq2aDy79eRrSB0Hm7GYHtmVHQ',
-            'content-type': 'application/json',
-            Accept: 'application/json',
-            'Access-Control-Allow-Credentials': true,
-            'Access-Control-Allow-Origin': true
-          }
-        };
-        await axios.post(
-          `http://administrador.app-encord.com/api/clientes`,
-          customer,
-          config
-        );
-      },
-      GET_ACTIONS_BY_CUSTOMER({ commit }, customer_id) {
-        const config = {
-          headers: {
-            Authorization:
-              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijc2MDQ2YmNmMmJiMDljNTJiN2Q3ZjRlYmM3MGU5Zjc2ZTU4MTBjYWE5NmI2NjI4NDJlNGJlYjQ1NmQ0YTA5M2ExNzc3YWQyNTUyM2FhMjllIn0.eyJhdWQiOiIyIiwianRpIjoiNzYwNDZiY2YyYmIwOWM1MmI3ZDdmNGViYzcwZTlmNzZlNTgxMGNhYTk2YjY2Mjg0MmU0YmViNDU2ZDRhMDkzYTE3NzdhZDI1NTIzYWEyOWUiLCJpYXQiOjE1NDE3OTk5NTAsIm5iZiI6MTU0MTc5OTk1MCwiZXhwIjoxNTQzMDk1OTUwLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.ju_IkJp65C7djqPTRlM1r4F3G_mqHcseCVzCoExr0yJkiq9goDWR9yrRv2mBTN0l9LLuB2HzOV1OUdWDlk26pMDC8vxxvx_wAu68kwsPixcg5fW1gRfAhjCdLcD_m5uHigHFckK1dluY5E8ujjTo2dHubtnsrRSOQXYd6EGxI1r2fuzSQuzmdoysWYqSf4gyyfUamcggdLNzIUtCc4Gv95Q-NzCTZc4auO7Rsi6-VN_-T6LoHbzYwlOmP8r4eD-83e4oP7PhynqakhiO1i24nG1F6iUqzj7lrhgBiSLk-cuF38xL73XNBcR77BH_LztAVPYzdrkSRH76P4285O49Zg7loMmr0yQ6O8_AGul5wcJdZi-5Ph2r1gZ8ycRQE7k7It9uzKMjWsgSsaUPWl0lcsxiYWVIw6QhC7bUzyPdeJ_QSWXXiNfTzueTAqwBpTXBuzPTqDLFB8HCkBN-A57M2AE6heO5r1wGNu0WN5kPvB2BQOgus7qLiyPjI-BwFL_xiHmpZWxURYfB5pv3hd5TmMpi97qQEIKC5yRdGnm9rpvLYhHbnFFVnNRSL9KpW3cDUKBYpyVfWGacqgSLAI_n434Uozoj6WlD93MsKqjsC1Y-DnrYBYEti42VtQSd4vx6QOJYluiir_HQxazMTAeq2aDy79eRrSB0Hm7GYHtmVHQ',
-            'content-type': 'application/json',
-            Accept: 'application/json',
-            'Access-Control-Allow-Credentials': true,
-            'Access-Control-Allow-Origin': true
-          }
-        };
-        axios
-          .get(
-            `http://administrador.app-encord.com/api/acciones/${customer_id}`,
-            config
-          )
-          .then(response => {
-            commit('SET_ACTIONS', response.data.cliente.acciones);
-            commit('SET_CURRENTCUSTOMER', response.data.cliente);
-          })
-          .catch(e => {
-            console.log(e);
-          });
-      },
-      async CREATE_ACTION({}, action) {
-        const config = {
-          headers: {
-            Authorization:
-              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijc2MDQ2YmNmMmJiMDljNTJiN2Q3ZjRlYmM3MGU5Zjc2ZTU4MTBjYWE5NmI2NjI4NDJlNGJlYjQ1NmQ0YTA5M2ExNzc3YWQyNTUyM2FhMjllIn0.eyJhdWQiOiIyIiwianRpIjoiNzYwNDZiY2YyYmIwOWM1MmI3ZDdmNGViYzcwZTlmNzZlNTgxMGNhYTk2YjY2Mjg0MmU0YmViNDU2ZDRhMDkzYTE3NzdhZDI1NTIzYWEyOWUiLCJpYXQiOjE1NDE3OTk5NTAsIm5iZiI6MTU0MTc5OTk1MCwiZXhwIjoxNTQzMDk1OTUwLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.ju_IkJp65C7djqPTRlM1r4F3G_mqHcseCVzCoExr0yJkiq9goDWR9yrRv2mBTN0l9LLuB2HzOV1OUdWDlk26pMDC8vxxvx_wAu68kwsPixcg5fW1gRfAhjCdLcD_m5uHigHFckK1dluY5E8ujjTo2dHubtnsrRSOQXYd6EGxI1r2fuzSQuzmdoysWYqSf4gyyfUamcggdLNzIUtCc4Gv95Q-NzCTZc4auO7Rsi6-VN_-T6LoHbzYwlOmP8r4eD-83e4oP7PhynqakhiO1i24nG1F6iUqzj7lrhgBiSLk-cuF38xL73XNBcR77BH_LztAVPYzdrkSRH76P4285O49Zg7loMmr0yQ6O8_AGul5wcJdZi-5Ph2r1gZ8ycRQE7k7It9uzKMjWsgSsaUPWl0lcsxiYWVIw6QhC7bUzyPdeJ_QSWXXiNfTzueTAqwBpTXBuzPTqDLFB8HCkBN-A57M2AE6heO5r1wGNu0WN5kPvB2BQOgus7qLiyPjI-BwFL_xiHmpZWxURYfB5pv3hd5TmMpi97qQEIKC5yRdGnm9rpvLYhHbnFFVnNRSL9KpW3cDUKBYpyVfWGacqgSLAI_n434Uozoj6WlD93MsKqjsC1Y-DnrYBYEti42VtQSd4vx6QOJYluiir_HQxazMTAeq2aDy79eRrSB0Hm7GYHtmVHQ',
-            'content-type': 'application/json',
-            Accept: 'application/json',
-            'Access-Control-Allow-Credentials': true,
-            'Access-Control-Allow-Origin': true
-          }
-        };
-        await axios.post(
-          'http://administrador.app-encord.com/api/acciones',
-          action,
-          config
-        );
-      },
-      GET_DEPARMENTSWITHCITIES({ commit }) {
-        const config = {
-          headers: {
-            Authorization:
-              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijc2MDQ2YmNmMmJiMDljNTJiN2Q3ZjRlYmM3MGU5Zjc2ZTU4MTBjYWE5NmI2NjI4NDJlNGJlYjQ1NmQ0YTA5M2ExNzc3YWQyNTUyM2FhMjllIn0.eyJhdWQiOiIyIiwianRpIjoiNzYwNDZiY2YyYmIwOWM1MmI3ZDdmNGViYzcwZTlmNzZlNTgxMGNhYTk2YjY2Mjg0MmU0YmViNDU2ZDRhMDkzYTE3NzdhZDI1NTIzYWEyOWUiLCJpYXQiOjE1NDE3OTk5NTAsIm5iZiI6MTU0MTc5OTk1MCwiZXhwIjoxNTQzMDk1OTUwLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.ju_IkJp65C7djqPTRlM1r4F3G_mqHcseCVzCoExr0yJkiq9goDWR9yrRv2mBTN0l9LLuB2HzOV1OUdWDlk26pMDC8vxxvx_wAu68kwsPixcg5fW1gRfAhjCdLcD_m5uHigHFckK1dluY5E8ujjTo2dHubtnsrRSOQXYd6EGxI1r2fuzSQuzmdoysWYqSf4gyyfUamcggdLNzIUtCc4Gv95Q-NzCTZc4auO7Rsi6-VN_-T6LoHbzYwlOmP8r4eD-83e4oP7PhynqakhiO1i24nG1F6iUqzj7lrhgBiSLk-cuF38xL73XNBcR77BH_LztAVPYzdrkSRH76P4285O49Zg7loMmr0yQ6O8_AGul5wcJdZi-5Ph2r1gZ8ycRQE7k7It9uzKMjWsgSsaUPWl0lcsxiYWVIw6QhC7bUzyPdeJ_QSWXXiNfTzueTAqwBpTXBuzPTqDLFB8HCkBN-A57M2AE6heO5r1wGNu0WN5kPvB2BQOgus7qLiyPjI-BwFL_xiHmpZWxURYfB5pv3hd5TmMpi97qQEIKC5yRdGnm9rpvLYhHbnFFVnNRSL9KpW3cDUKBYpyVfWGacqgSLAI_n434Uozoj6WlD93MsKqjsC1Y-DnrYBYEti42VtQSd4vx6QOJYluiir_HQxazMTAeq2aDy79eRrSB0Hm7GYHtmVHQ',
-            'content-type': 'application/json',
-            Accept: 'application/json',
-            'Access-Control-Allow-Credentials': true,
-            'Access-Control-Allow-Origin': true
-          }
-        };
-        axios
-          .get(`http://administrador.app-encord.com/api/departamentos`, config)
-          .then(response => {
-            // commit('SET_CITIES', response.data.data.map(depart => depart.ciudades))
-            commit('SET_DEPARTMENTS', response.data.data);
-          })
-          .catch(e => {
-            console.log(e);
-          });
-      },
-      nuxtServerInit({ commit }, { req }) {
-        if (req.session && req.session.authUser) {
-          commit('SET_USER', req.session.authUser);
+    axiosUrl: 'https://administrador.app-encord.com',
+    infoContract: null,
+    showModal: false,
+    sentNum: '',
+    sentInfo: {},
+    sentFlats: [],
+    apartments: [],
+    authUser: null,
+    projectsData: [],
+    currentProject: null,
+    currentUnit: null,
+    currentCustomer: null,
+    currentFinishes: [],
+    customersData: null,
+    actionsData: null,
+    deparmentsData: null,
+    dataContract: {}
+  }),
+  mutations: {
+    SET_TOKEN(state) {
+      state.axiosConfig.headers.Authorization = Cookies.get(
+        'auth._token.local'
+      );
+    },
+    CHANGE_MODAL_STATE(state, value) {
+      state.showModal = value;
+    },
+    SET_SENTNUM(state, value) {
+      state.sentNum = value;
+    },
+    SET_SENTINFO(state, value) {
+      state.sentInfo = value;
+    },
+    SET_CURRENTPROJECT(state, value) {
+      state.currentProject = value;
+    },
+    SET_SENTFLATS(state, value) {
+      state.sentFlats = value;
+    },
+    SET_APARTMENTS(state, value) {
+      state.apartments = value;
+    },
+    SET_USER: function(state, user) {
+      state.authUser = user;
+    },
+    SET_PROJECTS(state, value) {
+      state.projectsData = value;
+    },
+    SET_CURRENTUNIT(state, value) {
+      state.currentUnit = value;
+    },
+    SET_CUSTOMERS(state, value) {
+      state.customersData = value;
+    },
+    SET_ACTIONS(state, value) {
+      state.actionsData = value;
+    },
+    SET_CURRENTCUSTOMER(state, value) {
+      state.currentCustomer = value;
+    },
+    SET_CURRENTFINISHES(state, value) {
+      state.currentFinishes = value;
+    },
+    SET_DEPARTMENTS(state, value) {
+      state.deparmentsData = value;
+    },
+    SET_DATACONTRACT(state, value) {
+      state.dataContract = value;
+    }
+  },
+  getters: {
+    isAuthenticated(state) {
+      return state.auth.loggedIn;
+    },
+    loggedInUser(state) {
+      return state.auth.user;
+    }
+  },
+  actions: {
+    GET_PROJECTS({ state, commit }) {
+      axios
+        .get(`${state.axiosUrl}/api/proyectos`, state.axiosConfig)
+        .then(response => {
+          commit(
+            'SET_PROJECTS',
+            response.data.data.filter(project => project.estado == 1)
+          );
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    async GET_FLOORS({ state, commit }, id) {
+      const response = await axios.get(
+        `${state.axiosUrl}/api/proyectos/${id}/pisos`,
+        state.axiosConfig
+      );
+      commit(
+        'SET_SENTFLATS',
+        response.data.data.sort((a, b) => parseInt(a.piso) - parseInt(b.piso))
+      );
+    },
+    async GET_UNITS({ state, commit }, id) {
+      const response = await axios.get(
+        `${state.axiosUrl}/api/pisos/${id}/unidades`,
+        state.axiosConfig
+      );
+      commit('SET_APARTMENTS', response.data.data);
+    },
+    GET_CUSTOMERS({ state, commit }) {
+      axios
+        .get(`${state.axiosUrl}/api/clientes`, state.axiosConfig)
+        .then(response => {
+          commit('SET_CUSTOMERS', response.data.clientes);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    async CREATE_CUSTOMER({ state }, customer) {
+      await axios.post(
+        `${state.axiosUrl}/api/clientes`,
+        customer,
+        state.axiosConfig
+      );
+    },
+    GET_ACTIONS_BY_CUSTOMER({ state, commit }, customer_id) {
+      axios
+        .get(`${state.axiosUrl}/api/acciones/${customer_id}`, state.axiosConfig)
+        .then(response => {
+          commit('SET_ACTIONS', response.data.cliente.acciones);
+          commit('SET_CURRENTCUSTOMER', response.data.cliente);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    async CREATE_ACTION({ state }, action) {
+      await axios.post(
+        `${state.axiosUrl}/api/acciones`,
+        action,
+        state.axiosConfig
+      );
+    },
+    GET_DEPARMENTSWITHCITIES({ state, commit }) {
+      axios
+        .get(`${state.axiosUrl}/api/departamentos`, state.axiosConfig)
+        .then(response => {
+          // commit('SET_CITIES', response.data.data.map(depart => depart.ciudades))
+          commit('SET_DEPARTMENTS', response.data.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    // nuxtServerInit({ commit }, { req }) {
+    //   if (req.session && req.session.authUser) {
+    //     commit('SET_USER', req.session.authUser);
+    //   }
+    // },
+    async login({ commit }, { email, password }) {
+      try {
+        const { data } = await axios.post('/auth/login', {
+          email,
+          password
+        });
+        commit('SET_USER', data);
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          throw new Error('Bad credentials');
         }
-      },
-      async login({ commit }, { email, password }) {
-        try {
-          const { data } = await axios.post('/auth/login', {
-            email,
-            password
-          });
-          commit('SET_USER', data);
-        } catch (error) {
-          if (error.response && error.response.status === 401) {
-            throw new Error('Bad credentials');
-          }
-          throw error;
-        }
-      },
-      async logout({ commit }) {
-        await axios.post('/auth/logout');
-        commit('SET_USER', null);
+        throw error;
       }
     }
-  });
+    // async logout({ commit }) {
+    //   await axios.post('/auth/logout');
+    //   commit('SET_USER', null);
+    // }
+  }
 };
-
-export default createStore;

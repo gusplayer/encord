@@ -13,7 +13,7 @@ export default {
   },
   computed: {
     imgCard() {
-      return this.$store.state.sentInfo.logo
+      return this.$store.state.currentProject.logo
     }
   }
 }

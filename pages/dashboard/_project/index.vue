@@ -1,6 +1,5 @@
 <template>
   <div class="index">
-    <!-- <nuxt-child /> -->
     <card>
       <div slot="header">
         <h2>{{infoName}}</h2>
@@ -39,7 +38,6 @@ import ListCard from '@/components/list-card'
 import ImgCard from '@/components/img-card'
 
 export default {
-  // auth: false,
   components: {
     Card,
     ListCard,
@@ -61,13 +59,13 @@ export default {
   },
   computed: {
     infoDescription() {
-      return this.$store.state.sentInfo.descripcion
+      return this.$store.state.currentProject.descripcion
     },
     infoLocation() {
-      return this.$store.state.sentInfo.ubicacion
+      return this.$store.state.currentProject.ubicacion
     },
     infoName() {
-      return this.$store.state.sentInfo.nombre
+      return this.$store.state.currentProject.nombre
     }
   }
 }

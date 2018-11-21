@@ -42,7 +42,6 @@ import Card from '../../components/card'
 import ListCard from '../../components/list-card'
 import ImgCard from '../../components/img-card'
 import Search from '../../components/search'
-import axios from 'axios'
 
 export default {
   components: {
@@ -69,14 +68,6 @@ export default {
       }
     }
   },
-  methods: {
-    sentInfo(id) {
-      this.$store.commit(
-        'SET_SENTINFO',
-        this.projects.find(project => project.id === id)
-      )
-    }
-  },
   computed: {
     projects() {
       return this.$store.state.projectsData
@@ -91,7 +82,15 @@ export default {
         this.newList = results
       })
     }
-  }
+  },
+  methods: {
+    sentInfo(id) {
+      this.$store.commit(
+        'SET_CURRENTPROJECT',
+        this.projects.find(project => project.id === id)
+      )
+    }
+  },
 }
 </script>
 
