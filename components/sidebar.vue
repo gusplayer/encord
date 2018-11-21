@@ -19,25 +19,26 @@
       </div>
       <div class="content">
         <ul class="list">
-          <nuxt-link to="/dashboard">
+          <indicator :height="40" :position="indicatorPosition" :unbalance="35"/>
+          <nuxt-link to="/dashboard" @click.native="selectItemByList(0)">
             <li class="list-item">
               <i class="icon-047-house-sketch"></i>
               <p :class="classActive">Cotizar Proyectos</p>
             </li>
           </nuxt-link>
-          <nuxt-link to="/dashboard/report/reports">
+          <nuxt-link to="/dashboard/report/reports" @click.native="selectItemByList(1)">
             <li class="list-item">
               <i class="icon-file-1"></i>
               <p :class="classActive">Crear Informe</p>
             </li>
           </nuxt-link>
-          <nuxt-link to="/dashboard/customers">
+          <nuxt-link to="/dashboard/customers" @click.native="selectItemByList(2)">
             <li class="list-item">
               <i class="icon-folder-14"></i>
               <p :class="classActive">Clientes</p>
             </li>
           </nuxt-link>
-          <nuxt-link to="/dashboard/contract/list-contracts">
+          <nuxt-link to="/dashboard/contract/list-contracts" @click.native="selectItemByList(3)">
             <li class="list-item">
               <i class="icon-diploma"></i>
               <p :class="classActive">Contratos</p>
@@ -47,7 +48,6 @@
             <i class="icon-049-wallet"></i>
             <p :class="classActive">Pagar</p>
           </li>
-          <div class="line-select"></div>
         </ul>
         <div class="line"></div>
       </div>
@@ -64,10 +64,13 @@
 </template>
 
 <script>
+import indicator from '@/components/indicator'
 export default {
+  components: {indicator},
   data() {
     return {
       alter: true,
+      indicatorPosition: 0,
       classActive: {
         alterClass: true
       },
@@ -92,6 +95,12 @@ export default {
         'btn-deploy-collapse'
       ]
     },
+    setInitialIndicatorPosition () {
+      this.indicatorPosition = parseInt(document.querySelector('.router-link-active').dataset.index)
+    },
+    selectItemByList(index) {
+      this.indicatorPosition = index;
+    },
     // async logout() {
     //   try {
     //     await this.$store.dispatch('logout')
@@ -100,8 +109,8 @@ export default {
     //   }
     // }
     async logout() {
-      await this.$auth.logout()
-      // location.href = `${window.location.origin}/auth/login`
+      await this.$auth.logout();
+      console.log(this.$auth.loggedIn)
     }
   }
 }
@@ -230,14 +239,6 @@ li i {
 .list-item:first-child i {
   /* color: #98c253; */
   font-weight: 400;
-}
-.line-select {
-  width: 3px;
-  height: 45px;
-  background-color: #98c253;
-  position: absolute;
-  left: 0;
-  top: 0;
 }
 .btn-logout {
   transition: all ease 0.5s;

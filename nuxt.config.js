@@ -30,14 +30,11 @@ module.exports = {
   loading: { color: '#3B8470' },
   modules: ['@nuxtjs/axios', '@nuxtjs/auth'],
   axios: {
-    baseURL: 'http://administrador.app-encord.com'
+    baseURL: 'https://administrador.app-encord.com'
   },
   auth: {
     redirect: {
-      login: '/auth/login',
-      logout: '/auth/login',
-      callback: '/dashboard',
-      home: '/dashboard'
+      logout: '/login'
     },
     strategies: {
       local: {
@@ -45,11 +42,17 @@ module.exports = {
           login: {
             url: '/oauth/token',
             method: 'post',
-            propertyName: 'token.access_token'
+            propertyName: 'access_token'
           },
-          user: false,
-          logout: { url: 'logout', method: 'post' }
-        }
+          user: {
+            url: '/api/data',
+            method: 'get',
+            propertyName: 'data'
+          },
+          logout: false
+        },
+        tokenRequired: true,
+        tokenType: 'Bearer'
       }
     }
   },
@@ -86,9 +89,5 @@ module.exports = {
     '~/plugins/swiper.js',
     '~/plugins/vue2-frappe.js',
     '~/plugins/vee-validate.js'
-    // '~plugins/mixins/user.js'
-  ],
-  router: {
-    middleware: ['auth']
-  }
+  ]
 };
