@@ -6,7 +6,7 @@
         <h2>
           <nuxt-link :to="`/dashboard/${$route.params.project}`">Aria Condominio </nuxt-link>-
           <nuxt-link :to="`/dashboard/${$route.params.project}/quotation`"> Cotizar </nuxt-link>-
-          <nuxt-link :to="`/dashboard/${$route.params.project}/quotation/${$route.params.apartment}`"> Acabados </nuxt-link>
+          <nuxt-link :to="$route.path"> Acabados </nuxt-link>
           <!-- <a>/{{ $route.params.id }}</a> -->
         </h2>
         <div class="num-apartment">{{numApartment}}</div>
@@ -15,14 +15,35 @@
         <!-- <div class="total">Total: $505.200.000</div> -->
         <template>
           <swiper :options="swiperOption" ref="mySwiper">
-            <swiper-slide>
-              <bathrooms @change="selectImagen" @selected="saveAcabado($event, 0)"/>
+            <swiper-slide v-if="bathrooms.length">
+              <Section
+                @change="selectImagen"
+                title="Acabados de Baños"
+                :data="bathrooms"
+                @selected="saveFinish($event, 0)"
+              />
             </swiper-slide>
-            <swiper-slide>
-              <floors @change="selectImagen" @selected="saveAcabado($event, 1)"/>
+            <swiper-slide v-if="floors.length">
+              <Section
+                @change="selectImagen"
+                title="Acabados de Pisos"
+                :data="floors"
+                @selected="saveFinish($event, 1)"
+              />
+            </swiper-slide>
+            <swiper-slide v-if="kitchens.length">
+              <Section
+                @change="selectImagen"
+                title="Acabados de Cocina"
+                :data="kitchens"
+                @selected="saveFinish($event, 2)"
+              />
             </swiper-slide>
           </swiper>
-          <div class="tag"> <span class="bold">Valor Total: </span><span class="total">{{ total | formatPrice }}</span></div>
+          <div class="container">
+            <div class="tag"> <span class="bold">Valor Total: </span><span class="total">{{ total | formatPrice }}</span></div>
+            <nuxt-link @click.native="saveFinishes" class="btn_link" :to="`/dashboard/${$route.params.project}/quotation/result`">Siguiente <i class="icon-right-open-big"></i></nuxt-link>
+          </div>
           <modal v-if="showModal" @close="showModal = false">
             <h3 slot="header">custom header</h3>
             <img class="img_modal" slot="body" :src="img" alt="">
@@ -35,15 +56,13 @@
 
 <script>
 import Card from '~/components/card'
-import Bathrooms from '~/components/section-bathrooms'
-import Floors from '~/components/section-floors'
+import Section from '~/components/finishes-section'
 import Modal from '~/components/modal'
 export default {
   components: {
     Card,
-    Bathrooms,
     Modal,
-    Floors
+    Section
   },
   computed: {
     showModal: {
@@ -60,14 +79,23 @@ export default {
     currentUnit() {
       return this.$store.state.currentUnit
     },
+    bathrooms() {
+      return this.currentUnit.acabados.filter(finish => finish.tipos_acabados.grupos_acabados_id === 7)
+    },
+    floors() {
+      return this.currentUnit.acabados.filter(finish => finish.tipos_acabados.grupos_acabados_id === 6)
+    },
+    kitchens() {
+      return this.currentUnit.acabados.filter(finish => finish.tipos_acabados.grupos_acabados_id === 5)
+    },
     total() {
-      return this.acabados.reduce((total, acabado) => { return total + parseInt(acabado.precio)}, 0) + parseInt(this.currentUnit.valor) || 0
+      return this.finishes.reduce((total, finish) => { return total + parseInt(finish.valor)}, 0) + parseInt(this.currentUnit.valor) || 0
     }
   },
   data() {
     return {
       img: '',
-      acabados: [],
+      finishes: [],
       swiperOption: {
         slidesPerView: 1,
         spaceBetween: 30,
@@ -84,8 +112,11 @@ export default {
     selectImagen(value) {
       this.img = value
     },
-    saveAcabado(item, index) {
-      this.acabados.splice(index, 1, item)
+    saveFinish(item, index) {
+      this.finishes.splice(index, 1, item)
+    },
+    saveFinishes() {
+      this.$store.commit('SET_CURRENTFINISHES', this.finishes)
     }
   },
   filters: {
@@ -103,8 +134,7 @@ export default {
 <style scoped>
 a {
   text-decoration: none;
-  color: #aaa;
-  font-size: 18px;
+  color: #98c253;
 }
 .apartment {
   background-color: #eee;
@@ -125,7 +155,6 @@ h4 {
 }
 .container {
   display: flex;
-  font-family: 'Dosis', Helvetica, Arial, sans-serif;
 }
 .col {
   min-height: 315px;
@@ -222,6 +251,23 @@ li {
   font-weight: 600;
   font-size: 20px;
   margin-right: 10px;
+}
+.btn_link {
+  width: 120px;
+  align-self: flex-end;
+  cursor: pointer;
+  margin: 20px 30px 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.btn_link > i {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: flex-end;
+  padding-left: 10px;
 }
 </style>
 

@@ -1,14 +1,14 @@
 <template>
   <div class="section_two">
-    <h3 class="subhead">Acabados de Pisos</h3>
+    <h3 class="subhead">{{ title }}</h3>
     <div class="container_cards">
       <div v-for="(item, index) in data" :key="index" class="card_bathroom" :class="{card_select: card == index}">
-        <h4 class="name">Opción Uno</h4>
+        <h4 class="name">{{ item.tipos_acabados.nombre }}</h4>
         <div @click="changeImagen" class="container_img">
-          <img :src="img" alt="">
+          <img :src="`https://administrador.app-encord.com/imagenes_tipos_acabados/${item.tipos_acabados.imagen}`" :alt="item.tipos_acabados.nombre">
         </div>
         <div class="footer_card">
-          <div class="price">{{ item.precio | formatPrice }}</div>
+          <div class="price">{{ item.valor | formatPrice }}</div>
         </div>
         <div @click="selectCard({item, index})" class="plus">+</div>
       </div>
@@ -18,6 +18,7 @@
 
 <script>
 export default {
+  props: ['title', 'data'],
   computed: {
     showModal: {
       get() {
@@ -30,40 +31,7 @@ export default {
   },
   data() {
     return {
-      data: [
-        {
-          nombre: 'Opción Uno',
-          precio: '2500000',
-          foto: require('../assets/pisos/1.jpg')
-        },
-        {
-          nombre: 'Opción Dos',
-          precio: '1500000',
-          foto: require('../assets/pisos/1.jpg')
-        },
-        {
-          nombre: 'Opción Tres',
-          precio: '800000',
-          foto: require('../assets/pisos/1.jpg')
-        },
-        {
-          nombre: 'Opción Cuatro',
-          precio: '1890000',
-          foto: require('../assets/pisos/1.jpg')
-        },
-        {
-          nombre: 'Opción Cinco',
-          precio: '4860000',
-          foto: require('../assets/pisos/1.jpg')
-        },
-        {
-          nombre: 'Opción Seis',
-          precio: '2500000',
-          foto: require('../assets/pisos/1.jpg')
-        }
-      ],
-      card: 0,
-      img: require('../assets/pisos/1.jpg')
+      card: -1,
     }
   },
   methods: {

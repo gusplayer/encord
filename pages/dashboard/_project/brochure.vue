@@ -24,7 +24,7 @@ export default {
   },
   computed: {
     nameProject() {
-      return this.$store.state.sentInfo.nombre
+      return this.$store.state.currentProject.nombre
     }
   }
 }

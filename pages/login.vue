@@ -4,7 +4,7 @@
     <div class="line line2"></div>
     <div class="container">
       <div class="logo">
-        <img src="../../assets/logo.png" alt="">
+        <img src="../assets/logo.png" alt="">
       </div>
       <div class="grid">
         <div class="form login" submit.prevent="login">
@@ -48,15 +48,13 @@
 
 <script>
 export default {
+  middleware: 'guest',
   data() {
     return {
       email: '',
       password: '',
       error: null
     }
-  },
-  mounted() {
-    // console.log(this.$router)
   },
   computed: {
     url() {
@@ -80,7 +78,7 @@ export default {
           }
         })
         .then(response => {
-          console.log(response, 'Why?')
+          this.$router.push('/dashboard');
         })
       // this.$router.push('/dashboard')
     }
