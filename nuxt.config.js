@@ -84,7 +84,8 @@ module.exports = {
     '~/plugins/element-ui',
     '~/plugins/vue-signature',
     '~/plugins/swiper.js',
-    '~/plugins/vue2-frappe.js'
+    '~/plugins/vue2-frappe.js',
+    '~/plugins/vee-validate.js'
     // '~plugins/mixins/user.js'
   ],
   router: {

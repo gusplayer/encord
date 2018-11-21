@@ -112,3 +112,6 @@
 .info .el-radio {
   font-weight: 300;
 }
+.accion .el-date-editor--date .el-input__inner {
+  background-color: rgb(248, 250, 255);
+}

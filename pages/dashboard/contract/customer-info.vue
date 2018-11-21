@@ -59,7 +59,7 @@
           <el-col :span="12">
             <div class="grid-content">
               <el-select v-model="flat" size="mini" placeholder="Unidad">
-                <el-option v-for="(item, index) in flats" :key="index" :label="item.piso" :value="item.piso">
+                <el-option v-for="(item, index) in flats" :key="index" :label="item.piso" :value="item.id">
                 </el-option>
               </el-select>
             </div>
@@ -332,7 +332,7 @@
         </el-row>
         <el-row class="background">
           <el-col :span="12">
-            <p class="item grid-content">Nùmero de Cuotas:</p>
+            <p class="item grid-content">Número de Cuotas:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
@@ -341,6 +341,16 @@
           </el-col>
         </el-row>
         <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Cuota:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <money class="inputClinte" v-model="quota" v-bind="money"></money>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
           <el-col :span="12">
             <p class="item grid-content">Fecha de inicio primera cuota:</p>
           </el-col>
@@ -351,7 +361,7 @@
             </div>
           </el-col>
         </el-row>
-        <el-row class="background">
+        <el-row>
           <el-col :span="12">
             <p class="item grid-content">Financiación:</p>
           </el-col>
@@ -383,6 +393,9 @@ export default {
     Card,
     Money
   },
+  created() {
+    this.$store.dispatch('GET_CUSTOMERS')
+  },
   data() {
     return {
       money: {
@@ -401,40 +414,8 @@ export default {
         precision: 0,
         masked: false
       },
-      customers: [
-        {
-          id: 1,
-          document: '123456789',
-          name: 'Camilo Diaz',
-          phone: '321654987',
-          address: 'Calle 15 # 8-45 Villavicencio'
-        },
-        {
-          id: 2,
-          document: '1127899999',
-          name: 'Diego Coy',
-          phone: '321789456',
-          address: 'Carrera 85 # 2-95 Bogota'
-        }
-      ],
       flats: [],
-      units: [
-        {
-          numero: '801',
-          valor: 260000000,
-          tipo_unidad: 'Apartamento'
-        },
-        {
-          numero: '802',
-          valor: 150000000,
-          tipo_unidad: 'Apartamento'
-        },
-        {
-          numero: '803',
-          valor: 130000000,
-          tipo_unidad: 'Apartamento'
-        }
-      ],
+      units: [],
       value: {},
       emptyProject: {
         nombre: '',
@@ -540,7 +521,7 @@ export default {
       contract: '',
       inputValue: '',
       inputInitialSeparation: '',
-      inputFee: '',
+      inputFee: ' ',
       initialFeePercentage: '',
       separationPercentage: '',
       paydayLimit: '',
@@ -598,6 +579,9 @@ export default {
     projects() {
       return this.$store.state.projectsData
     },
+    customers() {
+      return this.$store.state.customersData
+    },
     currentProject() {
       return (
         this.projects.find(project => project.nombre == this.value) ||
@@ -622,7 +606,7 @@ export default {
       )
     },
     totalValue() {
-      return this.total + this.currentUnit.price || 0
+      return this.total + parseInt(this.currentUnit.valor) || 0
     },
     separationValue() {
       return this.totalValue * (this.separationPercentage / 100)
@@ -638,17 +622,20 @@ export default {
     },
     financing() {
       return this.totalValue - this.initialFee
+    },
+    quota() {
+      return this.initialFee / this.inputFee || 0
     }
   },
   watch: {
     inputIdentification(value) {
-      const result = this.customers.find(customer => customer.document == value)
+      const result = this.customers.find(customer => customer.cedula == value)
       if (result) {
         this.getCostumer.id = result.id
-        this.getCostumer.document = result.document
-        this.getCostumer.name = result.name
-        this.getCostumer.phone = result.phone
-        this.getCostumer.address = result.address
+        this.getCostumer.document = result.cedula
+        this.getCostumer.name = result.nombre
+        this.getCostumer.phone = result.telefono
+        this.getCostumer.address = result.direccion
       } else {
         this.getCostumer.id = ''
         this.getCostumer.document = ''
@@ -662,6 +649,10 @@ export default {
       if (result) {
         this.getDataProject(result.id)
       }
+    },
+    flat(value) {
+      this.getUnits(value)
+      this.unitNumber = ''
     }
   },
   methods: {
@@ -671,16 +662,24 @@ export default {
         project: this.currentProject
       }
       this.$router.push('/dashboard/contract/contract')
+      this.dataContract()
+      this.sentData()
+    },
+    sentData() {
+      this.$store.commit('SET_DATACONTRACT', this.formContract)
     },
     dataContract() {
       this.formContract.project.name = this.currentProject.nombre
       this.formContract.project.city = this.currentProject.ubicacion
       this.formContract.unit.numUnit = this.unitNumber
-      this.formContract.unit.price = this.currentUnit.valor
+      this.formContract.unit.price = parseInt(this.currentUnit.valor)
       this.formContract.unit.typeUnit = this.currentUnit.tipo_unidad
+      this.formContract.finishes.total = parseInt(this.total)
+      this.formContract.payment.numQuotas = this.inputFee
+      this.formContract.payment.costQuota = this.initialFee
+      this.formContract.payment.total = parseInt(this.totalValue)
     },
     getDataProject(id) {
-      console.log('entró')
       const config = {
         headers: {
           Authorization:
@@ -709,6 +708,28 @@ export default {
         })
         .catch(e => {
           console.log(e)
+        })
+    },
+    getUnits(flat) {
+      const config = {
+        headers: {
+          Authorization:
+            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjEzM2U2YWU4MDVjMTM4YTlkZmVhZjYwNzQyNWE4NDU5YjE3YjE0NGRlNjA2Mzk5MDE1NjQ0YTMwNjlmMTI2YWU3NmZhOGQxOWIyYzU5YzY4In0.eyJhdWQiOiIyIiwianRpIjoiMTMzZTZhZTgwNWMxMzhhOWRmZWFmNjA3NDI1YTg0NTliMTdiMTQ0ZGU2MDYzOTkwMTU2NDRhMzA2OWYxMjZhZTc2ZmE4ZDE5YjJjNTljNjgiLCJpYXQiOjE1NDIyOTM1NzgsIm5iZiI6MTU0MjI5MzU3OCwiZXhwIjoxNTQzNTg5NTc3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.k9M0E6XuYlVB-BlsgMO2DOwF6Jt-R4mAWgKOsj_0GdUwjIjJC3we1Fs2q2HkqKlpcIUeuU2UQ7lQPKWyLX1sspxJVIo0hrn_qhs2cafyTqKnFlq5ofQB9F79Mi0NwhHAfS-7IcSGS25c22ER4SMdAqNTeg44oei79xYISCFBUOsmzV690n7r83bG8NI4lS7qmnrzmogQu2dzx4GF6rzFzKzmUxedTAIPz2I9Wdk2JvSqgKEZtrJ6MOfwFiaJvnJfLo_cpMXTZ06MFi4R-VwfV87t_t678IU6ACZ08nwV5pGTPfDbBV6-SF--uW_u6128tcnFqhT05Q336EVhCjhoNRbY34BEh3lot3y3Pio-areh1bYQA_XcUfAbkqgnFvEfMK3IQz9dTWj519o1UqLnE0y6gPOLjJwLYGQejwFUnWsi-4jMyDvZA_gwsNqrkutPSMAc_DVQ-acoRj0ybzVcXmwyhzlQJoJbKaDhTKpL_sMdJbi1c7FvDSpnlEue0aba1bhGZn_DIO61iNQRyZtinvUULgJWHUh8ICfYzRfVnN4BVswc9XUTF_elkOuF1Y4_H6iY9eI45Ca95mjks8xevo7CdQl5gDaIBBJrZFsdKkhiAI6NiaHeS3LUQ4trNAOUeRXV0ogI-fGP5UG5GpfSJ6JvFasA3ta8o5xC7pfV2TM',
+          'content-type': 'application/json',
+          Accept: 'application/json',
+          'Access-Control-Allow-Credentials': true,
+          'Access-Control-Allow-Origin': true
+        }
+      }
+      axios
+        .get(
+          `http://administrador.app-encord.com/api/pisos/${flat}/unidades`,
+          config
+        )
+        .then(response => {
+          this.units = response.data.data.sort(
+            (a, b) => parseInt(a.numero) - parseInt(b.numero)
+          )
         })
     }
   },
