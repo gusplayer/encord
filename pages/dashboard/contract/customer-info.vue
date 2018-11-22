@@ -59,7 +59,7 @@
           <el-col :span="12">
             <div class="grid-content">
               <el-select v-model="flat" size="mini" placeholder="Unidad">
-                <el-option v-for="(item, index) in flats" :key="index" :label="item.piso" :value="item.id">
+                <el-option v-for="(item, index) in sentFlats" :key="index" :label="item.piso" :value="item.id">
                 </el-option>
               </el-select>
             </div>
@@ -72,7 +72,7 @@
           <el-col :span="12">
             <div class="grid-content">
               <el-select v-model="unitNumber" size="mini" placeholder="Unidad">
-                <el-option v-for="(item, index) in units" :key="index" :label="item.numero" :value="item.numero">
+                <el-option v-for="(item, index) in sentUnits" :key="index" :label="item.numero" :value="item.numero">
                 </el-option>
               </el-select>
             </div>
@@ -114,7 +114,7 @@
           <el-col :span="12">
             <div class="grid-content">
               <el-select v-model="typeFloor" size="mini" placeholder="Tipo de piso">
-                <el-option v-for="(item, index) in acabados.floor" :key="index" :label="item.name" :value="item.price">
+                <el-option v-for="(item, index) in floors" :key="index" :label="item.tipos_acabados.nombre" :value="item.valor">
                 </el-option>
               </el-select>
             </div>
@@ -127,7 +127,7 @@
           <el-col :span="12">
             <div class="grid-content">
               <el-select v-model="typeBathroom" size="mini" placeholder="Tipo de piso">
-                <el-option v-for="(item, index) in acabados.bathroom" :key="index" :label="item.name" :value="item.price">
+                <el-option v-for="(item, index) in bathrooms" :key="index" :label="item.tipos_acabados.nombre" :value="item.valor">
                 </el-option>
               </el-select>
             </div>
@@ -140,7 +140,7 @@
           <el-col :span="12">
             <div class="grid-content">
               <el-select v-model="typeKitchen" size="mini" placeholder="Tipo de cocina">
-                <el-option v-for="(item, index) in acabados.kitchen" :key="index" :label="item.name" :value="item.price">
+                <el-option v-for="(item, index) in kitchens" :key="index" :label="item.tipos_acabados.nombre" :value="item.valor">
                 </el-option>
               </el-select>
             </div>
@@ -414,8 +414,6 @@ export default {
         precision: 0,
         masked: false
       },
-      flats: [],
-      units: [],
       value: {},
       emptyProject: {
         nombre: '',
@@ -579,6 +577,12 @@ export default {
     projects() {
       return this.$store.state.projectsData
     },
+    sentFlats() {
+      return this.$store.state.sentFlats
+    },
+    sentUnits() {
+      return this.$store.state.apartments
+    },
     customers() {
       return this.$store.state.customersData
     },
@@ -590,9 +594,30 @@ export default {
     },
     currentUnit() {
       return (
-        this.units.find(unit => unit.numero == this.unitNumber) ||
+        this.sentUnits.find(unit => unit.numero == this.unitNumber) ||
         this.emptyUnit
       )
+    },
+    bathrooms() {
+      if (this.currentUnit.acabados) {
+        return this.currentUnit.acabados.filter(
+          finish => finish.tipos_acabados.grupos_acabados_id === 7
+        )
+      }
+    },
+    floors() {
+      if (this.currentUnit.acabados) {
+        return this.currentUnit.acabados.filter(
+          finish => finish.tipos_acabados.grupos_acabados_id === 6
+        )
+      }
+    },
+    kitchens() {
+      if (this.currentUnit.acabados) {
+        return this.currentUnit.acabados.filter(
+          finish => finish.tipos_acabados.grupos_acabados_id === 5
+        )
+      }
     },
     domoticaPrice() {
       return this.checkDomotica ? this.acabados.domotica : 0
@@ -680,57 +705,10 @@ export default {
       this.formContract.payment.total = parseInt(this.totalValue)
     },
     getDataProject(id) {
-      const config = {
-        headers: {
-          Authorization:
-            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjEzM2U2YWU4MDVjMTM4YTlkZmVhZjYwNzQyNWE4NDU5YjE3YjE0NGRlNjA2Mzk5MDE1NjQ0YTMwNjlmMTI2YWU3NmZhOGQxOWIyYzU5YzY4In0.eyJhdWQiOiIyIiwianRpIjoiMTMzZTZhZTgwNWMxMzhhOWRmZWFmNjA3NDI1YTg0NTliMTdiMTQ0ZGU2MDYzOTkwMTU2NDRhMzA2OWYxMjZhZTc2ZmE4ZDE5YjJjNTljNjgiLCJpYXQiOjE1NDIyOTM1NzgsIm5iZiI6MTU0MjI5MzU3OCwiZXhwIjoxNTQzNTg5NTc3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.k9M0E6XuYlVB-BlsgMO2DOwF6Jt-R4mAWgKOsj_0GdUwjIjJC3we1Fs2q2HkqKlpcIUeuU2UQ7lQPKWyLX1sspxJVIo0hrn_qhs2cafyTqKnFlq5ofQB9F79Mi0NwhHAfS-7IcSGS25c22ER4SMdAqNTeg44oei79xYISCFBUOsmzV690n7r83bG8NI4lS7qmnrzmogQu2dzx4GF6rzFzKzmUxedTAIPz2I9Wdk2JvSqgKEZtrJ6MOfwFiaJvnJfLo_cpMXTZ06MFi4R-VwfV87t_t678IU6ACZ08nwV5pGTPfDbBV6-SF--uW_u6128tcnFqhT05Q336EVhCjhoNRbY34BEh3lot3y3Pio-areh1bYQA_XcUfAbkqgnFvEfMK3IQz9dTWj519o1UqLnE0y6gPOLjJwLYGQejwFUnWsi-4jMyDvZA_gwsNqrkutPSMAc_DVQ-acoRj0ybzVcXmwyhzlQJoJbKaDhTKpL_sMdJbi1c7FvDSpnlEue0aba1bhGZn_DIO61iNQRyZtinvUULgJWHUh8ICfYzRfVnN4BVswc9XUTF_elkOuF1Y4_H6iY9eI45Ca95mjks8xevo7CdQl5gDaIBBJrZFsdKkhiAI6NiaHeS3LUQ4trNAOUeRXV0ogI-fGP5UG5GpfSJ6JvFasA3ta8o5xC7pfV2TM',
-          'content-type': 'application/json',
-          Accept: 'application/json',
-          'Access-Control-Allow-Credentials': true,
-          'Access-Control-Allow-Origin': true
-        }
-      }
-      axios
-        .get(
-          `http://administrador.app-encord.com/api/proyectos/${id}/pisos`,
-          config
-        )
-        .then(response => {
-          this.flats = response.data.data.sort(
-            (a, b) => parseInt(a.piso) - parseInt(b.piso)
-          )
-          this.$store.commit(
-            'SET_SENTFLATS',
-            response.data.data.sort(
-              (a, b) => parseInt(a.piso) - parseInt(b.piso)
-            )
-          )
-        })
-        .catch(e => {
-          console.log(e)
-        })
+      this.$store.dispatch('GET_FLOORS', id)
     },
     getUnits(flat) {
-      const config = {
-        headers: {
-          Authorization:
-            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjEzM2U2YWU4MDVjMTM4YTlkZmVhZjYwNzQyNWE4NDU5YjE3YjE0NGRlNjA2Mzk5MDE1NjQ0YTMwNjlmMTI2YWU3NmZhOGQxOWIyYzU5YzY4In0.eyJhdWQiOiIyIiwianRpIjoiMTMzZTZhZTgwNWMxMzhhOWRmZWFmNjA3NDI1YTg0NTliMTdiMTQ0ZGU2MDYzOTkwMTU2NDRhMzA2OWYxMjZhZTc2ZmE4ZDE5YjJjNTljNjgiLCJpYXQiOjE1NDIyOTM1NzgsIm5iZiI6MTU0MjI5MzU3OCwiZXhwIjoxNTQzNTg5NTc3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.k9M0E6XuYlVB-BlsgMO2DOwF6Jt-R4mAWgKOsj_0GdUwjIjJC3we1Fs2q2HkqKlpcIUeuU2UQ7lQPKWyLX1sspxJVIo0hrn_qhs2cafyTqKnFlq5ofQB9F79Mi0NwhHAfS-7IcSGS25c22ER4SMdAqNTeg44oei79xYISCFBUOsmzV690n7r83bG8NI4lS7qmnrzmogQu2dzx4GF6rzFzKzmUxedTAIPz2I9Wdk2JvSqgKEZtrJ6MOfwFiaJvnJfLo_cpMXTZ06MFi4R-VwfV87t_t678IU6ACZ08nwV5pGTPfDbBV6-SF--uW_u6128tcnFqhT05Q336EVhCjhoNRbY34BEh3lot3y3Pio-areh1bYQA_XcUfAbkqgnFvEfMK3IQz9dTWj519o1UqLnE0y6gPOLjJwLYGQejwFUnWsi-4jMyDvZA_gwsNqrkutPSMAc_DVQ-acoRj0ybzVcXmwyhzlQJoJbKaDhTKpL_sMdJbi1c7FvDSpnlEue0aba1bhGZn_DIO61iNQRyZtinvUULgJWHUh8ICfYzRfVnN4BVswc9XUTF_elkOuF1Y4_H6iY9eI45Ca95mjks8xevo7CdQl5gDaIBBJrZFsdKkhiAI6NiaHeS3LUQ4trNAOUeRXV0ogI-fGP5UG5GpfSJ6JvFasA3ta8o5xC7pfV2TM',
-          'content-type': 'application/json',
-          Accept: 'application/json',
-          'Access-Control-Allow-Credentials': true,
-          'Access-Control-Allow-Origin': true
-        }
-      }
-      axios
-        .get(
-          `http://administrador.app-encord.com/api/pisos/${flat}/unidades`,
-          config
-        )
-        .then(response => {
-          this.units = response.data.data.sort(
-            (a, b) => parseInt(a.numero) - parseInt(b.numero)
-          )
-        })
+      this.$store.dispatch('GET_UNITS', flat)
     }
   },
   filters: {

@@ -117,7 +117,12 @@ export default {
         `${state.axiosUrl}/api/pisos/${id}/unidades`,
         state.axiosConfig
       )
-      commit('SET_APARTMENTS', response.data.data)
+      commit(
+        'SET_APARTMENTS',
+        response.data.data.sort(
+          (a, b) => parseInt(a.numero) - parseInt(b.numero)
+        )
+      )
     },
     GET_CUSTOMERS({ state, commit }) {
       axios
