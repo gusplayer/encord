@@ -93,9 +93,6 @@ export default {
     },
     dataContract() {
       return this.$store.state.dataContract
-    },
-    typesContractsData() {
-      return this.$store.state.typesContractsData
     }
   },
   watch: {

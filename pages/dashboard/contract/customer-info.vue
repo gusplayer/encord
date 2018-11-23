@@ -245,7 +245,7 @@
           <el-col :span="12">
             <div class="grid-content">
               <el-select v-model="contract" size="mini" placeholder="Contratos">
-                <el-option v-for="(item, index) in typesContractsData" :key="index" :label="item.titulo" :value="item">
+                <el-option v-for="(item, index) in typesContractsData" :key="index" :label="item.titulo" :value="item.id">
                 </el-option>
               </el-select>
             </div>
