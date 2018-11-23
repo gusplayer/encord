@@ -43,15 +43,48 @@ export default {
   },
   created() {
     this.setContract(
-      '<h2>Contrato de compra</h2><p>Lorem %name% dolor, sit amet consectetur adipisicing elit. Hic ab doloribus %document% libero, tenetur eveniet aliquam. Distinctio quae veniam consequuntur, incidunt, %area% quaerat odio reprehenderit molestias tenetur laborum atque eos.</p><p>Lorem ipsum dolor, sit amet consectetur %precio% elit. Hic ab doloribus praesentium libero, tenetur eveniet aliquam. Distinctio quae veniam consequuntur, incidunt, dolorum quaerat odio reprehenderit molestias tenetur laborum atque eos.</p>'
+      `<h2>Contrato de compra</h2>
+      <p>Lorem %name% dolor, sit amet consectetur adipisicing elit. Hic ab doloribus %document% libero, 
+      tenetur eveniet aliquam. Distinctio quae veniam consequuntur, incidunt, %area% quaerat odio
+      reprehenderit molestias tenetur laborum atque eos.</p><p>Lorem ipsum dolor, sit amet consectetur 
+      %precio% elit. Hic ab doloribus praesentium libero, tenetur eveniet aliquam. Distinctio quae veniam 
+      consequuntur, incidunt, dolorum quaerat odio reprehenderit molestias tenetur laborum atque eos.</p>
+      
+      <h2>Contrato de compra</h2>
+      <p>Lorem %name% dolor, sit amet consectetur adipisicing elit. Hic ab doloribus %document% libero, 
+      tenetur eveniet aliquam. Distinctio quae veniam consequuntur, incidunt, %area% quaerat odio
+      reprehenderit molestias tenetur laborum atque eos.</p><p>Lorem ipsum dolor, sit amet consectetur 
+      %precio% elit. Hic ab doloribus praesentium libero, tenetur eveniet aliquam. Distinctio quae veniam 
+      consequuntur, incidunt, dolorum quaerat odio reprehenderit molestias tenetur laborum atque eos.</p>
+
+      <h2>Contrato de compra</h2>
+      <p>Lorem %name% dolor, sit amet consectetur adipisicing elit. Hic ab doloribus %document% libero, 
+      tenetur eveniet aliquam. Distinctio quae veniam consequuntur, incidunt, %area% quaerat odio
+      reprehenderit molestias tenetur laborum atque eos.</p><p>Lorem ipsum dolor, sit amet consectetur 
+      %precio% elit. Hic ab doloribus praesentium libero, tenetur eveniet aliquam. Distinctio quae veniam 
+      consequuntur, incidunt, dolorum quaerat odio reprehenderit molestias tenetur laborum atque eos.</p>
+
+      <h2>Contrato de compra</h2>
+      <p>Lorem %name% dolor, sit amet consectetur adipisicing elit. Hic ab doloribus %document% libero, 
+      tenetur eveniet aliquam. Distinctio quae veniam consequuntur, incidunt, %area% quaerat odio
+      reprehenderit molestias tenetur laborum atque eos.</p><p>Lorem ipsum dolor, sit amet consectetur 
+      %precio% elit. Hic ab doloribus praesentium libero, tenetur eveniet aliquam. Distinctio quae veniam 
+      consequuntur, incidunt, dolorum quaerat odio reprehenderit molestias tenetur laborum atque eos.</p>
+
+      <h2>Contrato de compra</h2>
+      <p>Lorem %name% dolor, sit amet consectetur adipisicing elit. Hic ab doloribus %document% libero, 
+      tenetur eveniet aliquam. Distinctio quae veniam consequuntur, incidunt, %area% quaerat odio
+      reprehenderit molestias tenetur laborum atque eos.</p><p>Lorem ipsum dolor, sit amet consectetur 
+      %precio% elit. Hic ab doloribus praesentium libero, tenetur eveniet aliquam. Distinctio quae veniam 
+      consequuntur, incidunt, dolorum quaerat odio reprehenderit molestias tenetur laborum atque eos.</p>
+      `
     )
     this.$store.state.dataContract
   },
   data() {
     return {
       contract: '',
-      name: '',
-
+      name: ''
     }
   },
   computed: {
@@ -60,6 +93,9 @@ export default {
     },
     dataContract() {
       return this.$store.state.dataContract
+    },
+    typesContractsData() {
+      return this.$store.state.typesContractsData
     }
   },
   watch: {
@@ -97,14 +133,14 @@ export default {
       canvas(document.getElementById('pdf', { width: 100, height: 300 })).then(
         result => {
           let pdfName = 'test'
-          var doc = new jsPDF('p', 'pt', 'a4', true)
+          var doc = new jsPDF('p', 'pt', 'letter', true)
           // doc.addImage(result.toDataURL('image/png'), 'PNG', 55, 55)
           doc.addImage(
             result,
-            'PNG',
+            'JPG',
             40,
             40,
-            520,
+            522,
             document.getElementById('pdf').clientHeight - 80,
             '',
             'FAST'
@@ -126,7 +162,7 @@ export default {
       this.$refs.signaturePad.clearSignature()
     }
   },
-   filters: {
+  filters: {
     formatNum(value) {
       if (value) {
         return `$${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`
@@ -141,8 +177,11 @@ export default {
   background-color: #eee;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+  padding: 40px 0px;
   height: 100vh;
+  overflow: auto;
 }
 a {
   text-decoration: none;
@@ -182,12 +221,6 @@ h2 span {
   margin-top: 50px;
   border: 1px solid #eee;
   border-bottom: 2px solid #ccc;
-  /* border: double 3px transparent;
-  border-radius: 5px;
-  background-image: linear-gradient(white, white),
-    radial-gradient(circle at top left, #4bc5e8, #9f6274);
-  background-origin: border-box;
-  background-clip: content-box, border-box; */
 }
 .infoContract {
   margin-bottom: 10px;
@@ -198,5 +231,11 @@ h2 span {
 p {
   color: rgba(67, 71, 87, 0.796);
   line-height: 1.4;
+}
+@media print {
+  .section {
+    /* display: none; */
+    max-width: 100%;
+  }
 }
 </style>

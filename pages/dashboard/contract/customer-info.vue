@@ -245,7 +245,7 @@
           <el-col :span="12">
             <div class="grid-content">
               <el-select v-model="contract" size="mini" placeholder="Contratos">
-                <el-option v-for="(item, index) in contracts" :key="index" :label="item" :value="item">
+                <el-option v-for="(item, index) in typesContractsData" :key="index" :label="item.titulo" :value="item">
                 </el-option>
               </el-select>
             </div>
@@ -395,6 +395,7 @@ export default {
   },
   created() {
     this.$store.dispatch('GET_CUSTOMERS')
+    this.$store.dispatch('GET_TYPESCONTRACTS')
   },
   data() {
     return {
@@ -453,70 +454,12 @@ export default {
         'ID Extranjero',
         'Tarjeta  de Identidad'
       ],
-      acabados: {
-        floor: [
-          {
-            name: 'Ninguno',
-            price: 0
-          },
-          {
-            name: 'Madera',
-            price: 2000000
-          },
-          {
-            name: 'Laminados',
-            price: 3000000
-          },
-          {
-            name: 'Porcelanato',
-            price: 4000000
-          }
-        ],
-        kitchen: [
-          {
-            name: 'Ninguno',
-            price: 0
-          },
-          {
-            name: 'Cocina 1',
-            price: 2000000
-          },
-          {
-            name: 'Cocina 2',
-            price: 3000000
-          },
-          {
-            name: 'Cocina 3',
-            price: 4000000
-          }
-        ],
-        bathroom: [
-          {
-            name: 'Ninguno',
-            price: 0
-          },
-          {
-            name: 'Baño 1',
-            price: 2000000
-          },
-          {
-            name: 'Baño 2',
-            price: 3000000
-          },
-          {
-            name: 'Baño 3',
-            price: 4000000
-          }
-        ],
-        domotica: 8000000
-      },
-      // total: 0,
       contracts: [
         'Fiduciario',
         'Promesa de compraventa',
         'En separación (10%)'
       ],
-      contract: '',
+      contract: {},
       inputValue: '',
       inputInitialSeparation: '',
       inputFee: ' ',
@@ -536,15 +479,20 @@ export default {
           city: ''
         },
         unit: {
+          flat: '',
           numUnit: '',
           price: '',
           typeUnit: ''
         },
         finishes: {
           floor: '',
+          floorPrice: 0,
           bathroom: '',
+          bathroomPrice: 0,
           kitchen: '',
+          kitchenPrice: 0,
           domotica: '',
+          domoticaPrice: 0,
           total: 0
         },
         customer: {
@@ -619,8 +567,13 @@ export default {
         )
       }
     },
+    domotica() {
+      return this.currentUnit.acabados.filter(
+        finish => finish.tipos_acabados.grupos_acabados_id === 8
+      )
+    },
     domoticaPrice() {
-      return this.checkDomotica ? this.acabados.domotica : 0
+      return this.checkDomotica ? this.domotica[0].valor : 0
     },
     total() {
       return (
@@ -650,6 +603,9 @@ export default {
     },
     quota() {
       return this.initialFee / this.inputFee || 0
+    },
+    typesContractsData() {
+      return this.$store.state.typesContractsData
     }
   },
   watch: {
@@ -696,6 +652,7 @@ export default {
     dataContract() {
       this.formContract.project.name = this.currentProject.nombre
       this.formContract.project.city = this.currentProject.ubicacion
+      this.formContract.unit.flat = this.flat
       this.formContract.unit.numUnit = this.unitNumber
       this.formContract.unit.price = parseInt(this.currentUnit.valor)
       this.formContract.unit.typeUnit = this.currentUnit.tipo_unidad

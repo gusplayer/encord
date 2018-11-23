@@ -19,7 +19,7 @@
       </div>
       <div class="content">
         <ul class="list">
-          <indicator :height="40" :position="indicatorPosition" :unbalance="35"/>
+          <indicator :height="40" :position="indicatorPosition" :unbalance="35" />
           <nuxt-link to="/dashboard" @click.native="selectItemByList(0)">
             <li class="list-item">
               <i class="icon-047-house-sketch"></i>
@@ -66,7 +66,7 @@
 <script>
 import indicator from '@/components/indicator'
 export default {
-  components: {indicator},
+  components: { indicator },
   data() {
     return {
       alter: true,
@@ -95,11 +95,13 @@ export default {
         'btn-deploy-collapse'
       ]
     },
-    setInitialIndicatorPosition () {
-      this.indicatorPosition = parseInt(document.querySelector('.router-link-active').dataset.index)
+    setInitialIndicatorPosition() {
+      this.indicatorPosition = parseInt(
+        document.querySelector('.router-link-active').dataset.index
+      )
     },
     selectItemByList(index) {
-      this.indicatorPosition = index;
+      this.indicatorPosition = index
     },
     // async logout() {
     //   try {
@@ -109,7 +111,7 @@ export default {
     //   }
     // }
     async logout() {
-      await this.$auth.logout();
+      await this.$auth.logout()
       console.log(this.$auth.loggedIn)
     }
   }
@@ -117,6 +119,11 @@ export default {
 </script>
 
 <style scoped>
+@media print {
+  .sidebar {
+    display: none;
+  }
+}
 a {
   text-decoration: none;
 }
