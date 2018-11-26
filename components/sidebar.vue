@@ -8,7 +8,7 @@
         </div>
         <div class="content-user">
           <div class="avatar">
-            <img src="../assets/avatar.jpg" alt="">
+            <img src="../assets/avatar.jpg" alt>
           </div>
           <div class="info-user">
             <h3 :class="classActive">Nombre Usuario</h3>
@@ -19,7 +19,7 @@
       </div>
       <div class="content">
         <ul class="list">
-          <indicator :height="40" :position="indicatorPosition" :unbalance="35" />
+          <indicator :height="40" :position="indicatorPosition" :unbalance="35"/>
           <nuxt-link to="/dashboard" @click.native="selectItemByList(0)">
             <li class="list-item">
               <i class="icon-047-house-sketch"></i>
