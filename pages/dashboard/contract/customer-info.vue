@@ -454,12 +454,7 @@ export default {
         'ID Extranjero',
         'Tarjeta  de Identidad'
       ],
-      contracts: [
-        'Fiduciario',
-        'Promesa de compraventa',
-        'En separación (10%)'
-      ],
-      contract: {},
+      contract: '',
       inputValue: '',
       inputInitialSeparation: '',
       inputFee: ' ',
@@ -503,12 +498,13 @@ export default {
           address: ''
         },
         setApart: {
-          typeContract: '',
+          // typeContract: '',
           percent: 0,
           cost: 0,
           initial: 0,
           residue: 0,
-          date: ''
+          date: '',
+          contract: {}
         },
         payment: {
           percentQuota: 0,
@@ -606,6 +602,11 @@ export default {
     },
     typesContractsData() {
       return this.$store.state.typesContractsData
+    },
+    currentContract() {
+      return this.typesContractsData.find(contract => {
+        return contract.id == this.contract
+      })
     }
   },
   watch: {
@@ -657,6 +658,7 @@ export default {
       this.formContract.unit.price = parseInt(this.currentUnit.valor)
       this.formContract.unit.typeUnit = this.currentUnit.tipo_unidad
       this.formContract.finishes.total = parseInt(this.total)
+      this.formContract.setApart.contract
       this.formContract.payment.numQuotas = this.inputFee
       this.formContract.payment.costQuota = this.initialFee
       this.formContract.payment.total = parseInt(this.totalValue)
