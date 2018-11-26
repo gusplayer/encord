@@ -42,7 +42,7 @@
           </swiper>
           <div class="container">
             <div class="tag"> <span class="bold">Valor Total: </span><span class="total">{{ total | formatPrice }}</span></div>
-            <nuxt-link @click.native="saveFinishes" class="btn_link" :to="`/dashboard/${$route.params.project}/quotation/result`">Siguiente <i class="icon-right-open-big"></i></nuxt-link>
+            <nuxt-link @click.native="saveFinishes" class="btn_link" :to="nextRoute">Siguiente <i class="icon-right-open-big"></i></nuxt-link>
           </div>
           <modal v-if="showModal" @close="showModal = false">
             <h3 slot="header">custom header</h3>
@@ -64,7 +64,29 @@ export default {
     Modal,
     Section
   },
+  created() {
+    this.ifExistProject()
+  },
+  data() {
+    return {
+      img: '',
+      finishes: [],
+      swiperOption: {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        mousewheel: true,
+        width: '600',
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        }
+      }
+    }
+  },
   computed: {
+    nextRoute() {
+      return `/dashboard/${this.$route.params.project}/quotation/result`
+    },
     showModal: {
       get() {
         return this.$store.state.showModal
@@ -72,6 +94,9 @@ export default {
       set(newValue) {
         this.$store.commit('CHANGE_MODAL_STATE', newValue)
       }
+    },
+    currentProject() {
+      return this.$store.state.currentProject
     },
     numApartment() {
       return this.$store.state.sentNum
@@ -92,22 +117,6 @@ export default {
       return this.finishes.reduce((total, finish) => { return total + parseInt(finish.valor)}, 0) + parseInt(this.currentUnit.valor) || 0
     }
   },
-  data() {
-    return {
-      img: '',
-      finishes: [],
-      swiperOption: {
-        slidesPerView: 1,
-        spaceBetween: 30,
-        mousewheel: true,
-        width: '600',
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true
-        }
-      }
-    }
-  },
   methods: {
     selectImagen(value) {
       this.img = value
@@ -117,6 +126,15 @@ export default {
     },
     saveFinishes() {
       this.$store.commit('SET_CURRENTFINISHES', this.finishes)
+    },
+    ifExistProject() {
+      if(!this.currentProject) {
+        this.$router.push('/dashboard')
+      } else {
+        if(!this.currentUnit.acabados.length) {
+          this.$router.push(this.nextRoute)
+        }
+      }
     }
   },
   filters: {

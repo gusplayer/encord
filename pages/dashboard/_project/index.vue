@@ -2,7 +2,7 @@
   <div class="index">
     <card>
       <div slot="header">
-        <h2>{{infoName}}</h2>
+        <h2>{{currentProject.nombre}}</h2>
       </div>
       <div slot="section" class="section">
         <div class="container">
@@ -17,9 +17,9 @@
                 </swiper-slide>
                 <swiper-slide>
                   <div class="info">
-                    <h3 class="title">{{infoName}}</h3>
-                    <p class="location">{{infoLocation}}</p>
-                    <p v-html="infoDescription" class="description"></p>
+                    <h3 class="title">{{currentProject.nombre}}</h3>
+                    <p class="location">{{currentProject.ubicacion}}</p>
+                    <p v-html="currentProject.descripcion" class="description"></p>
                   </div>
                 </swiper-slide>
               </swiper>
@@ -43,6 +43,9 @@ export default {
     ListCard,
     ImgCard
   },
+  created() {
+    this.ifExistProject()
+  },
   data() {
     return {
       swiperOption: {
@@ -58,14 +61,15 @@ export default {
     }
   },
   computed: {
-    infoDescription() {
-      return this.$store.state.currentProject.descripcion
-    },
-    infoLocation() {
-      return this.$store.state.currentProject.ubicacion
-    },
-    infoName() {
-      return this.$store.state.currentProject.nombre
+    currentProject() {
+      return this.$store.state.currentProject
+    }
+  },
+  methods: {
+    ifExistProject() {
+      if(!this.currentProject) {
+        this.$router.push('/dashboard')
+      }
     }
   }
 }

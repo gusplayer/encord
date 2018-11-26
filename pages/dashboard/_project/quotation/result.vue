@@ -1,9 +1,9 @@
 <template>
   <div class="result">
-    <card>
+    <card id="quotation">
       <template slot="header">
         <h2>
-          <nuxt-link :to="$route.path">Formulario de cotización</nuxt-link>
+          <nuxt-link :to="$route.path">Datos De La Cotización</nuxt-link>
           <!-- <span>/ Datos</span> -->
         </h2>
       </template>
@@ -94,14 +94,14 @@
         </el-row>
         <!-- Info Acabados -->
         <br>
-        <el-row>
+        <el-row v-if="currentFinishes.length">
           <el-col :span="12">
             <h3 class="grid-content">Acabados:</h3>
           </el-col>
           <el-col :span="7" :offset="5">
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="currentFinishes.length">
             <el-table
             :data="currentFinishes"
             style="width: 100%">
@@ -124,17 +124,20 @@
                 prop="tipos_acabados.imagen"
                 label="Foto">
                 <template slot-scope="scope">
-                  <img :src="`http://administrador.app-encord.com/imagenes_tipos_acabados/${scope.row.tipos_acabados.imagen}`">
+                  <!-- <img
+                    :src="`https://administrador.app-encord.com/imagenes_tipos_acabados/${scope.row.tipos_acabados.imagen}`"
+                    class="finish_image"
+                  > -->
                 </template>
             </el-table-column>
             </el-table>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <div class="tag"> <span class="bold">Valor Total: </span><span class="total"></span></div>
+            <div class="tag"> <span class="bold">Valor Total: </span><span class="total">{{ total | formatPrice }}</span></div>
           </el-col>
           <el-col :span="4" :offset="8">
-            <div class="btn-save">Guardar</div>
+            <div class="btn-save" @click="saveQuotation">Guardar</div>
           </el-col>
         </el-row>
       </div>
@@ -144,31 +147,19 @@
 
 <script>
 import Card from '@/components/card'
+import jsPDF from 'jspdf'
+import canvas from 'html2canvas'
+import domtoimage from 'dom-to-image';
 
 export default {
   components: {
     Card,
   },
+  created() {
+    
+  },
   data() {
-    return {
-        tableData: [{
-            date: '2016-05-03',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles'
-          }, {
-            date: '2016-05-02',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles'
-          }, {
-            date: '2016-05-04',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles'
-          }, {
-            date: '2016-05-01',
-            name: 'Tom',
-            address: 'No. 189, Grove St, Los Angeles'
-          }]
-    }
+    return {}
   },
   computed: {
     currentProject()  {
@@ -179,6 +170,9 @@ export default {
     },
     currentFinishes() {
       return this.$store.state.currentFinishes
+    },
+    total() {
+      return this.currentFinishes.reduce((total, finish) => { return total + parseInt(finish.valor)}, 0) + parseInt(this.currentUnit.valor) || 0
     }
   },
   methods: {
@@ -188,6 +182,30 @@ export default {
       } else {
         return '$0'
       }
+    },
+    saveQuotation() {
+      const canva = document.getElementById('quotation')
+      domtoimage.toPng(canva).then(
+        result => {
+          let img = new Image();
+          img.src = result;
+
+          let pdfName = 'test'
+          var doc = new jsPDF('p', 'pt', 'a4', true)
+          doc.addImage(
+            img,
+            'PNG',
+            0,
+            0,
+            600,
+            canva.clientHeight - 80,
+            '',
+            'FAST'
+          )
+          doc.save(pdfName + '.pdf')
+          this.$router.push(`/dashboard/report/reports`)
+        }
+      )
     }
   },
   filters: {
@@ -374,5 +392,9 @@ div.el-row .tag {
   font-weight: 600;
   font-size: 20px;
   margin-right: 10px;
+}
+.finish_image {
+  width: 125px;
+  height: 125px;
 }
 </style>

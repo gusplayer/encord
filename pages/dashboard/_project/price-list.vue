@@ -3,24 +3,33 @@
     <card>
       <template slot="header">
         <h2>
-          <nuxt-link :to="`/dashboard/${$route.params.project}`">{{nameProject}} </nuxt-link>
+          <nuxt-link :to="`/dashboard/${$route.params.project}`">{{currentProject.nombre}} </nuxt-link>
           <span>- Lista de Precios</span>
         </h2>
       </template>
       <div slot="section" class="section">
-        <el-table height="400px" :data="tableData" stripe style="width: 100%;">
-          <el-table-column prop="id" label="ID" width="40">
+        <el-table height="400px" :data="sentFlats" stripe style="width: 100%;">
+          <el-table-column prop="id" label="ID" width="60">
+            <template slot-scope="scope">
+              <p>#{{scope.row.id}}</p>
+            </template>
           </el-table-column>
-          <el-table-column prop="unity" label="Unidad" width="100">
+          <el-table-column prop="piso" label="Piso" width="100">
+            <template slot-scope="scope">
+              <p><strong>Piso {{ scope.row.piso }}</strong></p>
+            </template>
           </el-table-column>
-          <el-table-column prop="area" label="Area">
+          <el-table-column prop="imagen" label="Foto" width="200">
+            <template slot-scope="scope">
+              <img :src="`https://administrador.app-encord.com/imagenes_pisos/${scope.row.imagen}`" class="piso__imagen">
+            </template>
           </el-table-column>
-          <el-table-column prop="bedrooms" label="Habitaciones">
-          </el-table-column>
-          <el-table-column prop="bathrooms" label="Baños">
-          </el-table-column>
-          <el-table-column class-name="bold" label="Precio" prop="price">
-
+          <el-table-column>
+            <template slot-scope="scope">
+              <div class="piso_action">
+                <el-button>Ver apartamentos</el-button>
+              </div>
+            </template>
           </el-table-column>
         </el-table>
       </div>
@@ -34,9 +43,10 @@ export default {
   components: {
     Card
   },
-  computed: {
-    nameProject() {
-      return this.$store.state.currentProject.nombre
+  created() {
+    this.ifExistProject()
+    if(!this.sentFlats.length) {
+      this.$store.dispatch('GET_FLOORS', this.currentProject.id)
     }
   },
   data() {
@@ -148,6 +158,21 @@ export default {
         }
       ]
     }
+  },
+  computed: {
+    currentProject() {
+      return this.$store.state.currentProject
+    },
+    sentFlats() {
+      return this.$store.state.sentFlats
+    }
+  },
+  methods: {
+    ifExistProject() {
+      if(!this.currentProject) {
+        this.$router.push('/dashboard')
+      }
+    }
   }
 }
 </script>
@@ -200,5 +225,13 @@ h2 span {
 }
 .bold {
   font-weight: 600;
+}
+.piso__imagen {
+  width: 200px;
+}
+.piso_action {
+  width: 100%;
+  display: grid;
+  justify-content: center;
 }
 </style>

@@ -15,7 +15,9 @@ import {
   Tag,
   Table,
   Loading,
-  TimePicker
+  TimePicker,
+  Message,
+  Notification
 } from 'element-ui';
 import lang from 'element-ui/lib/locale/lang/en';
 import locale from 'element-ui/lib/locale';
@@ -39,5 +41,7 @@ Vue.use(TimePicker);
 Vue.use(Loading.directive);
 
 Vue.prototype.$loading = Loading.service;
+Vue.prototype.$message = Message;
+Vue.prototype.$notify = Notification;
 
 locale.use(lang);
