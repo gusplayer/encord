@@ -21,6 +21,7 @@ export default {
     apartments: [],
     authUser: null,
     projectsData: [],
+    typesContractsData: [],
     currentProject: null,
     currentUnit: null,
     currentCustomer: null,
@@ -63,6 +64,9 @@ export default {
     },
     SET_CUSTOMERS(state, value) {
       state.customersData = value
+    },
+    SET_TYPESCONTRATCS(state, value) {
+      state.typesContractsData = value
     },
     SET_ACTIONS(state, value) {
       state.actionsData = value
@@ -117,7 +121,12 @@ export default {
         `${state.axiosUrl}/api/pisos/${id}/unidades`,
         state.axiosConfig
       )
-      commit('SET_APARTMENTS', response.data.data)
+      commit(
+        'SET_APARTMENTS',
+        response.data.data.sort(
+          (a, b) => parseInt(a.numero) - parseInt(b.numero)
+        )
+      )
     },
     GET_CUSTOMERS({ state, commit }) {
       axios
@@ -165,11 +174,6 @@ export default {
           console.log(e)
         })
     },
-    // nuxtServerInit({ commit }, { req }) {
-    //   if (req.session && req.session.authUser) {
-    //     commit('SET_USER', req.session.authUser);
-    //   }
-    // },
     async login({ commit }, { email, password }) {
       try {
         const { data } = await axios.post('/auth/login', {
@@ -183,10 +187,16 @@ export default {
         }
         throw error
       }
+    },
+    async GET_TYPESCONTRACTS({ state, commit }) {
+      axios
+        .get(`${state.axiosUrl}/api/formatos-contratos`, state.axiosConfig)
+        .then(response => {
+          commit('SET_TYPESCONTRATCS', response.data.data)
+        })
+        .catch(e => {
+          console.log(e)
+        })
     }
-    // async logout({ commit }) {
-    //   await axios.post('/auth/logout');
-    //   commit('SET_USER', null);
-    // }
   }
 }

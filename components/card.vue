@@ -17,6 +17,11 @@ export default {
 </script>
 
 <style scoped>
+@media print {
+  .card {
+    display: none;
+  }
+}
 .card {
   min-width: 690px;
   min-height: 350px;

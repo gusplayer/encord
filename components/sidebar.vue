@@ -8,7 +8,7 @@
         </div>
         <div class="content-user">
           <div class="avatar">
-            <img src="../assets/avatar.jpg" alt="">
+            <img src="../assets/avatar.jpg" alt>
           </div>
           <div class="info-user">
             <h3 :class="classActive">Nombre Usuario</h3>
@@ -66,7 +66,7 @@
 <script>
 import indicator from '@/components/indicator'
 export default {
-  components: {indicator},
+  components: { indicator },
   data() {
     return {
       alter: true,
@@ -95,11 +95,13 @@ export default {
         'btn-deploy-collapse'
       ]
     },
-    setInitialIndicatorPosition () {
-      this.indicatorPosition = parseInt(document.querySelector('.router-link-active').dataset.index)
+    setInitialIndicatorPosition() {
+      this.indicatorPosition = parseInt(
+        document.querySelector('.router-link-active').dataset.index
+      )
     },
     selectItemByList(index) {
-      this.indicatorPosition = index;
+      this.indicatorPosition = index
     },
     // async logout() {
     //   try {
@@ -109,7 +111,7 @@ export default {
     //   }
     // }
     async logout() {
-      await this.$auth.logout();
+      await this.$auth.logout()
       console.log(this.$auth.loggedIn)
     }
   }
@@ -122,7 +124,6 @@ export default {
     display: none;
   }
 }
-
 a {
   text-decoration: none;
 }
