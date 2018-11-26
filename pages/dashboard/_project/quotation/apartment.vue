@@ -15,7 +15,6 @@
             <div>
               <div class="group">
                 <div class="btn_flat" :class="{btn_select: selected == index, btn_disabled: units.estado == 0 }" @click="select({item, index})" v-for="(item, index) in units" :key="index">{{item.numero}}</div>
-                <!-- <div class="btn_flat" @click="select(index)" v-for="(item, index) in flats" :key="index">{{item.piso}}</div> -->
               </div>
             </div>
           </div>
@@ -52,7 +51,7 @@
           </div>
 
         </div>
-        <nuxt-link class="btn_link" @click.native="sentNum" :to="nextRoute">Siguiente <i class="icon-right-open-big"></i></nuxt-link>
+        <nuxt-link class="btn_link" @click.native="sentNum" to="">Siguiente <i class="icon-right-open-big"></i></nuxt-link>
       </div>
     </card>
   </div>
@@ -70,13 +69,14 @@ export default {
     Building
   },
   async created() {
+    this.ifExistProject()
     await this.$store.dispatch('GET_FLOORS', this.changeIdProject)
     this.getUnits()
   },
   data() {
     return {
       loading: true,
-      selected: 0,
+      selected: -1,
       numFlat: 1,
       radio: '1',
       url: '',
@@ -121,9 +121,14 @@ export default {
     },
     numApartment() {
       if (this.units.length) {
-        return this.units[this.selected].numero
+        if (this.selected > -1) {
+          return this.units[this.selected].numero
+        }
       }
       return ' '
+    },
+    currentProject() {
+      return this.$store.state.currentProject
     },
     nameProject() {
       return this.$store.state.currentProject.nombre
@@ -148,7 +153,7 @@ export default {
       this.numFlat = value
       this.getUnits()
       this.currentUnit = null
-      this.selected = 0
+      this.selected = -1
     },
     getUnits: debounce( async function(e) {
       this.loading = true
@@ -157,8 +162,22 @@ export default {
       
     }, 800),
     sentNum() {
-      this.$store.commit('SET_SENTNUM', this.units[this.selected].numero)
-      this.$store.commit('SET_CURRENTUNIT', this.currentUnit)
+      if (this.currentUnit) {
+        this.$router.push(this.nextRoute)
+        this.$store.commit('SET_SENTNUM', this.units[this.selected].numero)
+        this.$store.commit('SET_CURRENTUNIT', this.currentUnit)
+      } else {
+        this.$notify({
+          type: 'warning',
+          title: 'Alerta',
+          message: 'Primero debes seleccionar un numero de apartamento.'
+        });
+      }
+    },
+    ifExistProject() {
+      if(!this.currentProject) {
+        this.$router.push('/dashboard')
+      }
     }
   }
 }

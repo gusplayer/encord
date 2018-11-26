@@ -117,6 +117,12 @@ export default {
 </script>
 
 <style scoped>
+@media print {
+  .sidebar {
+    display: none;
+  }
+}
+
 a {
   text-decoration: none;
 }
