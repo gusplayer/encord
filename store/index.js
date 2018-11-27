@@ -145,6 +145,13 @@ export default {
         state.axiosConfig
       )
     },
+    async CREATE_CONTRACT({ state }, contract) {
+      await axios.post(
+        `${state.axiosUrl}/api/contratos`,
+        contract,
+        state.axiosConfig
+      )
+    },
     GET_ACTIONS_BY_CUSTOMER({ state, commit }, customer_id) {
       axios
         .get(`${state.axiosUrl}/api/acciones/${customer_id}`, state.axiosConfig)

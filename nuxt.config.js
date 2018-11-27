@@ -73,7 +73,7 @@ module.exports = {
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /(node_modules)/
-        });
+        })
       }
     }
   },
@@ -88,6 +88,7 @@ module.exports = {
     '~/plugins/vue-signature',
     '~/plugins/swiper.js',
     '~/plugins/vue2-frappe.js',
-    '~/plugins/vee-validate.js'
+    '~/plugins/vee-validate.js',
+    '~/plugins/icons.js'
   ]
-};
+}

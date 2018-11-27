@@ -1,14 +1,26 @@
 <template>
   <div class="sidebar">
-    <div :class="classPanel" class="side-panel">
+    <div
+      :class="classPanel"
+      class="side-panel"
+    >
       <div class="head">
         <div class="icons">
-          <i :class="classActive" class="icon-057-settings-1"></i>
-          <i :class="classActive" class="icon-alarm"></i>
+          <i
+            :class="classActive"
+            class="icon-057-settings-1"
+          ></i>
+          <i
+            :class="classActive"
+            class="icon-alarm"
+          ></i>
         </div>
         <div class="content-user">
           <div class="avatar">
-            <img src="../assets/avatar.jpg" alt>
+            <img
+              src="../assets/avatar.jpg"
+              alt
+            >
           </div>
           <div class="info-user">
             <h3 :class="classActive">Nombre Usuario</h3>
@@ -19,45 +31,106 @@
       </div>
       <div class="content">
         <ul class="list">
-          <indicator :height="40" :position="indicatorPosition" :unbalance="35"/>
-          <nuxt-link to="/dashboard" @click.native="selectItemByList(0)">
+          <indicator
+            :height="40"
+            :position="indicatorPosition"
+            :unbalance="35"
+          />
+          <nuxt-link
+            to="/dashboard"
+            @click.native="selectItemByList(0)"
+          >
             <li class="list-item">
-              <i class="icon-047-house-sketch"></i>
+              <icon-base
+                widthIcon="40px"
+                heightIcon="40px"
+                color="#606468"
+              >
+                <icon-projects />
+              </icon-base>
               <p :class="classActive">Cotizar Proyectos</p>
             </li>
           </nuxt-link>
-          <nuxt-link to="/dashboard/report/reports" @click.native="selectItemByList(1)">
+          <nuxt-link
+            to="/dashboard/report/reports"
+            @click.native="selectItemByList(1)"
+          >
             <li class="list-item">
-              <i class="icon-file-1"></i>
+              <icon-base
+                widthIcon="40px"
+                heightIcon="40px"
+                color="#606468"
+              >
+                <icon-reports />
+              </icon-base>
               <p :class="classActive">Crear Informe</p>
             </li>
           </nuxt-link>
-          <nuxt-link to="/dashboard/customers" @click.native="selectItemByList(2)">
+          <nuxt-link
+            to="/dashboard/customers"
+            @click.native="selectItemByList(2)"
+          >
             <li class="list-item">
-              <i class="icon-folder-14"></i>
+              <icon-base
+                widthIcon="40px"
+                heightIcon="40px"
+                color="#606468"
+              >
+                <icon-customers />
+              </icon-base>
               <p :class="classActive">Clientes</p>
             </li>
           </nuxt-link>
-          <nuxt-link to="/dashboard/contract/list-contracts" @click.native="selectItemByList(3)">
+          <nuxt-link
+            to="/dashboard/contract/list-contracts"
+            @click.native="selectItemByList(3)"
+          >
             <li class="list-item">
-              <i class="icon-diploma"></i>
+              <icon-base
+                widthIcon="40px"
+                heightIcon="40px"
+                color="#606468"
+              >
+                <icon-contracts />
+              </icon-base>
               <p :class="classActive">Contratos</p>
             </li>
           </nuxt-link>
           <li class="list-item">
-            <i class="icon-049-wallet"></i>
+            <icon-base
+              widthIcon="40px"
+              heightIcon="40px"
+              color="#606468"
+            >
+              <icon-pay />
+            </icon-base>
             <p :class="classActive">Pagar</p>
           </li>
         </ul>
+
         <div class="line"></div>
       </div>
-      <div @click="logout" :class="classBtn" class="btn-logout">
+      <div
+        @click="logout"
+        :class="classBtn"
+        class="btn-logout"
+      >
         <p :class="classActive">Salir</p>
         <i class="icon-sign-out"></i>
       </div>
-      <div :class="classDeploy" @click="change" class="btn-deploy">
-        <i class="icon-right-open-big" v-if="alter"></i>
-        <i class="icon-left-open-big" v-else></i>
+      <div
+        :class="classDeploy"
+        @click="change"
+        class="btn-deploy"
+      >
+        <i
+          class="icon-right-open-big"
+          v-if="alter"
+        ></i>
+        <i
+          class="icon-left-open-big"
+          v-else
+        ></i>
       </div>
     </div>
   </div>
@@ -65,8 +138,13 @@
 
 <script>
 import indicator from '@/components/indicator'
+import iconProjects from '@/assets/icons/icon-projects'
+import iconContracts from '@/assets/icons/icon-contracts'
+import iconReports from '@/assets/icons/icon-reports'
+import iconPay from '@/assets/icons/icon-pay'
+import iconCustomers from '@/assets/icons/icon-customers'
 export default {
-  components: { indicator },
+  components: { indicator, iconProjects, iconContracts, iconReports, iconPay, iconCustomers },
   data() {
     return {
       alter: true,
@@ -231,17 +309,10 @@ li:hover i {
 .list-item p {
   transition: all ease 0.5s;
 }
-li i {
-  font-size: 40px;
+li svg {
   margin-right: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #606468;
 }
-/* li i:hover {
-  color: rgba(96, 100, 104, 0.534);
-} */
+
 .list-item:first-child,
 .list-item:first-child i {
   /* color: #98c253; */

@@ -1,5 +1,8 @@
 <template>
-  <div id="contract" class="contract">
+  <div
+    id="contract"
+    class="contract"
+  >
     <card>
       <template slot="header">
         <h2>
@@ -7,23 +10,50 @@
           <span> / Contrato</span>
         </h2>
       </template>
-      <div slot="section" class="section">
+      <div
+        slot="section"
+        class="section"
+      >
         <div id="pdf">
-          <div id="infoContract" class="infoContract" v-html="contract"></div>
+          <div
+            id="infoContract"
+            class="infoContract"
+            v-html="contract"
+          ></div>
           <p>Nombre del proyecto: {{dataContract.project.name}}</p>
+          <p>Nombre del proyecto: {{dataContract.customer.name}}</p>
           <p>Valor apartamento: {{dataContract.payment.total | formatNum}}</p>
           <p>Cuota Inicial: {{dataContract.payment.costQuota | formatNum}}</p>
           <p>Numero de cuotas: {{dataContract.payment.numQuotas}}</p>
           <!-- <div class="line"></div> -->
-          <VueSignaturePad width="300px" height="150px" id="signaturePad" ref="signaturePad" />
+          <VueSignaturePad
+            width="300px"
+            height="150px"
+            id="signaturePad"
+            ref="signaturePad"
+          />
           <p class="firm">Firma</p>
         </div>
         <el-button-group>
-          <el-button type="info" plain @click="undo" size="mini">Deshacer</el-button>
-          <el-button type="info" plain @click="clear" size="mini">Borrar</el-button>
+          <el-button
+            type="info"
+            plain
+            @click="undo"
+            size="mini"
+          >Deshacer</el-button>
+          <el-button
+            type="info"
+            plain
+            @click="clear"
+            size="mini"
+          >Borrar</el-button>
           <!-- <el-button type="info" plain @click="save" size="mini">Guardar</el-button> -->
         </el-button-group>
-        <el-button @click="download" class="btn_download" type="success">Guardar PDF</el-button>
+        <el-button
+          @click="download"
+          class="btn_download"
+          type="success"
+        >Guardar PDF</el-button>
       </div>
     </card>
   </div>
@@ -42,89 +72,69 @@ export default {
     jsPDF
   },
   created() {
-    this.setContract(
-      `<h2>Contrato de compra</h2>
-      <p>Lorem %name% dolor, sit amet consectetur adipisicing elit. Hic ab doloribus %document% libero, 
-      tenetur eveniet aliquam. Distinctio quae veniam consequuntur, incidunt, %area% quaerat odio
-      reprehenderit molestias tenetur laborum atque eos.</p><p>Lorem ipsum dolor, sit amet consectetur 
-      %precio% elit. Hic ab doloribus praesentium libero, tenetur eveniet aliquam. Distinctio quae veniam 
-      consequuntur, incidunt, dolorum quaerat odio reprehenderit molestias tenetur laborum atque eos.</p>
-      
-      <h2>Contrato de compra</h2>
-      <p>Lorem %name% dolor, sit amet consectetur adipisicing elit. Hic ab doloribus %document% libero, 
-      tenetur eveniet aliquam. Distinctio quae veniam consequuntur, incidunt, %area% quaerat odio
-      reprehenderit molestias tenetur laborum atque eos.</p><p>Lorem ipsum dolor, sit amet consectetur 
-      %precio% elit. Hic ab doloribus praesentium libero, tenetur eveniet aliquam. Distinctio quae veniam 
-      consequuntur, incidunt, dolorum quaerat odio reprehenderit molestias tenetur laborum atque eos.</p>
-
-      <h2>Contrato de compra</h2>
-      <p>Lorem %name% dolor, sit amet consectetur adipisicing elit. Hic ab doloribus %document% libero, 
-      tenetur eveniet aliquam. Distinctio quae veniam consequuntur, incidunt, %area% quaerat odio
-      reprehenderit molestias tenetur laborum atque eos.</p><p>Lorem ipsum dolor, sit amet consectetur 
-      %precio% elit. Hic ab doloribus praesentium libero, tenetur eveniet aliquam. Distinctio quae veniam 
-      consequuntur, incidunt, dolorum quaerat odio reprehenderit molestias tenetur laborum atque eos.</p>
-
-      <h2>Contrato de compra</h2>
-      <p>Lorem %name% dolor, sit amet consectetur adipisicing elit. Hic ab doloribus %document% libero, 
-      tenetur eveniet aliquam. Distinctio quae veniam consequuntur, incidunt, %area% quaerat odio
-      reprehenderit molestias tenetur laborum atque eos.</p><p>Lorem ipsum dolor, sit amet consectetur 
-      %precio% elit. Hic ab doloribus praesentium libero, tenetur eveniet aliquam. Distinctio quae veniam 
-      consequuntur, incidunt, dolorum quaerat odio reprehenderit molestias tenetur laborum atque eos.</p>
-
-      <h2>Contrato de compra</h2>
-      <p>Lorem %name% dolor, sit amet consectetur adipisicing elit. Hic ab doloribus %document% libero, 
-      tenetur eveniet aliquam. Distinctio quae veniam consequuntur, incidunt, %area% quaerat odio
-      reprehenderit molestias tenetur laborum atque eos.</p><p>Lorem ipsum dolor, sit amet consectetur 
-      %precio% elit. Hic ab doloribus praesentium libero, tenetur eveniet aliquam. Distinctio quae veniam 
-      consequuntur, incidunt, dolorum quaerat odio reprehenderit molestias tenetur laborum atque eos.</p>
-      `
-    )
     this.$store.state.dataContract
+    this.setContract(this.dataContract.setApart.contract.contenido)
+    this.infoContract.acabados = this.dataContract.finishes
+    this.infoContract.clientes_id = this.dataContract.customer.id
+    this.infoContract.forma_pago = this.dataContract.payment
+    this.infoContract.separacion = this.dataContract.setApart
+    this.infoContract.unidad_id = this.dataContract.unit.id
+    this.infoContract.proyecto_id = this.dataContract.project.id
   },
   data() {
     return {
       contract: '',
-      name: ''
+      name: '',
+      infoContract: {
+        acabados: {},
+        clientes_id: 1,
+        forma_pago: {},
+        proyecto_id: 1,
+        separacion: {},
+        unidad_id: 1
+      }
     }
   },
   computed: {
-    infoContract() {
-      return this.$store.state.infoContract
-    },
+    // infoContract() {
+    //   return this.$store.state.infoContract
+    // },
     dataContract() {
       return this.$store.state.dataContract
     }
   },
   watch: {
-    infoContract(value) {
-      this.setContract(
-        '<h2>Contrato de compra</h2><p>Lorem %name% dolor, sit amet consectetur adipisicing elit. Hic ab doloribus %document% libero, tenetur eveniet aliquam. Distinctio quae veniam consequuntur, incidunt, %area% quaerat odio reprehenderit molestias tenetur laborum atque eos.</p><p>Lorem ipsum dolor, sit amet consectetur %precio% elit. Hic ab doloribus praesentium libero, tenetur eveniet aliquam. Distinctio quae veniam consequuntur, incidunt, dolorum quaerat odio reprehenderit molestias tenetur laborum atque eos.</p>'
-      )
+    dataContract(value) {
+      this.setContract(this.dataContract.setApart.contract.contenido)
     }
   },
   methods: {
     setContract(text) {
       let newText = text
-      if (this.infoContract) {
+      if (this.dataContract) {
         newText = newText.replace(
           '%name%',
-          '<i>' + this.infoContract.customer.name + '</i>'
+          '<i>' + this.dataContract.customer.name + '</i>'
         )
-        newText = newText.replace(
-          '%document%',
-          '<i>' + this.infoContract.customer.document + '</i>'
-        )
-        newText = newText.replace(
-          '%area%',
-          '<i>' + this.infoContract.project.area + '</i>'
-        )
-        newText = newText.replace(
-          '%precio%',
-          '<i>' + '$' + this.infoContract.project.price + '</i>'
-        )
+        // newText = newText.replace(
+        //   '%document%',
+        //   '<i>' + this.infoContract.customer.document + '</i>'
+        // )
+        // newText = newText.replace(
+        //   '%area%',
+        //   '<i>' + this.infoContract.project.area + '</i>'
+        // )
+        // newText = newText.replace(
+        //   '%precio%',
+        //   '<i>' + '$' + this.infoContract.project.price + '</i>'
+        // )
 
         this.contract = newText
       }
+    },
+    async createContract() {
+      await this.$store.dispatch('CREATE_CONTRACT', this.infoContract)
+      this.$router.push('/dashboard/contract/list-contracts')
     },
     download() {
       canvas(document.getElementById('pdf', { width: 100, height: 300 })).then(
@@ -145,6 +155,7 @@ export default {
           doc.save(pdfName + '.pdf')
         }
       )
+      this.createContract()
     },
     undo() {
       this.$refs.signaturePad.undoSignature()

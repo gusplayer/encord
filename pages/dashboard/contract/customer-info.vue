@@ -8,15 +8,33 @@
         </h2>
       </template>
       <!-- Info proyecto -->
-      <div slot="section" class="section" v-if="currentProject">
+      <div
+        slot="section"
+        class="section"
+        v-if="currentProject"
+      >
         <el-row>
           <el-col :span="12">
             <h3 class="grid-content">Proyecto:</h3>
           </el-col>
-          <el-col :span="7" :offset="5">
-            <div class="grid-content" v-if="projects.length">
-              <el-select v-model="value" placeholder="Buscar proyecto">
-                <el-option v-for="(item, index) in projects" :key="index" :label="item.nombre" :value="item.nombre">
+          <el-col
+            :span="7"
+            :offset="5"
+          >
+            <div
+              class="grid-content"
+              v-if="projects.length"
+            >
+              <el-select
+                v-model="value"
+                placeholder="Buscar proyecto"
+              >
+                <el-option
+                  v-for="(item, index) in projects"
+                  :key="index"
+                  :label="item.nombre"
+                  :value="item.nombre"
+                >
                 </el-option>
               </el-select>
             </div>
@@ -44,12 +62,18 @@
         </el-row>
       </div>
       <!-- Información de Unidad Vendida  -->
-      <div slot="section" class="section">
+      <div
+        slot="section"
+        class="section"
+      >
         <el-row>
           <el-col :span="12">
             <h3 class="grid-content">Unidad Vendida:</h3>
           </el-col>
-          <el-col :span="7" :offset="5">
+          <el-col
+            :span="7"
+            :offset="5"
+          >
           </el-col>
         </el-row>
         <el-row class="background">
@@ -58,8 +82,17 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <el-select v-model="flat" size="mini" placeholder="Unidad">
-                <el-option v-for="(item, index) in sentFlats" :key="index" :label="item.piso" :value="item.id">
+              <el-select
+                v-model="flat"
+                size="mini"
+                placeholder="Unidad"
+              >
+                <el-option
+                  v-for="(item, index) in sentFlats"
+                  :key="index"
+                  :label="item.piso"
+                  :value="item.id"
+                >
                 </el-option>
               </el-select>
             </div>
@@ -71,8 +104,17 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <el-select v-model="unitNumber" size="mini" placeholder="Unidad">
-                <el-option v-for="(item, index) in sentUnits" :key="index" :label="item.numero" :value="item.numero">
+              <el-select
+                v-model="unitNumber"
+                size="mini"
+                placeholder="Unidad"
+              >
+                <el-option
+                  v-for="(item, index) in sentUnits"
+                  :key="index"
+                  :label="item.numero"
+                  :value="item.numero"
+                >
                 </el-option>
               </el-select>
             </div>
@@ -101,7 +143,10 @@
       </div>
 
       <!--  Info Acabados  -->
-      <div slot="section" class="section">
+      <div
+        slot="section"
+        class="section"
+      >
         <el-row>
           <el-col :span="12">
             <h3 class="grid-content">Acabados:</h3>
@@ -113,8 +158,17 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <el-select v-model="typeFloor" size="mini" placeholder="Tipo de piso">
-                <el-option v-for="(item, index) in floors" :key="index" :label="item.tipos_acabados.nombre" :value="item.valor">
+              <el-select
+                v-model="idFloor"
+                size="mini"
+                placeholder="Tipo de piso"
+              >
+                <el-option
+                  v-for="(item, index) in floors"
+                  :key="index"
+                  :label="item.tipos_acabados.nombre"
+                  :value="item.id"
+                >
                 </el-option>
               </el-select>
             </div>
@@ -126,8 +180,17 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <el-select v-model="typeBathroom" size="mini" placeholder="Tipo de piso">
-                <el-option v-for="(item, index) in bathrooms" :key="index" :label="item.tipos_acabados.nombre" :value="item.valor">
+              <el-select
+                v-model="idBathroom"
+                size="mini"
+                placeholder="Tipo de piso"
+              >
+                <el-option
+                  v-for="(item, index) in bathrooms"
+                  :key="index"
+                  :label="item.tipos_acabados.nombre"
+                  :value="item.id"
+                >
                 </el-option>
               </el-select>
             </div>
@@ -139,8 +202,17 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <el-select v-model="typeKitchen" size="mini" placeholder="Tipo de cocina">
-                <el-option v-for="(item, index) in kitchens" :key="index" :label="item.tipos_acabados.nombre" :value="item.valor">
+              <el-select
+                v-model="idKitchen"
+                size="mini"
+                placeholder="Tipo de cocina"
+              >
+                <el-option
+                  v-for="(item, index) in kitchens"
+                  :key="index"
+                  :label="item.tipos_acabados.nombre"
+                  :value="item.id"
+                >
                 </el-option>
               </el-select>
             </div>
@@ -152,8 +224,16 @@
           </el-col>
           <el-col :span="12">
             <div>
-              <el-radio v-model="checkDomotica" :label="1" size="mini">Si</el-radio>
-              <el-radio v-model="checkDomotica" :label="0" size="mini">No</el-radio>
+              <el-radio
+                v-model="checkDomotica"
+                :label="1"
+                size="mini"
+              >Si</el-radio>
+              <el-radio
+                v-model="checkDomotica"
+                :label="0"
+                size="mini"
+              >No</el-radio>
             </div>
           </el-col>
         </el-row>
@@ -171,7 +251,10 @@
       </div>
 
       <!-- Info Comprador -->
-      <div slot="section" class="section">
+      <div
+        slot="section"
+        class="section"
+      >
         <el-row>
           <el-col :span="12">
             <h3 class="grid-content">Cliente:</h3>
@@ -183,8 +266,17 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <el-select v-model="typeIdentification" size="mini" placeholder="Identificación">
-                <el-option v-for="(item, index) in identification" :key="index" :label="item" :value="item">
+              <el-select
+                v-model="typeIdentification"
+                size="mini"
+                placeholder="Identificación"
+              >
+                <el-option
+                  v-for="(item, index) in identification"
+                  :key="index"
+                  :label="item"
+                  :value="item"
+                >
                 </el-option>
               </el-select>
             </div>
@@ -196,7 +288,12 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="No. Identificación" v-model="inputIdentification">
+              <input
+                class="inputClinte"
+                type="text"
+                placeholder="No. Identificación"
+                v-model="inputIdentification"
+              >
             </div>
           </el-col>
         </el-row>
@@ -206,7 +303,13 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Nombre" v-model="getCostumer.name" disabled>
+              <input
+                class="inputClinte"
+                type="text"
+                placeholder="Nombre"
+                v-model="getCostumer.name"
+                disabled
+              >
             </div>
           </el-col>
         </el-row>
@@ -216,7 +319,13 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Celular" v-model="getCostumer.phone" disabled>
+              <input
+                class="inputClinte"
+                type="text"
+                placeholder="Celular"
+                v-model="getCostumer.phone"
+                disabled
+              >
             </div>
           </el-col>
         </el-row>
@@ -226,13 +335,22 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Dirección" v-model="getCostumer.address" disabled>
+              <input
+                class="inputClinte"
+                type="text"
+                placeholder="Dirección"
+                v-model="getCostumer.address"
+                disabled
+              >
             </div>
           </el-col>
         </el-row>
       </div>
       <!-- Info Separacion -->
-      <div slot="section" class="section">
+      <div
+        slot="section"
+        class="section"
+      >
         <el-row>
           <el-col :span="12">
             <h3 class="grid-content">Separación:</h3>
@@ -244,8 +362,17 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <el-select v-model="contract" size="mini" placeholder="Contratos">
-                <el-option v-for="(item, index) in typesContractsData" :key="index" :label="item.titulo" :value="item.id">
+              <el-select
+                v-model="contract"
+                size="mini"
+                placeholder="Contratos"
+              >
+                <el-option
+                  v-for="(item, index) in typesContractsData"
+                  :key="index"
+                  :label="item.titulo"
+                  :value="item.id"
+                >
                 </el-option>
               </el-select>
             </div>
@@ -257,7 +384,11 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <money class="inputClinte" v-model="separationPercentage" v-bind="percent"></money>
+              <money
+                class="inputClinte"
+                v-model="separationPercentage"
+                v-bind="percent"
+              ></money>
             </div>
           </el-col>
         </el-row>
@@ -277,7 +408,11 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <money class="inputClinte" v-model="inputInitialSeparation" v-bind="money"></money>
+              <money
+                class="inputClinte"
+                v-model="inputInitialSeparation"
+                v-bind="money"
+              ></money>
             </div>
           </el-col>
         </el-row>
@@ -297,14 +432,21 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <el-date-picker v-model="paydayLimit" type="date" placeholder="Selecciona un día">
+              <el-date-picker
+                v-model="paydayLimit"
+                type="date"
+                placeholder="Selecciona un día"
+              >
               </el-date-picker>
             </div>
           </el-col>
         </el-row>
       </div>
       <!-- Info Forma de Pago -->
-      <div slot="section" class="section">
+      <div
+        slot="section"
+        class="section"
+      >
         <el-row>
           <el-col :span="12">
             <h3 class="grid-content">Forma de pago:</h3>
@@ -316,7 +458,11 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <money class="inputClinte" v-model="initialFeePercentage" v-bind="percent"></money>
+              <money
+                class="inputClinte"
+                v-model="initialFeePercentage"
+                v-bind="percent"
+              ></money>
             </div>
           </el-col>
         </el-row>
@@ -336,7 +482,12 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Cuotas" v-model="inputFee">
+              <input
+                class="inputClinte"
+                type="text"
+                placeholder="Cuotas"
+                v-model="inputFee"
+              >
             </div>
           </el-col>
         </el-row>
@@ -346,7 +497,11 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <money class="inputClinte" v-model="quota" v-bind="money"></money>
+              <money
+                class="inputClinte"
+                v-model="quota"
+                v-bind="money"
+              ></money>
             </div>
           </el-col>
         </el-row>
@@ -356,7 +511,11 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <el-date-picker v-model="inputDate" type="date" placeholder="Selecciona un día">
+              <el-date-picker
+                v-model="inputDate"
+                type="date"
+                placeholder="Selecciona un día"
+              >
               </el-date-picker>
             </div>
           </el-col>
@@ -375,8 +534,14 @@
           <el-col :span="12">
             <div class="tag"> <span class="bold">Valor Total: </span><span class="total"> {{totalValue | formatNum}}</span></div>
           </el-col>
-          <el-col :span="4" :offset="8">
-            <div class="btn-save" @click="saveInfo">Guardar</div>
+          <el-col
+            :span="4"
+            :offset="8"
+          >
+            <div
+              class="btn-save"
+              @click="saveInfo"
+            >Guardar</div>
           </el-col>
         </el-row>
       </div>
@@ -442,9 +607,9 @@ export default {
       unitNumber: '',
       flat: '',
       typeIdentification: '',
-      typeFloor: 0,
-      typeBathroom: 0,
-      typeKitchen: 0,
+      idFloor: 0,
+      idBathroom: 0,
+      idKitchen: 0,
       checkDomotica: 0,
       identification: [
         'Cédula',
@@ -471,9 +636,11 @@ export default {
       formContract: {
         project: {
           name: '',
-          city: ''
+          city: '',
+          id: 0
         },
         unit: {
+          id: 0,
           flat: '',
           numUnit: '',
           price: '',
@@ -490,13 +657,7 @@ export default {
           domoticaPrice: 0,
           total: 0
         },
-        customer: {
-          idType: '',
-          numId: '',
-          name: '',
-          phone: '',
-          address: ''
-        },
+        customer: {},
         setApart: {
           // typeContract: '',
           percent: 0,
@@ -571,12 +732,43 @@ export default {
     domoticaPrice() {
       return this.checkDomotica ? this.domotica[0].valor : 0
     },
+    currentFloor() {
+      if (this.floors) {
+        return (
+          this.floors.find(floor => floor.id == this.idFloor) || { valor: 0 }
+        )
+      } else {
+        return { valor: 0 }
+      }
+    },
+    currentKitchen() {
+      if (this.kitchens) {
+        return (
+          this.kitchens.find(kitchen => kitchen.id == this.idKitchen) || {
+            valor: 0
+          }
+        )
+      } else {
+        return { valor: 0 }
+      }
+    },
+    currentBathroom() {
+      if (this.bathrooms) {
+        return (
+          this.bathrooms.find(bathroom => bathroom.id == this.idBathroom) || {
+            valor: 0
+          }
+        )
+      } else {
+        return { valor: 0 }
+      }
+    },
     total() {
       return (
-        this.typeFloor +
-        this.typeKitchen +
-        this.domoticaPrice +
-        this.typeBathroom
+        parseInt(this.currentFloor.valor) +
+        parseInt(this.currentKitchen.valor) +
+        parseInt(this.currentBathroom.valor) +
+        this.domoticaPrice
       )
     },
     totalValue() {
@@ -653,12 +845,17 @@ export default {
     dataContract() {
       this.formContract.project.name = this.currentProject.nombre
       this.formContract.project.city = this.currentProject.ubicacion
+      this.formContract.project.id = this.currentProject.id
+      this.formContract.unit.id = this.currentUnit.id
       this.formContract.unit.flat = this.flat
       this.formContract.unit.numUnit = this.unitNumber
       this.formContract.unit.price = parseInt(this.currentUnit.valor)
       this.formContract.unit.typeUnit = this.currentUnit.tipo_unidad
+      this.formContract.finishes = this.currentUnit.acabados
       this.formContract.finishes.total = parseInt(this.total)
-      this.formContract.setApart.contract
+      this.formContract.setApart.contract = this.currentContract
+      this.formContract.customer = this.getCostumer
+      this.formContract.customer.typeIdentification = this.typeIdentification
       this.formContract.payment.numQuotas = this.inputFee
       this.formContract.payment.costQuota = this.initialFee
       this.formContract.payment.total = parseInt(this.totalValue)
