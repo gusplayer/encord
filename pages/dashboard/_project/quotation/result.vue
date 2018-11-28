@@ -7,12 +7,77 @@
           <!-- <span>/ Datos</span> -->
         </h2>
       </template>
-      <div slot="section" class="section">
+      <div
+        slot="section"
+        class="section"
+      >
+        <el-row>
+          <el-col :span="12">
+            <h3 class="grid-content">Cliente:</h3>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Identificación:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <el-select
+                v-model="typeIdentification"
+                size="mini"
+                placeholder="Identificación"
+              >
+                <el-option
+                  v-for="(item, index) in identification"
+                  :key="index"
+                  :label="item"
+                  :value="item"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">No. Identificación:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <input
+                class="inputClinte"
+                type="text"
+                placeholder="No. Identificación"
+                v-model="inputIdentification"
+              >
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Nombre:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <input
+                class="inputClinte"
+                type="text"
+                placeholder="Nombre"
+                v-model="nameCostumer"
+                disabled
+              >
+            </div>
+          </el-col>
+        </el-row>
+        <br>
         <el-row>
           <el-col :span="12">
             <h3 class="grid-content">Proyecto:</h3>
           </el-col>
-          <el-col :span="7" :offset="5">
+          <el-col
+            :span="7"
+            :offset="5"
+          >
           </el-col>
         </el-row>
         <el-row class="background">
@@ -41,7 +106,10 @@
           <el-col :span="12">
             <h3 class="grid-content">Unidad selecionada:</h3>
           </el-col>
-          <el-col :span="7" :offset="5">
+          <el-col
+            :span="7"
+            :offset="5"
+          >
           </el-col>
         </el-row>
         <el-row class="background">
@@ -98,46 +166,59 @@
           <el-col :span="12">
             <h3 class="grid-content">Acabados:</h3>
           </el-col>
-          <el-col :span="7" :offset="5">
+          <el-col
+            :span="7"
+            :offset="5"
+          >
           </el-col>
         </el-row>
         <el-row v-if="currentFinishes.length">
-            <el-table
+          <el-table
             :data="currentFinishes"
-            style="width: 100%">
+            style="width: 100%"
+          >
             <!-- <el-table-column
                 prop="date"
                 label="Date"
                 width="180">
             </el-table-column> -->
             <el-table-column
-                prop="tipos_acabados.nombre"
-                label="Nombre"
-                width="180">
+              prop="tipos_acabados.nombre"
+              label="Nombre"
+              width="180"
+            >
             </el-table-column>
             <el-table-column
-                prop="valor"
-                label="Precio"
-                :formatter="formatPrice">
+              prop="valor"
+              label="Precio"
+              :formatter="formatPrice"
+            >
             </el-table-column>
             <el-table-column
-                prop="tipos_acabados.imagen"
-                label="Foto">
-                <template slot-scope="scope">
-                  <!-- <img
+              prop="tipos_acabados.imagen"
+              label="Foto"
+            >
+              <template slot-scope="scope">
+                <!-- <img
                     :src="`https://administrador.app-encord.com/imagenes_tipos_acabados/${scope.row.tipos_acabados.imagen}`"
                     class="finish_image"
                   > -->
-                </template>
+              </template>
             </el-table-column>
-            </el-table>
+          </el-table>
         </el-row>
         <el-row>
           <el-col :span="12">
             <div class="tag"> <span class="bold">Valor Total: </span><span class="total">{{ total | formatPrice }}</span></div>
           </el-col>
-          <el-col :span="4" :offset="8">
-            <div class="btn-save" @click="saveQuotation">Guardar</div>
+          <el-col
+            :span="4"
+            :offset="8"
+          >
+            <div
+              class="btn-save"
+              @click="saveQuotation"
+            >Guardar</div>
           </el-col>
         </el-row>
       </div>
@@ -146,78 +227,117 @@
 </template>
 
 <script>
-import Card from '@/components/card'
-import jsPDF from 'jspdf'
-import canvas from 'html2canvas'
-import domtoimage from 'dom-to-image';
+import Card from "@/components/card";
+import jsPDF from "jspdf";
+import canvas from "html2canvas";
+import domtoimage from "dom-to-image";
 
 export default {
   components: {
-    Card,
+    Card
   },
   created() {
-    
+    this.$store.dispatch("GET_CUSTOMERS");
   },
   data() {
-    return {}
+    return {
+      InfoQuotation: {
+        acabados: {},
+        clientes_id: 0,
+        proyectos_id: 0,
+        unidad_id: 0
+      },
+      identification: [
+        "Cédula",
+        "Cédula de Extranjería",
+        "NIT",
+        "Pasaporte",
+        "ID Extranjero",
+        "Tarjeta  de Identidad"
+      ],
+      inputIdentification: "",
+      nameCostumer: "",
+      typeIdentification: ""
+    };
   },
   computed: {
-    currentProject()  {
-      return this.$store.state.currentProject
+    customers() {
+      return this.$store.state.customersData;
+    },
+    currentProject() {
+      return this.$store.state.currentProject;
     },
     currentUnit() {
-      return this.$store.state.currentUnit
+      return this.$store.state.currentUnit;
     },
     currentFinishes() {
-      return this.$store.state.currentFinishes
+      return this.$store.state.currentFinishes;
     },
     total() {
-      return this.currentFinishes.reduce((total, finish) => { return total + parseInt(finish.valor)}, 0) + parseInt(this.currentUnit.valor) || 0
+      return (
+        this.currentFinishes.reduce((total, finish) => {
+          return total + parseInt(finish.valor);
+        }, 0) + parseInt(this.currentUnit.valor) || 0
+      );
     }
   },
   methods: {
     formatPrice(row, column) {
       if (row.valor) {
-        return `$${row.valor.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`
+        return `$${row.valor.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
       } else {
-        return '$0'
+        return "$0";
       }
     },
+    async createQuotation() {
+      this.InfoQuotation.acabados = this.currentFinishes;
+      await this.$store.dispatch("CREATE_QUOTATION", this.infoContract);
+      this.$router.push("/dashboard");
+    },
     saveQuotation() {
-      const canva = document.getElementById('quotation')
-      domtoimage.toPng(canva).then(
-        result => {
-          let img = new Image();
-          img.src = result;
+      const canva = document.getElementById("quotation");
+      domtoimage.toPng(canva).then(result => {
+        let img = new Image();
+        img.src = result;
 
-          let pdfName = 'test'
-          var doc = new jsPDF('p', 'pt', 'a4', true)
-          doc.addImage(
-            img,
-            'PNG',
-            0,
-            0,
-            600,
-            canva.clientHeight - 80,
-            '',
-            'FAST'
-          )
-          doc.save(pdfName + '.pdf')
-          this.$router.push(`/dashboard/report/reports`)
-        }
-      )
+        let pdfName = "test";
+        var doc = new jsPDF("p", "pt", "a4", true);
+        doc.addImage(
+          img,
+          "PNG",
+          0,
+          0,
+          600,
+          canva.clientHeight - 80,
+          "",
+          "FAST"
+        );
+        doc.save(pdfName + ".pdf");
+        this.$router.push(`/dashboard/report/reports`);
+      });
+    }
+  },
+  watch: {
+    inputIdentification(value) {
+      const result = this.customers.find(customer => customer.cedula == value);
+      if (result) {
+        this.nameCostumer = result.nombre;
+        this.InfoQuotation.clientes_id = result.id;
+      } else {
+        this.nameCostumer = "";
+      }
     }
   },
   filters: {
     formatPrice(value) {
       if (value) {
-        return `$${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`
+        return `$${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
       } else {
-        return '$0'
+        return "$0";
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -313,8 +433,8 @@ h2 span {
 }
 .el-select {
   width: 100% !important;
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 .el-input__inner {
   padding-left: 0;
@@ -350,8 +470,8 @@ h3 {
 div.el-input__inner {
   padding-left: 0 !important;
   background-color: transparent !important;
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 .btn-save {
   font-size: 18px;
@@ -396,5 +516,41 @@ div.el-row .tag {
 .finish_image {
   width: 125px;
   height: 125px;
+}
+.inputClinte {
+  background-color: transparent;
+  font-size: 18px;
+  font-weight: 300;
+  color: rgba(103, 123, 158, 0.822);
+}
+.inputClinte:focus {
+  border: 0;
+  outline: 0;
+}
+.inputClinte::placeholder {
+  color: rgba(103, 123, 158, 0.822);
+  opacity: 0.5;
+  font-weight: 300;
+}
+.el-select {
+  width: 100% !important;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.el-input__inner {
+  padding-left: 0;
+  background-color: transparent;
+}
+div.el-input__inner {
+  padding-left: 0 !important;
+  background-color: transparent !important;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+div.el-row :first-child {
+  border: 0;
+}
+div.el-row:last-child {
+  border: 0;
 }
 </style>
