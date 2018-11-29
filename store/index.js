@@ -22,6 +22,7 @@ export default {
     authUser: null,
     projectsData: [],
     typesContractsData: [],
+    listContractsData: [],
     currentProject: null,
     currentUnit: null,
     currentCustomer: null,
@@ -67,6 +68,9 @@ export default {
     },
     SET_TYPESCONTRATCS(state, value) {
       state.typesContractsData = value
+    },
+    SET_LISTCONTRATCS(state, value) {
+      state.listContractsData = value
     },
     SET_ACTIONS(state, value) {
       state.actionsData = value
@@ -207,6 +211,16 @@ export default {
         .get(`${state.axiosUrl}/api/formatos-contratos`, state.axiosConfig)
         .then(response => {
           commit('SET_TYPESCONTRATCS', response.data.data)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    async GET_LISTCONTRACTS({ state, commit }) {
+      axios
+        .get(`${state.axiosUrl}/api/contratos`, state.axiosConfig)
+        .then(response => {
+          commit('SET_LISTCONTRATCS', response.data.data)
         })
         .catch(e => {
           console.log(e)

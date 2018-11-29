@@ -5,11 +5,22 @@
         <h2>
           <nuxt-link to="/dashboard">Lista de Contratos</nuxt-link>
         </h2>
-        <el-button class="btn-save" @click="saveInfo" type="success">Nuevo</el-button>
+        <el-button
+          class="btn-save"
+          @click="saveInfo"
+          type="success"
+        >Nuevo</el-button>
       </template>
-      <div slot="section" class="section">
+      <div
+        slot="section"
+        class="section"
+      >
 
-        <div v-for="(item, index) in 6" :key="index" class="item">
+        <div
+          v-for="(item, index) in 6"
+          :key="index"
+          class="item"
+        >
           <div class="left">
             <p class="price">$ <span>165.000.000</span> COP</p>
             <p class="type">Tipo de contrato: <span>Fiduciario</span></p>
@@ -42,17 +53,25 @@
 </template>
 
 <script>
-import Card from '~/components/card'
+import Card from "~/components/card";
 export default {
   components: {
     Card
   },
+  created() {
+    this.$store.dispatch("GET_LISTCONTRACTS");
+  },
+  computed: {
+    listContracts() {
+      return this.$store.state.listContractsData;
+    }
+  },
   methods: {
     saveInfo() {
-      this.$router.push('/dashboard/contract/customer-info')
+      this.$router.push("/dashboard/contract/customer-info");
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -87,8 +106,8 @@ h2 span {
   /* overflow: hidden; */
   display: grid;
   grid-template-areas:
-    'left right'
-    'bottom bottom';
+    "left right"
+    "bottom bottom";
   grid-template-columns: 200px 1fr;
   grid-template-rows: 80px auto;
   margin: 20px 0;

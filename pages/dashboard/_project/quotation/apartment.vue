@@ -8,21 +8,42 @@
         </h2>
         <div class="num-apartment">{{numApartment}}</div>
       </template>
-      <div slot="section" class="section" v-loading="loading" element-spinner-color="red">
+      <div
+        slot="section"
+        class="section"
+        v-loading="loading"
+        element-spinner-color="red"
+      >
         <div class="section_one">
           <div class="col left">
             <building @change="getFlat" />
             <div>
               <div class="group">
-                <div class="btn_flat" :class="{btn_select: selected == index, btn_disabled: units.estado == 0 }" @click="select({item, index})" v-for="(item, index) in units" :key="index">{{item.numero}}</div>
+                <div
+                  class="btn_flat"
+                  :class="{btn_select: selected == index, btn_disabled: units.estado == 0 }"
+                  @click="select({item, index})"
+                  v-for="(item, index) in units"
+                  :key="index"
+                >{{item.numero}}</div>
               </div>
             </div>
           </div>
-          <div class="col right" v-if="currentUnit">
+          <div
+            class="col right"
+            v-if="currentUnit"
+          >
             <div class="container-img">
-              <swiper :options="swiperOption" ref="mySwiper">
+              <swiper
+                :options="swiperOption"
+                ref="mySwiper"
+              >
                 <swiper-slide>
-                  <img class="plano" :src="`http://administrador.app-encord.com/imagenes_unidades/${currentUnit.imagenes[0].imagen}`">
+                  <img
+                    v-if="currentUnit.imagenes[0]"
+                    class="plano"
+                    :src="`http://administrador.app-encord.com/imagenes_unidades/${currentUnit.imagenes[0].imagen}`"
+                  >
                 </swiper-slide>
                 <swiper-slide>
                   <div class="info">
@@ -34,11 +55,21 @@
             </div>
           </div>
 
-          <div class="col right" v-else>
+          <div
+            class="col right"
+            v-else
+          >
             <div class="container-img">
-              <swiper :options="swiperOption" ref="mySwiper">
+              <swiper
+                :options="swiperOption"
+                ref="mySwiper"
+              >
                 <swiper-slide>
-                  <img class="plano" :src="`http://administrador.app-encord.com/imagenes_pisos/${flatImage}`">
+                  <img
+                    v-if="flatImage"
+                    class="plano"
+                    :src="`http://administrador.app-encord.com/imagenes_pisos/${flatImage}`"
+                  >
                 </swiper-slide>
                 <swiper-slide>
                   <div class="info">
@@ -51,17 +82,21 @@
           </div>
 
         </div>
-        <nuxt-link class="btn_link" @click.native="sentNum" to="">Siguiente <i class="icon-right-open-big"></i></nuxt-link>
+        <nuxt-link
+          class="btn_link"
+          @click.native="sentNum"
+          to=""
+        >Siguiente <i class="icon-right-open-big"></i></nuxt-link>
       </div>
     </card>
   </div>
 </template>
 
 <script>
-import Card from '~/components/card'
-import Building from '~/components/building'
-import axios from 'axios'
-import debounce from 'debounce'
+import Card from "~/components/card";
+import Building from "~/components/building";
+import axios from "axios";
+import debounce from "debounce";
 
 export default {
   components: {
@@ -69,118 +104,117 @@ export default {
     Building
   },
   async created() {
-    this.ifExistProject()
-    await this.$store.dispatch('GET_FLOORS', this.changeIdProject)
-    this.getUnits()
+    this.ifExistProject();
+    await this.$store.dispatch("GET_FLOORS", this.changeIdProject);
+    this.getUnits();
   },
   data() {
     return {
       loading: true,
       selected: -1,
       numFlat: 1,
-      radio: '1',
-      url: '',
+      radio: "1",
+      url: "",
       currentUnit: null,
       swiperOption: {
         slidesPerView: 1,
         spaceBetween: 30,
         mousewheel: true,
-        width: '350',
+        width: "350",
         pagination: {
-          el: '.swiper-pagination',
+          el: ".swiper-pagination",
           clickable: true
         }
       }
-    }
+    };
   },
   computed: {
     nextRoute() {
-        return `/dashboard/${this.$route.params.project}/quotation/finishes`
+      return `/dashboard/${this.$route.params.project}/quotation/finishes`;
     },
     showModal: {
       get() {
-        return this.$store.state.showModal
+        return this.$store.state.showModal;
       },
       set(newValue) {
-        this.$store.commit('CHANGE_MODAL_STATE', newValue)
+        this.$store.commit("CHANGE_MODAL_STATE", newValue);
       }
     },
 
     flatImage() {
       if (this.$store.state.sentFlats[this.numFlat - 1]) {
-        return this.$store.state.sentFlats[this.numFlat - 1].imagen
+        return this.$store.state.sentFlats[this.numFlat - 1].imagen;
       }
     },
     units: {
       get() {
-        return this.$store.state.apartments
+        return this.$store.state.apartments;
       },
       set(newValue) {
-        this.$store.commit('SET_APARTMENTS', newValue)
+        this.$store.commit("SET_APARTMENTS", newValue);
       }
     },
     numApartment() {
       if (this.units.length) {
         if (this.selected > -1) {
-          return this.units[this.selected].numero
+          return this.units[this.selected].numero;
         }
       }
-      return ' '
+      return " ";
     },
     currentProject() {
-      return this.$store.state.currentProject
+      return this.$store.state.currentProject;
     },
     nameProject() {
-      return this.$store.state.currentProject.nombre
+      return this.$store.state.currentProject.nombre;
     },
     changeIdProject() {
-      return this.$store.state.currentProject.id
+      return this.$store.state.currentProject.id;
     },
     currentFlat() {
-      return this.flats.find(flat => flat.piso == this.numFlat) || {id: 0}
+      return this.flats.find(flat => flat.piso == this.numFlat) || { id: 0 };
     },
     flats() {
-      return this.$store.state.sentFlats
+      return this.$store.state.sentFlats;
     }
   },
   methods: {
-    select({item, index}) {
-      this.selected = index
-      this.currentUnit = item
+    select({ item, index }) {
+      this.selected = index;
+      this.currentUnit = item;
     },
     getFlat(value) {
-      this.units = []
-      this.numFlat = value
-      this.getUnits()
-      this.currentUnit = null
-      this.selected = -1
+      this.units = [];
+      this.numFlat = value;
+      this.getUnits();
+      this.currentUnit = null;
+      this.selected = -1;
     },
-    getUnits: debounce( async function(e) {
-      this.loading = true
-      await this.$store.dispatch('GET_UNITS', this.currentFlat.id)
+    getUnits: debounce(async function(e) {
+      this.loading = true;
+      await this.$store.dispatch("GET_UNITS", this.currentFlat.id);
       this.loading = false;
-      
     }, 800),
     sentNum() {
       if (this.currentUnit) {
-        this.$router.push(this.nextRoute)
-        this.$store.commit('SET_SENTNUM', this.units[this.selected].numero)
-        this.$store.commit('SET_CURRENTUNIT', this.currentUnit)
+        this.$router.push(this.nextRoute);
+        this.$store.commit("SET_SENTNUM", this.units[this.selected].numero);
+        this.$store.commit("SET_CURRENTUNIT", this.currentUnit);
       } else {
         this.$notify({
-          type: 'warning',
-          title: 'Alerta',
-          message: 'Primero debes seleccionar un numero de apartamento.'
+          type: "warning",
+          title: "Alerta",
+          message: "Primero debes seleccionar un numero de apartamento."
         });
       }
     },
     ifExistProject() {
-      if(!this.currentProject) {
-        this.$router.push('/dashboard')
+      if (!this.currentProject) {
+        this.$router.push("/dashboard");
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>

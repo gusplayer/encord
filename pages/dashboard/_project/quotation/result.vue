@@ -242,9 +242,9 @@ export default {
   data() {
     return {
       InfoQuotation: {
-        acabados: {},
+        acabados: "",
         clientes_id: 0,
-        proyectos_id: 0,
+        proyecto_id: 0,
         unidad_id: 0
       },
       identification: [
@@ -290,9 +290,10 @@ export default {
       }
     },
     async createQuotation() {
-      this.InfoQuotation.acabados = this.currentFinishes;
-      await this.$store.dispatch("CREATE_QUOTATION", this.infoContract);
-      this.$router.push("/dashboard");
+      this.InfoQuotation.acabados = JSON.stringify(this.currentFinishes);
+      this.InfoQuotation.proyecto_id = this.currentProject.id;
+      this.InfoQuotation.unidad_id = this.currentUnit.id;
+      await this.$store.dispatch("CREATE_QUOTATION", this.InfoQuotation);
     },
     saveQuotation() {
       const canva = document.getElementById("quotation");
@@ -313,8 +314,9 @@ export default {
           "FAST"
         );
         doc.save(pdfName + ".pdf");
-        this.$router.push(`/dashboard/report/reports`);
+        this.$router.push(`/dashboard`);
       });
+      this.createQuotation();
     }
   },
   watch: {

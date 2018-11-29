@@ -6,10 +6,16 @@
         <p>{{value}}</p>
       </div>
       <div class="container-arrows">
-        <div @click="add" class="content-arrow">
+        <div
+          @click="add"
+          class="content-arrow"
+        >
           <i class="icon-up-open-big"></i>
         </div>
-        <div @click="subtract" class="content-arrow">
+        <div
+          @click="subtract"
+          class="content-arrow"
+        >
           <i class="icon-down-open-big"></i>
         </div>
       </div>
@@ -30,38 +36,38 @@ export default {
   data() {
     return {
       value: 1
-    }
+    };
   },
   computed: {
     flats() {
-      return this.$store.state.sentFlats.length
+      return this.$store.state.sentFlats.length;
     },
     limit() {
-      return this.$store.state.sentFlats.length || 1
+      return this.$store.state.sentFlats.length || 1;
     }
   },
   watch: {
     value(value) {
-      this.$emit('change', value)
+      this.$emit("change", value);
     }
   },
   methods: {
     add() {
       if (this.value >= this.limit) {
-        this.value = this.limit
+        this.value = this.limit;
       } else {
-        this.value = this.value + 1
+        this.value = this.value + 1;
       }
     },
     subtract() {
       if (this.value <= 1) {
-        this.value = 1
+        this.value = 1;
       } else {
-        this.value = this.value - 1
+        this.value = this.value - 1;
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -69,13 +75,13 @@ a {
   text-decoration: none;
 }
 .building {
-  font-family: 'Dosis', Helvetica, Arial, sans-serif;
+  font-family: "Dosis", Helvetica, Arial, sans-serif;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-input[type='range'] {
+input[type="range"] {
   transform: rotate(270deg);
   -webkit-appearance: none;
   height: 40px;
@@ -89,7 +95,7 @@ input[type='range'] {
   transition: 0.3s ease-in-out;
   /* bottom: 80px; */
 }
-input[type='text'] {
+input[type="text"] {
   padding: 10px;
   max-width: 60px;
   border: 1px solid #aaa;
@@ -99,7 +105,7 @@ input[type='text'] {
   text-align: center;
   outline: none;
 }
-input[type='range']::-webkit-slider-thumb:active {
+input[type="range"]::-webkit-slider-thumb:active {
   /* background-color: #9dff00; */
 }
 h3 {

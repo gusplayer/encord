@@ -78,7 +78,7 @@
         </el-row>
         <el-row class="background">
           <el-col :span="12">
-            <p class="item grid-content">Nùmero de piso:</p>
+            <p class="item grid-content">Número de piso:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
@@ -550,110 +550,110 @@
 </template>
 
 <script>
-import Card from '~/components/card'
-import { Money } from 'v-money'
-import axios from 'axios'
+import Card from "~/components/card";
+import { Money } from "v-money";
+import axios from "axios";
 export default {
   components: {
     Card,
     Money
   },
   created() {
-    this.$store.dispatch('GET_CUSTOMERS')
-    this.$store.dispatch('GET_TYPESCONTRACTS')
+    this.$store.dispatch("GET_CUSTOMERS");
+    this.$store.dispatch("GET_TYPESCONTRACTS");
   },
   data() {
     return {
       money: {
-        decimal: ',',
-        thousands: '.',
-        prefix: '$',
-        suffix: '',
+        decimal: ",",
+        thousands: ".",
+        prefix: "$",
+        suffix: "",
         precision: 0,
         masked: false
       },
       percent: {
-        decimal: ',',
-        thousands: '.',
-        prefix: '',
-        suffix: '%',
+        decimal: ",",
+        thousands: ".",
+        prefix: "",
+        suffix: "%",
         precision: 0,
         masked: false
       },
       value: {},
       emptyProject: {
-        nombre: '',
-        ubicacion: '',
+        nombre: "",
+        ubicacion: "",
         price: 250000000,
         id: 1,
-        descripcion: '',
+        descripcion: "",
         user_id: 0,
         logo: null,
         estado: 0
       },
       getCostumer: {
-        id: '',
-        document: '',
-        name: '',
-        lastName: '',
-        phone: '',
-        address: ''
+        id: "",
+        document: "",
+        name: "",
+        lastName: "",
+        phone: "",
+        address: ""
       },
       emptyUnit: {
-        numero: '',
+        numero: "",
         valor: 0,
-        tipo_unidad: ''
+        tipo_unidad: ""
       },
-      unitNumber: '',
-      flat: '',
-      typeIdentification: '',
+      unitNumber: "",
+      flat: "",
+      typeIdentification: "",
       idFloor: 0,
       idBathroom: 0,
       idKitchen: 0,
       checkDomotica: 0,
       identification: [
-        'Cédula',
-        'Cédula de Extranjería',
-        'NIT',
-        'Pasaporte',
-        'ID Extranjero',
-        'Tarjeta  de Identidad'
+        "Cédula",
+        "Cédula de Extranjería",
+        "NIT",
+        "Pasaporte",
+        "ID Extranjero",
+        "Tarjeta  de Identidad"
       ],
-      contract: '',
-      inputValue: '',
-      inputInitialSeparation: '',
-      inputFee: ' ',
-      initialFeePercentage: '',
-      separationPercentage: '',
-      paydayLimit: '',
-      inputDate: '',
+      contract: "",
+      inputValue: "",
+      inputInitialSeparation: "",
+      inputFee: " ",
+      initialFeePercentage: "",
+      separationPercentage: "",
+      paydayLimit: "",
+      inputDate: "",
 
-      inputIdentification: '',
-      inputNombre: '',
-      inputCelular: '',
-      inputDireccion: '',
+      inputIdentification: "",
+      inputNombre: "",
+      inputCelular: "",
+      inputDireccion: "",
 
       formContract: {
         project: {
-          name: '',
-          city: '',
+          name: "",
+          city: "",
           id: 0
         },
         unit: {
           id: 0,
-          flat: '',
-          numUnit: '',
-          price: '',
-          typeUnit: ''
+          flat: "",
+          numUnit: "",
+          price: "",
+          typeUnit: ""
         },
         finishes: {
-          floor: '',
+          floor: "",
           floorPrice: 0,
-          bathroom: '',
+          bathroom: "",
           bathroomPrice: 0,
-          kitchen: '',
+          kitchen: "",
           kitchenPrice: 0,
-          domotica: '',
+          domotica: "",
           domoticaPrice: 0,
           total: 0
         },
@@ -664,81 +664,81 @@ export default {
           cost: 0,
           initial: 0,
           residue: 0,
-          date: '',
+          date: "",
           contract: {}
         },
         payment: {
           percentQuota: 0,
           costQuota: 0,
           numQuotas: 0,
-          startDate: '',
+          startDate: "",
           financing: 0,
           total: 0
         }
       }
-    }
+    };
   },
   computed: {
     projects() {
-      return this.$store.state.projectsData
+      return this.$store.state.projectsData;
     },
     sentFlats() {
-      return this.$store.state.sentFlats
+      return this.$store.state.sentFlats;
     },
     sentUnits() {
-      return this.$store.state.apartments
+      return this.$store.state.apartments;
     },
     customers() {
-      return this.$store.state.customersData
+      return this.$store.state.customersData;
     },
     currentProject() {
       return (
         this.projects.find(project => project.nombre == this.value) ||
         this.emptyProject
-      )
+      );
     },
     currentUnit() {
       return (
         this.sentUnits.find(unit => unit.numero == this.unitNumber) ||
         this.emptyUnit
-      )
+      );
     },
     bathrooms() {
       if (this.currentUnit.acabados) {
         return this.currentUnit.acabados.filter(
           finish => finish.tipos_acabados.grupos_acabados_id === 7
-        )
+        );
       }
     },
     floors() {
       if (this.currentUnit.acabados) {
         return this.currentUnit.acabados.filter(
           finish => finish.tipos_acabados.grupos_acabados_id === 6
-        )
+        );
       }
     },
     kitchens() {
       if (this.currentUnit.acabados) {
         return this.currentUnit.acabados.filter(
           finish => finish.tipos_acabados.grupos_acabados_id === 5
-        )
+        );
       }
     },
     domotica() {
       return this.currentUnit.acabados.filter(
         finish => finish.tipos_acabados.grupos_acabados_id === 8
-      )
+      );
     },
     domoticaPrice() {
-      return this.checkDomotica ? this.domotica[0].valor : 0
+      return this.checkDomotica ? this.domotica[0].valor : 0;
     },
     currentFloor() {
       if (this.floors) {
         return (
           this.floors.find(floor => floor.id == this.idFloor) || { valor: 0 }
-        )
+        );
       } else {
-        return { valor: 0 }
+        return { valor: 0 };
       }
     },
     currentKitchen() {
@@ -747,9 +747,9 @@ export default {
           this.kitchens.find(kitchen => kitchen.id == this.idKitchen) || {
             valor: 0
           }
-        )
+        );
       } else {
-        return { valor: 0 }
+        return { valor: 0 };
       }
     },
     currentBathroom() {
@@ -758,9 +758,9 @@ export default {
           this.bathrooms.find(bathroom => bathroom.id == this.idBathroom) || {
             valor: 0
           }
-        )
+        );
       } else {
-        return { valor: 0 }
+        return { valor: 0 };
       }
     },
     total() {
@@ -769,64 +769,64 @@ export default {
         parseInt(this.currentKitchen.valor) +
         parseInt(this.currentBathroom.valor) +
         this.domoticaPrice
-      )
+      );
     },
     totalValue() {
-      return this.total + parseInt(this.currentUnit.valor) || 0
+      return this.total + parseInt(this.currentUnit.valor) || 0;
     },
     separationValue() {
-      return this.totalValue * (this.separationPercentage / 100)
+      return this.totalValue * (this.separationPercentage / 100);
     },
     separationBalance() {
-      return this.separationValue - this.inputInitialSeparation
+      return this.separationValue - this.inputInitialSeparation;
     },
     initialFee() {
-      return this.totalValue * (this.initialFeePercentage / 100)
+      return this.totalValue * (this.initialFeePercentage / 100);
     },
     changeIdProject() {
-      return this.$store.state.sentInfo.id
+      return this.$store.state.sentInfo.id;
     },
     financing() {
-      return this.totalValue - this.initialFee
+      return this.totalValue - this.initialFee;
     },
     quota() {
-      return this.initialFee / this.inputFee || 0
+      return this.initialFee / this.inputFee || 0;
     },
     typesContractsData() {
-      return this.$store.state.typesContractsData
+      return this.$store.state.typesContractsData;
     },
     currentContract() {
       return this.typesContractsData.find(contract => {
-        return contract.id == this.contract
-      })
+        return contract.id == this.contract;
+      });
     }
   },
   watch: {
     inputIdentification(value) {
-      const result = this.customers.find(customer => customer.cedula == value)
+      const result = this.customers.find(customer => customer.cedula == value);
       if (result) {
-        this.getCostumer.id = result.id
-        this.getCostumer.document = result.cedula
-        this.getCostumer.name = result.nombre
-        this.getCostumer.phone = result.telefono
-        this.getCostumer.address = result.direccion
+        this.getCostumer.id = result.id;
+        this.getCostumer.document = result.cedula;
+        this.getCostumer.name = result.nombre;
+        this.getCostumer.phone = result.telefono;
+        this.getCostumer.address = result.direccion;
       } else {
-        this.getCostumer.id = ''
-        this.getCostumer.document = ''
-        this.getCostumer.name = ''
-        this.getCostumer.phone = ''
-        this.getCostumer.address = ''
+        this.getCostumer.id = "";
+        this.getCostumer.document = "";
+        this.getCostumer.name = "";
+        this.getCostumer.phone = "";
+        this.getCostumer.address = "";
       }
     },
     value(value) {
-      const result = this.projects.find(project => project.nombre == value)
+      const result = this.projects.find(project => project.nombre == value);
       if (result) {
-        this.getDataProject(result.id)
+        this.getDataProject(result.id);
       }
     },
     flat(value) {
-      this.getUnits(value)
-      this.unitNumber = ''
+      this.getUnits(value);
+      this.unitNumber = "";
     }
   },
   methods: {
@@ -834,47 +834,47 @@ export default {
       this.$store.state.infoContract = {
         customer: this.getCostumer,
         project: this.currentProject
-      }
-      this.$router.push('/dashboard/contract/contract')
-      this.dataContract()
-      this.sentData()
+      };
+      this.$router.push("/dashboard/contract/contract");
+      this.dataContract();
+      this.sentData();
     },
     sentData() {
-      this.$store.commit('SET_DATACONTRACT', this.formContract)
+      this.$store.commit("SET_DATACONTRACT", this.formContract);
     },
     dataContract() {
-      this.formContract.project.name = this.currentProject.nombre
-      this.formContract.project.city = this.currentProject.ubicacion
-      this.formContract.project.id = this.currentProject.id
-      this.formContract.unit.id = this.currentUnit.id
-      this.formContract.unit.flat = this.flat
-      this.formContract.unit.numUnit = this.unitNumber
-      this.formContract.unit.price = parseInt(this.currentUnit.valor)
-      this.formContract.unit.typeUnit = this.currentUnit.tipo_unidad
-      this.formContract.finishes = this.currentUnit.acabados
-      this.formContract.finishes.total = parseInt(this.total)
-      this.formContract.setApart.contract = this.currentContract
-      this.formContract.customer = this.getCostumer
-      this.formContract.customer.typeIdentification = this.typeIdentification
-      this.formContract.payment.numQuotas = this.inputFee
-      this.formContract.payment.costQuota = this.initialFee
-      this.formContract.payment.total = parseInt(this.totalValue)
+      this.formContract.project.name = this.currentProject.nombre;
+      this.formContract.project.city = this.currentProject.ubicacion;
+      this.formContract.project.id = this.currentProject.id;
+      this.formContract.unit.id = this.currentUnit.id;
+      this.formContract.unit.flat = this.flat;
+      this.formContract.unit.numUnit = this.unitNumber;
+      this.formContract.unit.price = parseInt(this.currentUnit.valor);
+      this.formContract.unit.typeUnit = this.currentUnit.tipo_unidad;
+      this.formContract.finishes = this.currentUnit.acabados;
+      this.formContract.finishes.total = parseInt(this.total);
+      this.formContract.setApart.contract = this.currentContract;
+      this.formContract.customer = this.getCostumer;
+      this.formContract.customer.typeIdentification = this.typeIdentification;
+      this.formContract.payment.numQuotas = this.inputFee;
+      this.formContract.payment.costQuota = this.initialFee;
+      this.formContract.payment.total = parseInt(this.totalValue);
     },
     getDataProject(id) {
-      this.$store.dispatch('GET_FLOORS', id)
+      this.$store.dispatch("GET_FLOORS", id);
     },
     getUnits(flat) {
-      this.$store.dispatch('GET_UNITS', flat)
+      this.$store.dispatch("GET_UNITS", flat);
     }
   },
   filters: {
     formatNum(value) {
       if (value) {
-        return `$${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`
+        return `$${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -945,8 +945,8 @@ div.el-row:last-child {
 }
 .el-select {
   width: 100% !important;
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 .el-input__inner {
   padding-left: 0;
@@ -982,8 +982,8 @@ h3 {
 div.el-input__inner {
   padding-left: 0 !important;
   background-color: transparent !important;
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 .btn-save {
   font-size: 18px;
