@@ -8,10 +8,15 @@
         </h2>
         <div class="num-apartment">{{numApartment}}</div>
       </template>
-      <div slot="section" class="section" v-loading="loading" element-spinner-color="red">
+      <div
+        slot="section"
+        class="section"
+        v-loading="loading"
+        element-spinner-color="red"
+      >
         <div class="section_one">
           <div class="col left">
-            <building @change="getFlat"/>
+            <building @change="getFlat" />
             <div>
               <div class="group">
                 <div
@@ -24,9 +29,15 @@
               </div>
             </div>
           </div>
-          <div class="col right" v-if="currentUnit">
+          <div
+            class="col right"
+            v-if="currentUnit"
+          >
             <div class="container-img">
-              <swiper :options="swiperOption" ref="mySwiper">
+              <swiper
+                :options="swiperOption"
+                ref="mySwiper"
+              >
                 <swiper-slide>
                   <img
                     v-if="currentUnit.imagenes[0]"
@@ -36,19 +47,26 @@
                 </swiper-slide>
                 <swiper-slide>
                   <div class="info">
-                    <h3 class="title">Title</h3>
+                    <h3 class="title">Descripción</h3>
                     <p
                       class="description"
-                    >Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum quam accusamus explicabo deserunt obcaecati doloremque maxime, aliquam quisquam.</p>
+                      v-html="currentUnit.descripcion"
+                    ></p>
                   </div>
                 </swiper-slide>
               </swiper>
             </div>
           </div>
 
-          <div class="col right" v-else>
+          <div
+            class="col right"
+            v-else
+          >
             <div class="container-img">
-              <swiper :options="swiperOption" ref="mySwiper">
+              <swiper
+                :options="swiperOption"
+                ref="mySwiper"
+              >
                 <swiper-slide>
                   <img
                     v-if="flatImage"
@@ -59,16 +77,18 @@
                 <swiper-slide>
                   <div class="info">
                     <h3 class="title">Title</h3>
-                    <p
-                      class="description"
-                    >Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum quam accusamus explicabo deserunt obcaecati doloremque maxime, aliquam quisquam.</p>
+                    <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum quam accusamus explicabo deserunt obcaecati doloremque maxime, aliquam quisquam.</p>
                   </div>
                 </swiper-slide>
               </swiper>
             </div>
           </div>
         </div>
-        <nuxt-link class="btn_link" @click.native="sentNum" to>
+        <nuxt-link
+          class="btn_link"
+          @click.native="sentNum"
+          to
+        >
           Siguiente
           <i class="icon-right-open-big"></i>
         </nuxt-link>
@@ -306,6 +326,7 @@ h4 {
 }
 .info {
   position: absolute;
+  margin-left: 20px;
 }
 .swiper-wrapper {
   max-width: 350px;
@@ -326,13 +347,7 @@ h4 {
   font-weight: 600;
   border-radius: 6px;
 }
-/* .Related {
-  max-width: 100%;
-  height: 450px;
+.description ul li {
+  list-style: circle;
 }
-.Related img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-} */
 </style>

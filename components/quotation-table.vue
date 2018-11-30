@@ -7,23 +7,16 @@
       stripe
       border
     >
-      <!-- <el-table-column
-        prop="mounth"
-        label="Mes"
-        :filters="[{text: 'Octubre', value: 'Octubre'}, {text: 'Septiembre', value: 'Septiembre'}, {text: 'Diciembre', value: 'Diciembre'}, {text: 'Agosto', value: 'Agosto'}]"
-        :filter-method="filterHandler"
-      >
-      </el-table-column> -->
       <el-table-column
         label="Fecha"
-        width="180"
+        width="140"
         column-key="date"
         :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
         :filter-method="filterHandler"
       >
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.created_at }}</span>
+          <span style="margin-left: 10px">{{new Date(scope.row.created_at).getDate()}}/{{new Date(scope.row.created_at).getMonth()}}/{{new Date(scope.row.created_at).getFullYear()}}</span>
         </template>
       </el-table-column>
       <el-table-column

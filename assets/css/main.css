@@ -82,6 +82,9 @@
 .quotation .swiper-wrapper {
   width: 350px;
 }
+.quotation .description p {
+  margin: 5px 0;
+}
 .index .swiper-wrapper {
   width: 350px;
 }

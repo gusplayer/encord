@@ -225,6 +225,9 @@ export default {
         .get(`${state.axiosUrl}/api/contratos`, state.axiosConfig)
         .then(response => {
           let contracts = response.data.data.map(contract => {
+            contract.proyecto = state.projectsData.find(
+              project => project.id == contract.proyectos_id
+            )
             contract.forma_pago = JSON.parse(contract.forma_pago)
             contract.acabados = JSON.parse(contract.acabados)
             contract.separacion = JSON.parse(contract.separacion)

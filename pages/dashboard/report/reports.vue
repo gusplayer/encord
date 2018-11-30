@@ -14,14 +14,32 @@
         <h3 class="title-reports">Reportes Mensuales</h3>
         <div class="head">
           <div
-            v-for="(item, index) in items"
-            :key="index"
             class="item"
-            @click="changeSlide(index)"
+            @click="changeSlide(0)"
           >
-            <div class="num">{{item.num}}</div>
+            <div class="num">{{listSales.length}}</div>
             <div class="content">
-              <p class="sales">{{item.name}}</p>
+              <p class="sales">Ventas</p>
+              <p class="monthly">Mensuales</p>
+            </div>
+          </div>
+          <div
+            class="item"
+            @click="changeSlide(1)"
+          >
+            <div class="num">{{listQuotations.length}}</div>
+            <div class="content">
+              <p class="sales">Cotizaciones</p>
+              <p class="monthly">Mensuales</p>
+            </div>
+          </div>
+          <div
+            class="item"
+            @click="changeSlide(2)"
+          >
+            <div class="num">33</div>
+            <div class="content">
+              <p class="sales">Acciones</p>
               <p class="monthly">Mensuales</p>
             </div>
           </div>
@@ -125,6 +143,12 @@ export default {
   computed: {
     swiper() {
       return this.$refs.mySwiper.swiper;
+    },
+    listQuotations() {
+      return this.$store.state.listQuotationsData;
+    },
+    listSales() {
+      return this.$store.state.listContractsData;
     }
   },
   methods: {

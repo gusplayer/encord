@@ -6,10 +6,16 @@
         <p>{{value}}</p>
       </div>
       <div class="container-arrows">
-        <div @click="add" class="content-arrow">
+        <div
+          @click="add"
+          class="content-arrow"
+        >
           <i class="icon-up-open-big"></i>
         </div>
-        <div @click="subtract" class="content-arrow">
+        <div
+          @click="subtract"
+          class="content-arrow"
+        >
           <i class="icon-down-open-big"></i>
         </div>
       </div>
@@ -22,9 +28,7 @@ export default {
   created() {
     if (this.$store.state.sentFlats.length) {
       this.$emit("change", this.$store.state.sentFlats[0].id);
-      console.log("here1");
     }
-    // this.limit = this.value
   },
   data() {
     return {
