@@ -6,16 +6,10 @@
         <p>{{value}}</p>
       </div>
       <div class="container-arrows">
-        <div
-          @click="add"
-          class="content-arrow"
-        >
+        <div @click="add" class="content-arrow">
           <i class="icon-up-open-big"></i>
         </div>
-        <div
-          @click="subtract"
-          class="content-arrow"
-        >
+        <div @click="subtract" class="content-arrow">
           <i class="icon-down-open-big"></i>
         </div>
       </div>
@@ -25,14 +19,13 @@
 
 <script>
 export default {
-  // created() {
-  //   if (this.$store.state.sentFlats.length) {
-  //     this.value = this.flats
-  //   } else {
-  //     this.value = 1
-  //   }
-  //   this.limit = this.value
-  // },
+  created() {
+    if (this.$store.state.sentFlats.length) {
+      this.$emit("change", this.$store.state.sentFlats[0].id);
+      console.log("here1");
+    }
+    // this.limit = this.value
+  },
   data() {
     return {
       value: 1
@@ -40,15 +33,19 @@ export default {
   },
   computed: {
     flats() {
-      return this.$store.state.sentFlats.length;
+      return this.$store.state.sentFlats;
     },
     limit() {
       return this.$store.state.sentFlats.length || 1;
     }
   },
   watch: {
+    flats() {
+      this.$emit("change", this.$store.state.sentFlats[0].id);
+      console.log("here");
+    },
     value(value) {
-      this.$emit("change", value);
+      this.$emit("change", this.flats[value - 1].id);
     }
   },
   methods: {

@@ -3,20 +3,15 @@
     <card>
       <template slot="header">
         <h2>
-          <nuxt-link :to="`/dashboard/${$route.params.project}`">{{nameProject}}</nuxt-link> -
+          <nuxt-link :to="`/dashboard/${$route.params.project}`">{{nameProject}}</nuxt-link>-
           <span>Cotizar</span>
         </h2>
         <div class="num-apartment">{{numApartment}}</div>
       </template>
-      <div
-        slot="section"
-        class="section"
-        v-loading="loading"
-        element-spinner-color="red"
-      >
+      <div slot="section" class="section" v-loading="loading" element-spinner-color="red">
         <div class="section_one">
           <div class="col left">
-            <building @change="getFlat" />
+            <building @change="getFlat"/>
             <div>
               <div class="group">
                 <div
@@ -29,15 +24,9 @@
               </div>
             </div>
           </div>
-          <div
-            class="col right"
-            v-if="currentUnit"
-          >
+          <div class="col right" v-if="currentUnit">
             <div class="container-img">
-              <swiper
-                :options="swiperOption"
-                ref="mySwiper"
-              >
+              <swiper :options="swiperOption" ref="mySwiper">
                 <swiper-slide>
                   <img
                     v-if="currentUnit.imagenes[0]"
@@ -48,22 +37,18 @@
                 <swiper-slide>
                   <div class="info">
                     <h3 class="title">Title</h3>
-                    <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum quam accusamus explicabo deserunt obcaecati doloremque maxime, aliquam quisquam.</p>
+                    <p
+                      class="description"
+                    >Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum quam accusamus explicabo deserunt obcaecati doloremque maxime, aliquam quisquam.</p>
                   </div>
                 </swiper-slide>
               </swiper>
             </div>
           </div>
 
-          <div
-            class="col right"
-            v-else
-          >
+          <div class="col right" v-else>
             <div class="container-img">
-              <swiper
-                :options="swiperOption"
-                ref="mySwiper"
-              >
+              <swiper :options="swiperOption" ref="mySwiper">
                 <swiper-slide>
                   <img
                     v-if="flatImage"
@@ -74,19 +59,19 @@
                 <swiper-slide>
                   <div class="info">
                     <h3 class="title">Title</h3>
-                    <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum quam accusamus explicabo deserunt obcaecati doloremque maxime, aliquam quisquam.</p>
+                    <p
+                      class="description"
+                    >Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum quam accusamus explicabo deserunt obcaecati doloremque maxime, aliquam quisquam.</p>
                   </div>
                 </swiper-slide>
               </swiper>
             </div>
           </div>
-
         </div>
-        <nuxt-link
-          class="btn_link"
-          @click.native="sentNum"
-          to=""
-        >Siguiente <i class="icon-right-open-big"></i></nuxt-link>
+        <nuxt-link class="btn_link" @click.native="sentNum" to>
+          Siguiente
+          <i class="icon-right-open-big"></i>
+        </nuxt-link>
       </div>
     </card>
   </div>
@@ -106,7 +91,7 @@ export default {
   async created() {
     this.ifExistProject();
     await this.$store.dispatch("GET_FLOORS", this.changeIdProject);
-    this.getUnits();
+    // this.getUnits();
   },
   data() {
     return {
@@ -171,9 +156,6 @@ export default {
     changeIdProject() {
       return this.$store.state.currentProject.id;
     },
-    currentFlat() {
-      return this.flats.find(flat => flat.piso == this.numFlat) || { id: 0 };
-    },
     flats() {
       return this.$store.state.sentFlats;
     }
@@ -192,7 +174,7 @@ export default {
     },
     getUnits: debounce(async function(e) {
       this.loading = true;
-      await this.$store.dispatch("GET_UNITS", this.currentFlat.id);
+      await this.$store.dispatch("GET_UNITS", this.numFlat);
       this.loading = false;
     }, 800),
     sentNum() {
