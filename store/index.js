@@ -220,7 +220,13 @@ export default {
       axios
         .get(`${state.axiosUrl}/api/contratos`, state.axiosConfig)
         .then(response => {
-          commit('SET_LISTCONTRATCS', response.data.data)
+          let contracts = response.data.data.map(contract => {
+            contract.forma_pago = JSON.parse(contract.forma_pago)
+            contract.acabados = JSON.parse(contract.acabados)
+            contract.separacion = JSON.parse(contract.separacion)
+            return contract
+          })
+          commit('SET_LISTCONTRATCS', contracts)
         })
         .catch(e => {
           console.log(e)

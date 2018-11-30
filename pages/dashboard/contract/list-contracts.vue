@@ -17,23 +17,24 @@
       >
 
         <div
-          v-for="(item, index) in 6"
+          v-for="(item, index) in listContracts"
           :key="index"
           class="item"
         >
           <div class="left">
-            <p class="price">$ <span>165.000.000</span> COP</p>
-            <p class="type">Tipo de contrato: <span>Fiduciario</span></p>
+            <p class="price">$ <span>{{item.forma_pago.total | formatNum}}</span> COP</p>
+            <p class="type">Tipo de unidad:<br><span>{{item.unidad.tipo_unidad}}</span></p>
           </div>
           <div class="right">
-            <h4 class="name">Nombre del Contrato</h4>
-            <p class="id"> ID: 456</p>
-            <p class="description">Descripción: <span>Compra de Inmueble</span></p>
+            <h4 class="name">{{item.separacion.contract.titulo}}</h4>
+            <p class="id">ID: {{item.separacion.contract.id}}</p>
+            <p class="description">Descripción: <span v-html="`${item.unidad.descripcion.substr(3,70)}...`"></span></p>
+
           </div>
           <div class="bottom">
             <div class="content">
               <p class="customer text">Comprador:</p>
-              <p class="name-customer bold">Diego Aguilar</p>
+              <p class="name-customer bold">{{item.clientes.nombre}}</p>
             </div>
             <div class="content">
               <p class="seller text">Vendedor:</p>
@@ -41,7 +42,7 @@
             </div>
             <div class="content">
               <p class="name-date text">Fecha:</p>
-              <p class="date"> 2018/10/12</p>
+              <p class="date">{{new Date(item.created_at).getDate()}}/{{new Date(item.created_at).getMonth()}}/{{new Date(item.created_at).getFullYear()}}</p>
             </div>
             <div class="content">
             </div>
@@ -69,6 +70,13 @@ export default {
   methods: {
     saveInfo() {
       this.$router.push("/dashboard/contract/customer-info");
+    }
+  },
+  filters: {
+    formatNum(value) {
+      if (value) {
+        return `${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+      }
     }
   }
 };
@@ -115,7 +123,7 @@ h2 span {
 }
 .left {
   box-sizing: border-box;
-  padding: 15px 15px;
+  padding: 15px 15px 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -149,6 +157,8 @@ h2 span {
 }
 .type {
   font-weight: 300;
+  align-self: flex-end;
+  text-align: right;
 }
 .type span {
   font-weight: 600;
@@ -171,10 +181,12 @@ h2 span {
   line-height: 1;
   text-transform: uppercase;
   padding-top: 10px;
+  display: flex;
 }
 .description span {
   color: rgba(37, 40, 61, 0.719);
   font-weight: 600;
+  margin-left: 5px;
 }
 .bold {
   text-transform: uppercase;
