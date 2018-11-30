@@ -7,10 +7,18 @@
           <!-- <span>- Brochure</span> -->
         </h2>
       </template>
-      <div slot="section" class="section">
+      <div
+        slot="section"
+        class="section"
+      >
         <h3 class="title-reports">Reportes Mensuales</h3>
         <div class="head">
-          <div v-for="(item, index) in items" :key="index" class="item" @click="changeSlide(index)">
+          <div
+            v-for="(item, index) in items"
+            :key="index"
+            class="item"
+            @click="changeSlide(index)"
+          >
             <div class="num">{{item.num}}</div>
             <div class="content">
               <p class="sales">{{item.name}}</p>
@@ -19,9 +27,20 @@
           </div>
         </div>
         <template class="col right">
-          <swiper :options="swiperOption" ref="mySwiper">
+          <swiper
+            :options="swiperOption"
+            ref="mySwiper"
+          >
             <swiper-slide>
-              <vue-frappe id="test" :labels="months" title="Histograma" type="axis-mixed" :height="300" :colors="['#6dc72a', '#00507d', '#00c7dc']" :dataSets="this.data">
+              <vue-frappe
+                id="test"
+                :labels="months"
+                title="Histograma"
+                type="axis-mixed"
+                :height="300"
+                :colors="['#6dc72a', '#00507d', '#00c7dc']"
+                :dataSets="this.data"
+              >
               </vue-frappe>
             </swiper-slide>
             <swiper-slide>
@@ -31,7 +50,7 @@
             </swiper-slide>
             <swiper-slide>
               <div class="info">
-                <h1>Cotizaciones</h1>
+                <quotation-table />
               </div>
             </swiper-slide>
             <swiper-slide>
@@ -47,12 +66,14 @@
 </template>
 
 <script>
-import Card from '~/components/card'
-import salesTable from '~/components/sales-table'
+import Card from "~/components/card";
+import salesTable from "~/components/sales-table";
+import quotationTable from "~/components/quotation-table";
 export default {
   components: {
     Card,
-    salesTable
+    salesTable,
+    quotationTable
   },
   data() {
     return {
@@ -61,57 +82,57 @@ export default {
         activeIndex: 2,
         spaceBetween: 30,
         mousewheel: true,
-        width: '650',
+        width: "650",
         pagination: {
-          el: '.swiper-pagination',
+          el: ".swiper-pagination",
           clickable: true
         }
       },
       data: [
         {
-          name: 'Ventas',
-          chartType: 'bar',
+          name: "Ventas",
+          chartType: "bar",
           values: [25, 40, 30, 20]
         },
         {
-          name: 'Cotizaciones',
-          chartType: 'bar',
+          name: "Cotizaciones",
+          chartType: "bar",
           values: [25, 50, 15, 40]
         },
         {
-          name: 'Acciones',
-          chartType: 'bar',
+          name: "Acciones",
+          chartType: "bar",
           values: [35, 40, 9, 10]
         }
       ],
-      months: ['Agosto', 'Octubre', 'Noviembre', 'Diciembre'],
+      months: ["Agosto", "Octubre", "Noviembre", "Diciembre"],
       items: [
         {
-          name: 'Ventas',
+          name: "Ventas",
           num: 23
         },
         {
-          name: 'Cotizaciones',
+          name: "Cotizaciones",
           num: 42
         },
         {
-          name: 'Acciones',
+          name: "Acciones",
           num: 63
         }
       ]
-    }
+    };
   },
   computed: {
     swiper() {
-      return this.$refs.mySwiper.swiper
+      return this.$refs.mySwiper.swiper;
     }
   },
   methods: {
     changeSlide(index) {
-      this.swiper.slideTo(index + 1, 1000, false)
+      this.swiper.slideTo(index + 1, 1000, false);
     }
   }
-}
+};
 </script>
 
 <style scoped>
