@@ -7,15 +7,27 @@
           <span>Nueva Accion</span>
         </h2>
       </template>
-      <div slot="section" class="section">
+      <div
+        slot="section"
+        class="section"
+      >
         <el-row class="background">
           <el-col :span="12">
             <p class="item grid-content">Tipo de acción:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <el-select v-model="action.tipo_accion" size="mini" placeholder="Tipo de acción">
-                <el-option v-for="(item, index) in actionTypes" :key="`actionType${index}`" :label="item.nombre" :value="item.nombre">
+              <el-select
+                v-model="action.tipo_accion"
+                size="mini"
+                placeholder="Tipo de acción"
+              >
+                <el-option
+                  v-for="(item, index) in actionTypes"
+                  :key="`actionType${index}`"
+                  :label="item.nombre"
+                  :value="item.nombre"
+                >
                 </el-option>
               </el-select>
             </div>
@@ -27,7 +39,12 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Descripción" v-model="action.descripcion">
+              <input
+                class="inputClinte"
+                type="text"
+                placeholder="Descripción"
+                v-model="action.descripcion"
+              >
             </div>
           </el-col>
         </el-row>
@@ -42,7 +59,8 @@
                 type="date"
                 placeholder="Selecciona un día"
                 format="yyyy/MM/dd"
-                value-format="yyyy-MM-dd">
+                value-format="yyyy-MM-dd"
+              >
               </el-date-picker>
             </div>
           </el-col>
@@ -53,14 +71,37 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-                <el-time-picker
-                    v-model="action.hora"
-                    :picker-options="{
+              <el-time-picker
+                v-model="action.hora"
+                :picker-options="{
                         selectableRange: '06:30:00 - 22:30:00'
                     }"
-                    value-format="hh:mm:ss"
-                    placeholder="Escoge la hora">
-                </el-time-picker>
+                value-format="hh:mm:ss"
+                placeholder="Escoge la hora"
+              >
+              </el-time-picker>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Proyecto:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <el-select
+                v-model="action.proyecto"
+                size="mini"
+                placeholder="Proyecto"
+              >
+                <el-option
+                  v-for="(item, index) in projects"
+                  :key="`project${index}`"
+                  :label="item.nombre"
+                  :value="item.id"
+                >
+                </el-option>
+              </el-select>
             </div>
           </el-col>
         </el-row>
@@ -68,58 +109,68 @@
           <el-col :span="12">
 
           </el-col>
-          <el-col :span="4" :offset="8">
-            <div class="btn-save" @click="createAction">Crear</div>
+          <el-col
+            :span="4"
+            :offset="8"
+          >
+            <div
+              class="btn-save"
+              @click="createAction"
+            >Crear</div>
           </el-col>
         </el-row>
+
       </div>
     </card>
   </div>
 </template>
 
 <script>
-import Card from '~/components/card'
+import Card from "~/components/card";
 export default {
   components: {
     Card
   },
-  created() {
-  },
+  created() {},
   data() {
     return {
-        action: {
-            cliente: "1",
-            tipo_accion: "",
-            descripcion: "",
-            fecha: "",
-            hora: ""
+      action: {
+        cliente: "1",
+        tipo_accion: "",
+        descripcion: "",
+        fecha: "",
+        hora: "",
+        proyecto: ""
+      },
+      actionTypes: [
+        {
+          nombre: "Llamada"
         },
-        actionTypes: [
-            {
-                nombre: 'Llamada'
-            },
-            {
-                nombre: 'Visita'
-            },
-            {
-                nombre: 'Mensaje de texto'
-            }
-        ]
-    }
+        {
+          nombre: "Visita"
+        },
+        {
+          nombre: "Mensaje de texto"
+        }
+      ]
+    };
   },
   computed: {
-      currentCustomer() {
-          return this.$store.state.currentCustomer
-      }
+    currentCustomer() {
+      return this.$store.state.currentCustomer;
+    },
+    projects() {
+      return this.$store.state.projectsData;
+    }
   },
   methods: {
-      async createAction() {
-          this.action.cliente = this.currentCustomer.id
-          await this.$store.dispatch('CREATE_ACTION', this.action)
-          this.$router.push(`/dashboard/customers/${this.currentCustomer.id}`)
-      }
+    async createAction() {
+      this.action.cliente = this.currentCustomer.id;
+      await this.$store.dispatch("CREATE_ACTION", this.action);
+      this.$router.push(`/dashboard/customers/${this.currentCustomer.id}`);
+    }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -210,8 +261,8 @@ div.el-row:last-child {
 }
 .el-select {
   width: 100% !important;
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 .el-input__inner {
   padding-left: 0;
@@ -247,8 +298,8 @@ h3 {
 div.el-input__inner {
   padding-left: 0 !important;
   background-color: transparent !important;
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 div.el-row .btn-save:hover {
   background-color: #caee90;

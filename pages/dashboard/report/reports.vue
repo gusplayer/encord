@@ -17,7 +17,7 @@
             class="item"
             @click="changeSlide(0)"
           >
-            <div class="num">{{listSales.length}}</div>
+            <div class="num">{{salesByMonth.length}}</div>
             <div class="content">
               <p class="sales">Ventas</p>
               <p class="monthly">Mensuales</p>
@@ -27,7 +27,7 @@
             class="item"
             @click="changeSlide(1)"
           >
-            <div class="num">{{listQuotations.length}}</div>
+            <div class="num">{{quotationsByMonth.length}}</div>
             <div class="content">
               <p class="sales">Cotizaciones</p>
               <p class="monthly">Mensuales</p>
@@ -37,7 +37,7 @@
             class="item"
             @click="changeSlide(2)"
           >
-            <div class="num">33</div>
+            <div class="num">{{actionsByMonth.length}}</div>
             <div class="content">
               <p class="sales">Acciones</p>
               <p class="monthly">Mensuales</p>
@@ -73,7 +73,7 @@
             </swiper-slide>
             <swiper-slide>
               <div class="info">
-                <h1>Acciones</h1>
+                <actions-table />
               </div>
             </swiper-slide>
           </swiper>
@@ -87,11 +87,13 @@
 import Card from "~/components/card";
 import salesTable from "~/components/sales-table";
 import quotationTable from "~/components/quotation-table";
+import actionsTable from "~/components/actions-table";
 export default {
   components: {
     Card,
     salesTable,
-    quotationTable
+    quotationTable,
+    actionsTable
   },
   data() {
     return {
@@ -149,6 +151,42 @@ export default {
     },
     listSales() {
       return this.$store.state.listContractsData;
+    },
+    listActions() {
+      return this.$store.state.listActionsData;
+    },
+    actionsByMonth() {
+      if (this.listActions) {
+        return this.listActions.filter(action => {
+          return (
+            new Date(action.created_at).getFullYear() ==
+              new Date().getFullYear() &&
+            new Date(action.created_at).getMonth() == new Date().getMonth()
+          );
+        });
+      }
+    },
+    quotationsByMonth() {
+      if (this.listQuotations) {
+        return this.listQuotations.filter(quotation => {
+          return (
+            new Date(quotation.created_at).getFullYear() ==
+              new Date().getFullYear() &&
+            new Date(quotation.created_at).getMonth() == new Date().getMonth()
+          );
+        });
+      }
+    },
+    salesByMonth() {
+      if (this.listSales) {
+        return this.listSales.filter(sale => {
+          return (
+            new Date(sale.created_at).getFullYear() ==
+              new Date().getFullYear() &&
+            new Date(sale.created_at).getMonth() == new Date().getMonth()
+          );
+        });
+      }
     }
   },
   methods: {

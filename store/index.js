@@ -24,6 +24,7 @@ export default {
     typesContractsData: [],
     listContractsData: [],
     listQuotationsData: [],
+    listActionsData: [],
     currentProject: null,
     currentUnit: null,
     currentCustomer: null,
@@ -75,6 +76,9 @@ export default {
     },
     SET_LISTQUOTATIONS(state, value) {
       state.listQuotationsData = value
+    },
+    SET_LISTACTIONS(state, value) {
+      state.listActionsData = value
     },
     SET_ACTIONS(state, value) {
       state.actionsData = value
@@ -251,6 +255,22 @@ export default {
             return quotation
           })
           commit('SET_LISTQUOTATIONS', quotations)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    async GET_LISTACTIONS({ state, commit }) {
+      axios
+        .get(`${state.axiosUrl}/api/acciones/listado`, state.axiosConfig)
+        .then(response => {
+          let actions = response.data.data.map(action => {
+            action.proyecto = state.projectsData.find(
+              project => project.id == action.proyectos_id
+            )
+            return action
+          })
+          commit('SET_LISTACTIONS', actions)
         })
         .catch(e => {
           console.log(e)

@@ -44,9 +44,10 @@ export default {
     }
   },
   watch: {
-    flats() {
-      this.$emit("change", this.$store.state.sentFlats[0].id);
-      console.log("here");
+    flats(value) {
+      if (value.length) {
+        this.$emit("change", value[0].id);
+      }
     },
     value(value) {
       this.$emit("change", this.flats[value - 1].id);

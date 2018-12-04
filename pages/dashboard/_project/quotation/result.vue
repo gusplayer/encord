@@ -245,7 +245,8 @@ export default {
         acabados: "",
         clientes_id: 0,
         proyecto_id: 0,
-        unidad_id: 0
+        unidad_id: 0,
+        total: 0
       },
       identification: [
         "Cédula",
@@ -293,6 +294,7 @@ export default {
       this.InfoQuotation.acabados = JSON.stringify(this.currentFinishes);
       this.InfoQuotation.proyecto_id = this.currentProject.id;
       this.InfoQuotation.unidad_id = this.currentUnit.id;
+      this.InfoQuotation.total = this.total;
       await this.$store.dispatch("CREATE_QUOTATION", this.InfoQuotation);
     },
     saveQuotation() {

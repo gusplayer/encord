@@ -77,7 +77,10 @@
                 <swiper-slide>
                   <div class="info">
                     <h3 class="title">Title</h3>
-                    <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum quam accusamus explicabo deserunt obcaecati doloremque maxime, aliquam quisquam.</p>
+                    <p
+                      class="description"
+                      v-html="flats"
+                    ></p>
                   </div>
                 </swiper-slide>
               </swiper>
@@ -147,8 +150,11 @@ export default {
     },
 
     flatImage() {
-      if (this.$store.state.sentFlats[this.numFlat - 1]) {
-        return this.$store.state.sentFlats[this.numFlat - 1].imagen;
+      let flat = this.$store.state.sentFlats.find(
+        flat => flat.id == this.numFlat
+      );
+      if (flat) {
+        return flat.imagen;
       }
     },
     units: {
@@ -174,7 +180,9 @@ export default {
       return this.$store.state.currentProject.nombre;
     },
     changeIdProject() {
-      return this.$store.state.currentProject.id;
+      if (this.$store.state.currentProject.id) {
+        return this.$store.state.currentProject.id;
+      }
     },
     flats() {
       return this.$store.state.sentFlats;

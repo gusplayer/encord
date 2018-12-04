@@ -42,7 +42,7 @@
             </div>
             <div class="content">
               <p class="name-date text">Fecha:</p>
-              <p class="date">{{new Date(item.created_at).getDate()}}/{{new Date(item.created_at).getMonth()}}/{{new Date(item.created_at).getFullYear()}}</p>
+              <p class="date">{{new Date(item.created_at).getDate()}}/{{new Date(item.created_at).getMonth() + 1}}/{{new Date(item.created_at).getFullYear()}}</p>
             </div>
             <div class="content">
             </div>

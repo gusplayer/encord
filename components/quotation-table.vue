@@ -16,7 +16,7 @@
       >
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{new Date(scope.row.created_at).getDate()}}/{{new Date(scope.row.created_at).getMonth()}}/{{new Date(scope.row.created_at).getFullYear()}}</span>
+          <span style="margin-left: 10px">{{new Date(scope.row.created_at).getDate()}}/{{new Date(scope.row.created_at).getMonth() + 1}}/{{new Date(scope.row.created_at).getFullYear()}}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -36,7 +36,7 @@
       >
       </el-table-column>
       <el-table-column
-        prop="unidad.valor"
+        prop="total"
         label="Valor"
         :formatter="formatterNum"
       >
@@ -63,10 +63,8 @@ export default {
       return row.address;
     },
     formatterNum(row, column) {
-      if (row.unidad.valor) {
-        return `$${row.unidad.valor
-          .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+      if (row.total) {
+        return `$${row.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
       }
     },
     filterTag(value, row) {
