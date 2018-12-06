@@ -7,20 +7,63 @@
           <span>/ Multimedia</span>
         </h2>
       </template>
-      <div slot="section" class="section">
-        <div class="container">
+      <div
+        slot="section"
+        class="section"
+      >
+        <div
+          class="container"
+          v-if="projectImages.length || videoProject"
+        >
           <div class="col left">
-            <div v-for="(item, index) in multimedia" :key="index" class="thumb" @click="selected(item)">
-              <img :src="`https://img.youtube.com/vi/${item.img}/0.jpg`" v-if="item.video">
-              <img :src="item.img" alt="" v-else>
+            <div
+              v-for="(item, index) in projectImages"
+              :key="index"
+              class="thumb"
+              @click="selected(item)"
+            >
+              <img
+                :src="`${urlImages}/${item.imagen}`"
+                alt=""
+              >
             </div>
+            <img
+              class="thumb"
+              :src="`https://img.youtube.com/vi/${videoProject}/0.jpg`"
+              @click="selected({ imagen: null })"
+              v-if="videoProject"
+            >
           </div>
           <div class="col right">
-            <div class="video" v-if="video">
-              <iframe width="560" height="315" :src="`https://www.youtube.com/embed/${image}?showinfo=0&rel=0&color=white`" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <div
+              class="video"
+              v-if="videoProject && !imagen"
+            >
+              <iframe
+                width="560"
+                height="315"
+                :src="`https://www.youtube.com/embed/${videoProject}?showinfo=0&rel=0&color=white`"
+                frameborder="0"
+                allow="autoplay; encrypted-media"
+                allowfullscreen
+              ></iframe>
             </div>
-            <img :src="image" alt="" v-else>
+            <img
+              :src="`${urlImages}/${imagen}`"
+              alt=""
+              v-else
+            >
           </div>
+        </div>
+        <div
+          class="warning"
+          v-else
+        >
+          <img
+            src="../../../assets/image.png"
+            alt=""
+          >
+          <p class="no-images">No se han cargado imagenes del proyecto {{nameProject}}</p>
         </div>
       </div>
     </card>
@@ -28,18 +71,36 @@
 </template>
 
 <script>
-import Card from '~/components/card'
+import Card from "~/components/card";
 
 export default {
   components: {
     Card
   },
   mounted() {
-    this.image = this.multimedia[0].img
+    if (this.projectImages.length) {
+      this.imagen = this.projectImages[0].imagen;
+    } else {
+      this.imagen = "";
+    }
   },
   computed: {
     nameProject() {
-      return this.$store.state.currentProject.nombre
+      return this.$store.state.currentProject.nombre;
+    },
+    videoProject() {
+      if (this.$store.state.currentProject.video) {
+        let index = this.$store.state.currentProject.video.indexOf("=");
+        let imagenVideo = this.$store.state.currentProject.video.slice(
+          index + 1
+        );
+        return imagenVideo;
+      }
+    },
+    projectImages() {
+      if (this.$store.state.currentProject.imagenes) {
+        return this.$store.state.currentProject.imagenes;
+      }
     }
   },
   data() {
@@ -47,37 +108,33 @@ export default {
       multimedia: [
         {
           id: 0,
-          img: require('~/assets/build.jpg')
+          img: require("~/assets/build.jpg")
         },
         {
           id: 1,
-          img: require('~/assets/edificio.jpg')
+          img: require("~/assets/edificio.jpg")
         },
         {
           id: 2,
-          img: require('~/assets/build.jpg')
+          img: require("~/assets/build.jpg")
         },
         {
           id: 3,
           video: true,
-          img: 'BASOKQquMRM'
+          img: "BASOKQquMRM"
         }
       ],
-      image: '',
-      video: false
-    }
+      imagen: "",
+      urlImages:
+        "http://administrador.app-encord.com/imagenes_adicionales_proyecto/"
+    };
   },
   methods: {
-    selected(item) {
-      this.image = item.img
-      if (item.video) {
-        this.video = true
-      } else {
-        this.video = false
-      }
+    selected(item, showSelected) {
+      this.imagen = item.imagen;
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -103,6 +160,7 @@ h2 span {
 }
 .container {
   display: flex;
+  height: 350px;
 }
 .col {
   min-height: 315px;
@@ -171,5 +229,24 @@ h2 span {
   height: 100%; */
   border-radius: 10px;
   overflow: hidden;
+}
+.no-images {
+  text-align: center;
+  font-size: 30px;
+  width: 500px;
+  margin: 0 auto;
+  color: rgba(65, 71, 80, 0.356);
+  line-height: 1;
+}
+.warning img {
+  max-width: 150px;
+  opacity: 0.4;
+}
+.warning {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 350px;
 }
 </style>

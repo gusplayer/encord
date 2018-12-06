@@ -182,6 +182,7 @@ export default {
   padding: 20px 0;
   height: 100vh;
   overflow: auto;
+  font-size: 12px;
 }
 a {
   text-decoration: none;

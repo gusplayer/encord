@@ -12,8 +12,8 @@
 
 <script>
 export default {
-  name: 'card'
-}
+  name: "card"
+};
 </script>
 
 <style scoped>
@@ -47,6 +47,7 @@ header {
   justify-content: space-between;
   position: sticky;
   padding: 10px 40px;
+  font-size: 12px;
 }
 section {
   width: 100%;

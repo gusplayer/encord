@@ -21,17 +21,20 @@
           style="width: 100%"
         >
           <el-table-column
-            prop="created_at"
             label="Fecha"
-            width="100"
+            width="110"
             :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
             :filter-method="filterHandler"
           >
+            <template slot-scope="scope">
+              <i class="el-icon-time"></i>
+              <span style="margin-left: 10px">{{new Date(scope.row.created_at.replace(/ /g, 'T')).getDate()}}/{{new Date(scope.row.created_at.replace(/ /g, 'T')).getMonth() + 1}}/{{new Date(scope.row.created_at.replace(/ /g, 'T')).getFullYear()}}</span>
+            </template>
           </el-table-column>
           <el-table-column
             prop="nivel_interes"
-            label="N_I"
-            width="45"
+            label="N.I"
+            width="40"
           >
             <template slot-scope="scope">
               <div class="circle">{{scope.row.nivel_interes}}</div>
@@ -57,7 +60,7 @@
           <el-table-column
             prop="id"
             label="Etiqueta"
-            width="80"
+            width="78"
           >
             <template slot-scope="scope">
               <nuxt-link :to="`/dashboard/customers/${scope.row.id}`">
@@ -82,40 +85,6 @@ export default {
   },
   created() {
     this.$store.dispatch("GET_CUSTOMERS");
-  },
-  data() {
-    return {
-      tableData: [
-        {
-          date: "2018-05-03",
-          name: "Tom Coy",
-          phone: "321654987",
-          address: "No. 189, Grove St",
-          tag: "Ver"
-        },
-        {
-          date: "2018-05-02",
-          name: "Tom Coy",
-          phone: "321654987",
-          address: "No. 189, Grove St",
-          tag: "Ver"
-        },
-        {
-          date: "2018-05-04",
-          name: "Tom Coy",
-          phone: "321654987",
-          address: "No. 189, Grove St",
-          tag: "Ver"
-        },
-        {
-          date: "2018-05-01",
-          name: "Tom Coy",
-          phone: "321654987",
-          address: "No. 189, Grove St",
-          tag: "Ver"
-        }
-      ]
-    };
   },
   computed: {
     customersData() {
@@ -149,6 +118,7 @@ export default {
   padding: 20px 0;
   height: 100vh;
   overflow: auto;
+  font-size: 12px;
 }
 a {
   text-decoration: none;
@@ -168,15 +138,15 @@ h2 span {
 }
 .circle {
   /* background-color: #98c253; */
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   vertical-align: middle;
   border: 1px solid #98c253;
-  font-size: 18px;
+  font-size: 12px;
   line-height: 0;
   box-sizing: border-box;
   padding-bottom: 2px;

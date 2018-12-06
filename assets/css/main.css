@@ -118,3 +118,6 @@
 .accion .el-date-editor--date .el-input__inner {
   background-color: rgb(248, 250, 255);
 }
+.list-costumers tbody {
+  font-size: 12px !important;
+}

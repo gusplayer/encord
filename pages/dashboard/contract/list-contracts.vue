@@ -38,11 +38,11 @@
             </div>
             <div class="content">
               <p class="seller text">Vendedor:</p>
-              <p class="name-seller bold">Rusbell Lozano</p>
+              <p class="name-seller bold">{{sellerName}}</p>
             </div>
             <div class="content">
               <p class="name-date text">Fecha:</p>
-              <p class="date">{{new Date(item.created_at).getDate()}}/{{new Date(item.created_at).getMonth() + 1}}/{{new Date(item.created_at).getFullYear()}}</p>
+              <p class="date">{{new Date(item.created_at.replace(/ /g, 'T')).getDate()}}/{{new Date(item.created_at.replace(/ /g, 'T')).getMonth() + 1}}/{{new Date(item.created_at.replace(/ /g, 'T')).getFullYear()}}</p>
             </div>
             <div class="content">
             </div>
@@ -65,6 +65,9 @@ export default {
   computed: {
     listContracts() {
       return this.$store.state.listContractsData;
+    },
+    sellerName() {
+      return this.$store.state.profileInfo.nombre;
     }
   },
   methods: {
@@ -87,10 +90,11 @@ export default {
   background-color: #eee;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   padding: 20px 0;
   height: 100vh;
   overflow: auto;
+  font-size: 12px;
 }
 a {
   text-decoration: none;
@@ -107,6 +111,8 @@ h2 span {
 .section {
   padding: 0px 40px;
   max-width: 700px;
+  height: 600px;
+  overflow: auto;
 }
 .item {
   border: 1px solid rgba(68, 87, 119, 0.233);

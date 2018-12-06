@@ -7,174 +7,141 @@
           <span>- Lista de Precios</span>
         </h2>
       </template>
-      <div slot="section" class="section">
-        <el-table height="400px" :data="sentFlats" stripe style="width: 100%;">
-          <el-table-column prop="id" label="ID" width="60">
-            <template slot-scope="scope">
-              <p>#{{scope.row.id}}</p>
-            </template>
-          </el-table-column>
-          <el-table-column prop="piso" label="Piso" width="100">
-            <template slot-scope="scope">
-              <p><strong>Piso {{ scope.row.piso }}</strong></p>
-            </template>
-          </el-table-column>
-          <el-table-column prop="imagen" label="Foto" width="200">
-            <template slot-scope="scope">
-              <img :src="`https://administrador.app-encord.com/imagenes_pisos/${scope.row.imagen}`" class="piso__imagen">
-            </template>
-          </el-table-column>
-          <el-table-column>
-            <template slot-scope="scope">
-              <div class="piso_action">
-                <el-button>Ver apartamentos</el-button>
-              </div>
-            </template>
-          </el-table-column>
-        </el-table>
+      <div
+        slot="section"
+        class="section"
+      >
+        <swiper
+          :options="swiperOption"
+          ref="mySwiper"
+        >
+          <swiper-slide>
+            <el-table
+              height="330px"
+              :data="sentFlats"
+              stripe
+              style="width: 100%;"
+            >
+              <el-table-column
+                prop="id"
+                label="ID"
+                width="60"
+              >
+                <template slot-scope="scope">
+                  <p>#{{scope.row.id}}</p>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="piso"
+                label="Piso"
+              >
+                <template slot-scope="scope">
+                  <p><strong>Piso {{ scope.row.piso }}</strong></p>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="imagen"
+                label="Foto"
+                width="200"
+              >
+                <template slot-scope="scope">
+                  <img
+                    :src="`https://administrador.app-encord.com/imagenes_pisos/${scope.row.imagen}`"
+                    class="piso__imagen"
+                  >
+                </template>
+              </el-table-column>
+              <el-table-column width="200">
+                <template slot-scope="scope">
+                  <div
+                    class="piso_action"
+                    @click="changeSlide(1 , scope.row.id)"
+                  >
+                    <el-button>Ver apartamentos</el-button>
+                  </div>
+                </template>
+              </el-table-column>
+            </el-table>
+          </swiper-slide>
+          <swiper-slide>
+            <apartments-table />
+          </swiper-slide>
+        </swiper>
+        <p
+          class="btn_link"
+          :class="{show:showBack}"
+          @click="changeSlide(0)"
+        >
+          <i class="icon-left-open-big"></i>
+          Atras
+        </p>
       </div>
     </card>
   </div>
 </template>
 
 <script>
-import Card from '~/components/card'
+import Card from "~/components/card";
+import apartmentsTable from "~/components/apartments-table";
 export default {
   components: {
-    Card
+    Card,
+    apartmentsTable
   },
   created() {
-    this.ifExistProject()
-    if(!this.sentFlats.length) {
-      this.$store.dispatch('GET_FLOORS', this.currentProject.id)
-    }
+    this.ifExistProject();
+    this.$store.dispatch("GET_FLOORS", this.currentProject.id);
+  },
+  destroyed() {
+    this.$store.commit("SET_SENTFLATS", null);
   },
   data() {
     return {
-      tableData: [
-        {
-          id: '1',
-          unity: '101',
-          area: '65 m2',
-          bedrooms: '2',
-          bathrooms: '3',
-          price: '$250.000.000'
-        },
-        {
-          id: '2',
-          unity: '102',
-          area: '65 m2',
-          bedrooms: '2',
-          bathrooms: '2',
-          price: '$280.000.000'
-        },
-        {
-          id: '3',
-          unity: '103',
-          area: '65 m2',
-          bedrooms: '3',
-          bathrooms: '2',
-          price: '$150.000.000'
-        },
-        {
-          id: '4',
-          unity: '104',
-          area: '65 m2',
-          bedrooms: '2',
-          bathrooms: '2',
-          price: '$250.000.000'
-        },
-        {
-          id: '5',
-          unity: '105',
-          area: '65 m2',
-          bedrooms: '2',
-          bathrooms: '2',
-          price: '$250.000.000'
-        },
-        {
-          id: '6',
-          unity: '106',
-          area: '65 m2',
-          bedrooms: '2',
-          bathrooms: '2',
-          price: '$350.000.000'
-        },
-        {
-          id: '7',
-          unity: '201',
-          area: '65 m2',
-          bedrooms: '2',
-          bathrooms: '2',
-          price: '$250.000.000'
-        },
-        {
-          id: '8',
-          unity: '202',
-          area: '65 m2',
-          bedrooms: '2',
-          bathrooms: '2',
-          price: '$250.000.000'
-        },
-        {
-          id: '9',
-          unity: '203',
-          area: '65 m2',
-          bedrooms: '2',
-          bathrooms: '2',
-          price: '$250.000.000'
-        },
-        {
-          id: '10',
-          unity: '204',
-          area: '65 m2',
-          bedrooms: '2',
-          bathrooms: '2',
-          price: '$250.000.000'
-        },
-        {
-          id: '11',
-          unity: '205',
-          area: '65 m2',
-          bedrooms: '2',
-          bathrooms: '2',
-          price: '$250.000.000'
-        },
-        {
-          id: '12',
-          unity: '206',
-          area: '65 m2',
-          bedrooms: '2',
-          bathrooms: '2',
-          price: '$250.000.000'
-        },
-        {
-          id: '13',
-          unity: '301',
-          area: '65 m2',
-          bedrooms: '2',
-          bathrooms: '2',
-          price: '$250.000.000'
+      swiperOption: {
+        slidesPerView: 1,
+        activeIndex: 2,
+        spaceBetween: 30,
+        mousewheel: true,
+        allowTouchMove: false,
+        // width: "650",
+        // height: "300",
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true
         }
-      ]
-    }
+      },
+      showBack: true
+    };
   },
   computed: {
+    swiper() {
+      return this.$refs.mySwiper.swiper;
+    },
     currentProject() {
-      return this.$store.state.currentProject
+      return this.$store.state.currentProject;
     },
     sentFlats() {
-      return this.$store.state.sentFlats
+      return this.$store.state.sentFlats;
     }
   },
   methods: {
     ifExistProject() {
-      if(!this.currentProject) {
-        this.$router.push('/dashboard')
+      if (!this.currentProject) {
+        this.$router.push("/dashboard");
       }
+    },
+    changeSlide(index, id = 0) {
+      if (id) {
+        this.getUnits(id);
+      }
+      this.showBack = !this.showBack;
+      this.swiper.slideTo(index, 1000, false);
+    },
+    getUnits(id) {
+      this.$store.dispatch("GET_UNITS", id);
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -218,9 +185,13 @@ h2 span {
   justify-content: center;
   align-items: center;
 }
-.section {
+/* .section {
   padding: 20px 40px;
-  /* max-height: 500px; */
+} */
+.section {
+  padding: 0 20px;
+  max-width: 700px;
+  /* height: 400px; */
   /* overflow: auto; */
 }
 .bold {
@@ -233,5 +204,20 @@ h2 span {
   width: 100%;
   display: grid;
   justify-content: center;
+}
+.btn_link {
+  cursor: pointer;
+  color: #98c253;
+  line-height: 1;
+  display: flex;
+  margin: 15px 0 0 15px;
+}
+.btn_link i {
+  margin-right: 5px;
+  transition: all ease 0.2s;
+}
+.show {
+  color: #fff;
+  pointer-events: none;
 }
 </style>

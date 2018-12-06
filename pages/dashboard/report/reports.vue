@@ -159,9 +159,10 @@ export default {
       if (this.listActions) {
         return this.listActions.filter(action => {
           return (
-            new Date(action.created_at).getFullYear() ==
+            new Date(action.created_at.replace(/ /g, "T")).getFullYear() ==
               new Date().getFullYear() &&
-            new Date(action.created_at).getMonth() == new Date().getMonth()
+            new Date(action.created_at.replace(/ /g, "T")).getMonth() ==
+              new Date().getMonth()
           );
         });
       }
@@ -170,9 +171,12 @@ export default {
       if (this.listQuotations) {
         return this.listQuotations.filter(quotation => {
           return (
-            new Date(quotation.created_at).getFullYear() ==
-              new Date().getFullYear() &&
-            new Date(quotation.created_at).getMonth() == new Date().getMonth()
+            new Date(
+              quotation.created_at.replace(/ /g, "T").replace(/ /g, "T")
+            ).getFullYear() == new Date().getFullYear() &&
+            new Date(
+              quotation.created_at.replace(/ /g, "T").replace(/ /g, "T")
+            ).getMonth() == new Date().getMonth()
           );
         });
       }
@@ -181,9 +185,10 @@ export default {
       if (this.listSales) {
         return this.listSales.filter(sale => {
           return (
-            new Date(sale.created_at).getFullYear() ==
+            new Date(sale.created_at.replace(/ /g, "T")).getFullYear() ==
               new Date().getFullYear() &&
-            new Date(sale.created_at).getMonth() == new Date().getMonth()
+            new Date(sale.created_at.replace(/ /g, "T")).getMonth() ==
+              new Date().getMonth()
           );
         });
       }

@@ -5,7 +5,7 @@
       class="side-panel"
     >
       <div class="head">
-        <div class="icons">
+        <!-- <div class="icons">
           <i
             :class="classActive"
             class="icon-057-settings-1"
@@ -14,17 +14,29 @@
             :class="classActive"
             class="icon-alarm"
           ></i>
-        </div>
+        </div> -->
         <div class="content-user">
-          <div class="avatar">
+          <div
+            class="avatar"
+            v-if="profileData.foto"
+          >
             <img
               src="../assets/avatar.jpg"
               alt
             >
           </div>
+          <div
+            class="avatar"
+            v-else
+          >
+            <img
+              src="../assets/avatar-vector.jpg"
+              alt
+            >
+          </div>
           <div class="info-user">
-            <h3 :class="classActive">Nombre Usuario</h3>
-            <p :class="classActive">Cargo en Encord</p>
+            <h3 :class="classActive">{{profileData.nombre}}</h3>
+            <p :class="classActive">{{profileData.email}}</p>
           </div>
         </div>
         <div class="line"></div>
@@ -137,14 +149,21 @@
 </template>
 
 <script>
-import indicator from '@/components/indicator'
-import iconProjects from '@/assets/icons/icon-projects'
-import iconContracts from '@/assets/icons/icon-contracts'
-import iconReports from '@/assets/icons/icon-reports'
-import iconPay from '@/assets/icons/icon-pay'
-import iconCustomers from '@/assets/icons/icon-customers'
+import indicator from "@/components/indicator";
+import iconProjects from "@/assets/icons/icon-projects";
+import iconContracts from "@/assets/icons/icon-contracts";
+import iconReports from "@/assets/icons/icon-reports";
+import iconPay from "@/assets/icons/icon-pay";
+import iconCustomers from "@/assets/icons/icon-customers";
 export default {
-  components: { indicator, iconProjects, iconContracts, iconReports, iconPay, iconCustomers },
+  components: {
+    indicator,
+    iconProjects,
+    iconContracts,
+    iconReports,
+    iconPay,
+    iconCustomers
+  },
   data() {
     return {
       alter: true,
@@ -153,47 +172,45 @@ export default {
         alterClass: true
       },
       classBtn: {
-        'btn-collapse': true
+        "btn-collapse": true
       },
       classPanel: {
-        'panel-collapse': true
+        "panel-collapse": true
       },
       classDeploy: {
-        'btn-deploy-collapse': true
+        "btn-deploy-collapse": true
       }
+    };
+  },
+  computed: {
+    profileData() {
+      return this.$store.state.profileInfo;
     }
   },
   methods: {
     change() {
-      this.alter = !this.alter
-      this.classActive.alterClass = !this.classActive.alterClass
-      this.classBtn['btn-collapse'] = !this.classBtn['btn-collapse']
-      this.classPanel['panel-collapse'] = !this.classPanel['panel-collapse']
-      this.classDeploy['btn-deploy-collapse'] = !this.classDeploy[
-        'btn-deploy-collapse'
-      ]
+      this.alter = !this.alter;
+      this.classActive.alterClass = !this.classActive.alterClass;
+      this.classBtn["btn-collapse"] = !this.classBtn["btn-collapse"];
+      this.classPanel["panel-collapse"] = !this.classPanel["panel-collapse"];
+      this.classDeploy["btn-deploy-collapse"] = !this.classDeploy[
+        "btn-deploy-collapse"
+      ];
     },
     setInitialIndicatorPosition() {
       this.indicatorPosition = parseInt(
-        document.querySelector('.router-link-active').dataset.index
-      )
+        document.querySelector(".router-link-active").dataset.index
+      );
     },
     selectItemByList(index) {
-      this.indicatorPosition = index
+      this.indicatorPosition = index;
     },
-    // async logout() {
-    //   try {
-    //     await this.$store.dispatch('logout')
-    //   } catch (e) {
-    //     this.formError = e.message
-    //   }
-    // }
     async logout() {
-      await this.$auth.logout()
-      console.log(this.$auth.loggedIn)
+      await this.$auth.logout();
+      console.log(this.$auth.loggedIn);
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -255,7 +272,7 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: -20px;
+  /* margin-top: 10px; */
 }
 .content-user h3 {
   font-weight: 600;

@@ -32,7 +32,8 @@ export default {
     customersData: null,
     actionsData: null,
     deparmentsData: null,
-    dataContract: {}
+    dataContract: {},
+    profileInfo: {}
   }),
   mutations: {
     SET_TOKEN(state) {
@@ -94,6 +95,9 @@ export default {
     },
     SET_DATACONTRACT(state, value) {
       state.dataContract = value
+    },
+    SET_PROFILEINFO(state, value) {
+      state.profileInfo = value
     }
   },
   getters: {
@@ -219,6 +223,16 @@ export default {
         .get(`${state.axiosUrl}/api/formatos-contratos`, state.axiosConfig)
         .then(response => {
           commit('SET_TYPESCONTRATCS', response.data.data)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    async GET_PROFILEINFO({ state, commit }) {
+      axios
+        .get(`${state.axiosUrl}/api/mi-perfil`, state.axiosConfig)
+        .then(response => {
+          commit('SET_PROFILEINFO', response.data.data)
         })
         .catch(e => {
           console.log(e)

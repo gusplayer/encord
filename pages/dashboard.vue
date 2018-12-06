@@ -15,6 +15,7 @@ export default {
   created() {
     this.$store.commit('SET_TOKEN')
     this.$store.dispatch('GET_PROJECTS')
+    this.$store.dispatch('GET_PROFILEINFO')
   }
 }
 </script>
