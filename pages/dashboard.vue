@@ -6,18 +6,18 @@
 </template>
 
 <script>
-import Sidebar from '~/components/sidebar'
+import Sidebar from "~/components/sidebar";
 export default {
-  middleware: 'auth',
+  middleware: "auth",
   components: {
     Sidebar
   },
   created() {
-    this.$store.commit('SET_TOKEN')
-    this.$store.dispatch('GET_PROJECTS')
-    this.$store.dispatch('GET_PROFILEINFO')
+    this.$store.commit("SET_TOKEN");
+    this.$store.dispatch("GET_PROJECTS");
+    this.$store.dispatch("GET_PROFILEINFO");
   }
-}
+};
 </script>
 
 <style scoped>

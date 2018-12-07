@@ -2,15 +2,29 @@
   <div class="section_two">
     <h3 class="subhead">{{ title }}</h3>
     <div class="container_cards">
-      <div v-for="(item, index) in data" :key="index" class="card_bathroom" :class="{card_select: card == index}">
+      <div
+        v-for="(item, index) in data"
+        :key="index"
+        class="card_bathroom"
+        :class="{card_select: card == index}"
+      >
         <h4 class="name">{{ item.tipos_acabados.nombre }}</h4>
-        <div @click="changeImagen" class="container_img">
-          <img :src="`https://administrador.app-encord.com/imagenes_tipos_acabados/${item.tipos_acabados.imagen}`" :alt="item.tipos_acabados.nombre">
+        <div
+          @click="changeImagen(item)"
+          class="container_img"
+        >
+          <img
+            :src="`https://administrador.app-encord.com/imagenes_tipos_acabados/${item.tipos_acabados.imagen}`"
+            :alt="item.tipos_acabados.nombre"
+          >
         </div>
         <div class="footer_card">
           <div class="price">{{ item.valor | formatPrice }}</div>
         </div>
-        <div @click="selectCard({item, index})" class="plus">+</div>
+        <div
+          @click="selectCard({item, index})"
+          class="plus"
+        >+</div>
       </div>
     </div>
   </div>
@@ -18,40 +32,40 @@
 
 <script>
 export default {
-  props: ['title', 'data'],
+  props: ["title", "data"],
   computed: {
     showModal: {
       get() {
-        return this.$store.state.showModal
+        return this.$store.state.showModal;
       },
       set(newValue) {
-        this.$store.commit('CHANGE_MODAL_STATE', newValue)
+        this.$store.commit("CHANGE_MODAL_STATE", newValue);
       }
     }
   },
   data() {
     return {
-      card: -1,
-    }
+      card: -1
+    };
   },
   methods: {
-    selectCard({item, index}) {
-      this.card = index
-      this.$emit('selected', item)
+    selectCard({ item, index }) {
+      this.card = index;
+      this.$emit("selected", item);
     },
-    changeImagen() {
-      this.showModal = true
-      this.$emit('change', this.img)
+    changeImagen(item) {
+      this.showModal = true;
+      this.$emit("change", item.tipos_acabados.imagen);
     }
   },
   filters: {
     formatPrice(value) {
       if (value) {
-        return `$${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`
+        return `$${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>

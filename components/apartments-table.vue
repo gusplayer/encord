@@ -46,7 +46,10 @@
       </el-table-column>
       <el-table-column label="Imagen">
         <template slot-scope="scope">
-          <span>Ver foto</span>
+          <span
+            class="imagen"
+            @click="changeImagen(scope.row.imagenes[0].imagen)"
+          >Ver foto</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -57,23 +60,17 @@
       >
       </el-table-column>
     </el-table>
+
   </div>
 </template>
 
 <script>
-import Modal from "~/components/modal";
-
 export default {
-  components: {
-    Modal
-  },
   destroyed() {
-    this.$store.commit("SET_APARTMENTS", null);
+    this.$store.commit("SET_APARTMENTS", []);
   },
   data() {
-    return {
-      img: ""
-    };
+    return {};
   },
   computed: {
     units() {
@@ -95,6 +92,12 @@ export default {
     filterHandler(value, row, column) {
       const property = column["property"];
       return row[property] === value;
+    },
+    changeImagen(img) {
+      this.showModal = true;
+      if (img) {
+        this.$store.commit("SET_IMGMODAL", img);
+      }
     }
   }
 };
@@ -109,5 +112,9 @@ export default {
 }
 .img_modal {
   width: 100%;
+}
+.imagen {
+  cursor: pointer;
+  color: rgba(47, 132, 201, 0.699);
 }
 </style>

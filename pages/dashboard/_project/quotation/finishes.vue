@@ -11,10 +11,16 @@
         </h2>
         <div class="num-apartment">{{numApartment}}</div>
       </template>
-      <div slot="section" class="section">
+      <div
+        slot="section"
+        class="section"
+      >
         <!-- <div class="total">Total: $505.200.000</div> -->
         <template>
-          <swiper :options="swiperOption" ref="mySwiper">
+          <swiper
+            :options="swiperOption"
+            ref="mySwiper"
+          >
             <swiper-slide v-if="bathrooms.length">
               <Section
                 @change="selectImagen"
@@ -42,11 +48,23 @@
           </swiper>
           <div class="container">
             <div class="tag"> <span class="bold">Valor Total: </span><span class="total">{{ total | formatPrice }}</span></div>
-            <nuxt-link @click.native="saveFinishes" class="btn_link" :to="nextRoute">Siguiente <i class="icon-right-open-big"></i></nuxt-link>
+            <nuxt-link
+              @click.native="saveFinishes"
+              class="btn_link"
+              :to="nextRoute"
+            >Siguiente <i class="icon-right-open-big"></i></nuxt-link>
           </div>
-          <modal v-if="showModal" @close="showModal = false">
+          <modal
+            v-if="showModal"
+            @close="showModal = false"
+          >
             <h3 slot="header">custom header</h3>
-            <img class="img_modal" slot="body" :src="img" alt="">
+            <img
+              class="img_modal"
+              slot="body"
+              :src="`http://administrador.app-encord.com/imagenes_tipos_acabados/${img}`"
+              alt=""
+            >
           </modal>
         </template>
       </div>
@@ -55,9 +73,9 @@
 </template>
 
 <script>
-import Card from '~/components/card'
-import Section from '~/components/finishes-section'
-import Modal from '~/components/modal'
+import Card from "~/components/card";
+import Section from "~/components/finishes-section";
+import Modal from "~/components/modal";
 export default {
   components: {
     Card,
@@ -65,74 +83,84 @@ export default {
     Section
   },
   created() {
-    this.ifExistProject()
+    this.ifExistProject();
   },
   data() {
     return {
-      img: '',
-      finishes: [],
+      img: "",
+      finishes: [{ valor: 0 }, { valor: 0 }, { valor: 0 }],
       swiperOption: {
         slidesPerView: 1,
         spaceBetween: 30,
         mousewheel: true,
-        width: '600',
+        width: "600",
         pagination: {
-          el: '.swiper-pagination',
+          el: ".swiper-pagination",
           clickable: true
         }
       }
-    }
+    };
   },
   computed: {
     nextRoute() {
-      return `/dashboard/${this.$route.params.project}/quotation/result`
+      return `/dashboard/${this.$route.params.project}/quotation/result`;
     },
     showModal: {
       get() {
-        return this.$store.state.showModal
+        return this.$store.state.showModal;
       },
       set(newValue) {
-        this.$store.commit('CHANGE_MODAL_STATE', newValue)
+        this.$store.commit("CHANGE_MODAL_STATE", newValue);
       }
     },
     currentProject() {
-      return this.$store.state.currentProject
+      return this.$store.state.currentProject;
     },
     numApartment() {
-      return this.$store.state.sentNum
+      return this.$store.state.sentNum;
     },
     currentUnit() {
-      return this.$store.state.currentUnit
+      return this.$store.state.currentUnit;
     },
     bathrooms() {
-      return this.currentUnit.acabados.filter(finish => finish.tipos_acabados.grupos_acabados_id === 7)
+      return this.currentUnit.acabados.filter(
+        finish => finish.tipos_acabados.grupos_acabados_id === 7
+      );
     },
     floors() {
-      return this.currentUnit.acabados.filter(finish => finish.tipos_acabados.grupos_acabados_id === 6)
+      return this.currentUnit.acabados.filter(
+        finish => finish.tipos_acabados.grupos_acabados_id === 6
+      );
     },
     kitchens() {
-      return this.currentUnit.acabados.filter(finish => finish.tipos_acabados.grupos_acabados_id === 5)
+      return this.currentUnit.acabados.filter(
+        finish => finish.tipos_acabados.grupos_acabados_id === 5
+      );
     },
     total() {
-      return this.finishes.reduce((total, finish) => { return total + parseInt(finish.valor)}, 0) + parseInt(this.currentUnit.valor) || 0
+      return (
+        this.finishes.reduce((total, finish) => {
+          return total + parseInt(finish.valor);
+        }, 0) + parseInt(this.currentUnit.valor) || 0
+      );
     }
   },
   methods: {
     selectImagen(value) {
-      this.img = value
+      this.img = value;
     },
     saveFinish(item, index) {
-      this.finishes.splice(index, 1, item)
+      this.$set(this.finishes, index, item);
     },
     saveFinishes() {
-      this.$store.commit('SET_CURRENTFINISHES', this.finishes)
+      this.$store.commit("SET_CURRENTFINISHES", this.finishes);
     },
     ifExistProject() {
-      if(!this.currentProject) {
-        this.$router.push('/dashboard')
+      if (!this.currentProject) {
+        this.$router.push("/dashboard");
       } else {
-        if(!this.currentUnit.acabados.length) {
-          this.$router.push(this.nextRoute)
+        if (!this.currentUnit.acabados.length) {
+          this.$router.push(this.nextRoute);
         }
       }
     }
@@ -140,13 +168,13 @@ export default {
   filters: {
     formatPrice(value) {
       if (value) {
-        return `$${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`
+        return `$${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
       } else {
-        return '$0'
+        return "$0";
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>

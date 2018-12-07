@@ -91,6 +91,7 @@ export default {
         forma_pago: {},
         proyecto_id: 1,
         separacion: {},
+        total: 100,
         unidad_id: 1
       }
     };

@@ -77,26 +77,41 @@
         </p>
       </div>
     </card>
+    <modal
+      v-if="imagenModal"
+      @close="$store.commit('SET_IMGMODAL', '')"
+    >
+      <h3 slot="header">Apartamento</h3>
+      <img
+        class="img_modal"
+        slot="body"
+        :src="`http://administrador.app-encord.com/imagenes_unidades/${imagenModal}`"
+        alt=""
+      >
+    </modal>
   </div>
 </template>
 
 <script>
 import Card from "~/components/card";
 import apartmentsTable from "~/components/apartments-table";
+import Modal from "~/components/modal";
 export default {
   components: {
     Card,
-    apartmentsTable
+    apartmentsTable,
+    Modal
   },
   created() {
     this.ifExistProject();
     this.$store.dispatch("GET_FLOORS", this.currentProject.id);
   },
   destroyed() {
-    this.$store.commit("SET_SENTFLATS", null);
+    this.$store.commit("SET_SENTFLATS", []);
   },
   data() {
     return {
+      img: "",
       swiperOption: {
         slidesPerView: 1,
         activeIndex: 2,
@@ -122,6 +137,9 @@ export default {
     },
     sentFlats() {
       return this.$store.state.sentFlats;
+    },
+    imagenModal() {
+      return this.$store.state.imagenModal;
     }
   },
   methods: {
@@ -219,5 +237,8 @@ h2 span {
 .show {
   color: #fff;
   pointer-events: none;
+}
+.img_modal {
+  width: 100%;
 }
 </style>

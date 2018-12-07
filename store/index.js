@@ -33,7 +33,8 @@ export default {
     actionsData: null,
     deparmentsData: null,
     dataContract: {},
-    profileInfo: {}
+    profileInfo: {},
+    imagenModal: ''
   }),
   mutations: {
     SET_TOKEN(state) {
@@ -62,6 +63,9 @@ export default {
     },
     SET_PROJECTS(state, value) {
       state.projectsData = value
+    },
+    SET_IMGMODAL(state, value) {
+      state.imagenModal = value
     },
     SET_CURRENTUNIT(state, value) {
       state.currentUnit = value

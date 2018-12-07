@@ -160,6 +160,36 @@
             </div>
           </el-col>
         </el-row>
+
+        <!-- Info Forma de Pago -->
+        <br>
+        <el-row>
+          <el-col :span="12">
+            <h3 class="grid-content">Separación:</h3>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Tipo de contrato:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <el-select
+                v-model="contract"
+                size="mini"
+                placeholder="Contratos"
+              >
+                <el-option
+                  v-for="(item, index) in typesContractsData"
+                  :key="index"
+                  :label="item.titulo"
+                  :value="item.id"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </el-col>
+        </el-row>
         <!-- Info Acabados -->
         <br>
         <el-row v-if="currentFinishes.length">
@@ -238,6 +268,7 @@ export default {
   },
   created() {
     this.$store.dispatch("GET_CUSTOMERS");
+    this.$store.dispatch("GET_TYPESCONTRACTS");
   },
   data() {
     return {
@@ -280,6 +311,9 @@ export default {
           return total + parseInt(finish.valor);
         }, 0) + parseInt(this.currentUnit.valor) || 0
       );
+    },
+    typesContractsData() {
+      return this.$store.state.typesContractsData;
     }
   },
   methods: {
