@@ -51,6 +51,7 @@
           >
             <swiper-slide>
               <vue-frappe
+                v-if="data[2].values.length"
                 id="test"
                 :labels="months"
                 title="Histograma"
@@ -95,6 +96,14 @@ export default {
     quotationTable,
     actionsTable
   },
+  mounted() {
+    this.getMonths();
+    if (this.listQuotations.length) {
+      this.getQuotations();
+      this.getSales();
+      this.getActions();
+    }
+  },
   data() {
     return {
       swiperOption: {
@@ -112,20 +121,34 @@ export default {
         {
           name: "Ventas",
           chartType: "bar",
-          values: [25, 40, 30, 20]
+          values: []
         },
         {
           name: "Cotizaciones",
           chartType: "bar",
-          values: [25, 50, 15, 40]
+          values: []
         },
         {
           name: "Acciones",
           chartType: "bar",
-          values: [35, 40, 9, 10]
+          values: []
         }
       ],
-      months: ["Agosto", "Octubre", "Noviembre", "Diciembre"],
+      monthNames: [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre"
+      ],
+      months: [],
       items: [
         {
           name: "Ventas",
@@ -194,9 +217,93 @@ export default {
       }
     }
   },
+  watch: {
+    listQuotations(value) {
+      this.getQuotations();
+    },
+    listSales(value) {
+      this.getSales();
+    },
+    listActions(value) {
+      this.getActions();
+    }
+  },
   methods: {
+    getQuotations() {
+      this.data[1].values = [];
+      for (var i = 3; i >= 0; i -= 1) {
+        let d = new Date(
+          new Date().getFullYear(),
+          new Date().getMonth() - i,
+          1
+        );
+        this.data[1].values.push(
+          this.listQuotations.filter(quotation => {
+            if (
+              new Date(quotation.created_at.replace(/ /g, "T")).getMonth() ==
+                d.getMonth() &&
+              new Date(quotation.created_at.replace(/ /g, "T")).getFullYear() ==
+                d.getFullYear()
+            ) {
+              return quotation;
+            }
+          }).length
+        );
+      }
+    },
+    getSales() {
+      this.data[0].values = [];
+      for (var i = 3; i >= 0; i -= 1) {
+        let d = new Date(
+          new Date().getFullYear(),
+          new Date().getMonth() - i,
+          1
+        );
+        this.data[0].values.push(
+          this.listSales.filter(sale => {
+            if (
+              new Date(sale.created_at.replace(/ /g, "T")).getMonth() ==
+                d.getMonth() &&
+              new Date(sale.created_at.replace(/ /g, "T")).getFullYear() ==
+                d.getFullYear()
+            ) {
+              return sale;
+            }
+          }).length
+        );
+      }
+    },
+    getActions() {
+      this.data[2].values = [];
+      for (var i = 3; i >= 0; i -= 1) {
+        let d = new Date(
+          new Date().getFullYear(),
+          new Date().getMonth() - i,
+          1
+        );
+        this.data[2].values.push(
+          this.listActions.filter(action => {
+            if (
+              new Date(action.created_at.replace(/ /g, "T")).getMonth() ==
+                d.getMonth() &&
+              new Date(action.created_at.replace(/ /g, "T")).getFullYear() ==
+                d.getFullYear()
+            ) {
+              return action;
+            }
+          }).length
+        );
+      }
+    },
     changeSlide(index) {
       this.swiper.slideTo(index + 1, 1000, false);
+    },
+    getMonths() {
+      let d;
+      for (var i = 3; i >= 0; i -= 1) {
+        d = new Date(new Date().getFullYear(), new Date().getMonth() - i, 1);
+        this.months.push(this.monthNames[d.getMonth()]);
+      }
     }
   }
 };
