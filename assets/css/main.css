@@ -121,3 +121,6 @@
 .list-costumers tbody {
   font-size: 12px !important;
 }
+.brochure iframe {
+  max-width: 100%;
+}

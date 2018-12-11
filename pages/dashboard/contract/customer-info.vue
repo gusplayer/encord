@@ -787,7 +787,7 @@ export default {
       return this.$store.state.sentInfo.id;
     },
     financing() {
-      return this.totalValue - this.initialFee;
+      return this.totalValue - this.initialFee - this.separationValue;
     },
     quota() {
       return this.initialFee / this.inputFee || 0;

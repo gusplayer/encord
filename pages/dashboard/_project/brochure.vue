@@ -7,9 +7,23 @@
           <span>- Brochure</span>
         </h2>
       </template>
-      <div slot="section" class="section">
-        <div class="pdf">
-          <iframe src="https://e.issuu.com/anonymous-embed.html?u=astegiudiziarie&d=nazionale_n7-2017" width="944" height="500" frameborder="0" allowfullscreen="true"></iframe>
+      <div
+        slot="section"
+        class="section"
+      >
+        <div
+          class="pdf"
+          v-html="brochure"
+          v-if="brochure"
+        >
+          <!-- <iframe src="https://e.issuu.com/anonymous-embed.html?u=astegiudiziarie&d=nazionale_n7-2017" width="944" height="500" frameborder="0" allowfullscreen="true"></iframe> -->
+
+        </div>
+        <div
+          class="pdf"
+          v-else
+        >
+          <p class="text">En el proyecto {{nameProject}} no se ha subido Brochure </p>
         </div>
       </div>
     </card>
@@ -17,17 +31,23 @@
 </template>
 
 <script>
-import Card from '~/components/card'
+import Card from "~/components/card";
 export default {
   components: {
     Card
   },
+  data() {
+    return {};
+  },
   computed: {
     nameProject() {
-      return this.$store.state.currentProject.nombre
+      return this.$store.state.currentProject.nombre;
+    },
+    brochure() {
+      return this.$store.state.currentProject.brochure;
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -76,5 +96,13 @@ h2 span {
 }
 iframe {
   max-width: 100%;
+}
+.text {
+  text-align: center;
+  font-size: 30px;
+  width: 500px;
+  margin: 0 auto;
+  color: rgba(65, 71, 80, 0.356);
+  line-height: 1;
 }
 </style>

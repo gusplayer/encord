@@ -146,7 +146,7 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <p class="item-get">{{currentUnit.valor | formatPrice}}</p>
+              <p class="item-get">{{currentUnit.valor | formatNum}}</p>
             </div>
           </el-col>
         </el-row>
@@ -168,28 +168,145 @@
             <h3 class="grid-content">Separación:</h3>
           </el-col>
         </el-row>
-        <el-row class="background">
+        <el-row>
           <el-col :span="12">
-            <p class="item grid-content">Tipo de contrato:</p>
+            <p class="item grid-content">Porcentaje de separación:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <el-select
-                v-model="contract"
-                size="mini"
-                placeholder="Contratos"
-              >
-                <el-option
-                  v-for="(item, index) in typesContractsData"
-                  :key="index"
-                  :label="item.titulo"
-                  :value="item.id"
-                >
-                </el-option>
-              </el-select>
+              <money
+                class="inputClinte"
+                v-model="separationPercentage"
+                v-bind="percent"
+              ></money>
             </div>
           </el-col>
         </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Costo de separación:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <p class="item-get">{{separationValue | formatNum}}</p>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Separación inicial:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <money
+                class="inputClinte"
+                v-model="inputInitialSeparation"
+                v-bind="money"
+              ></money>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Saldo separación:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <p class="item-get">{{separationBalance | formatNum}}</p>
+            </div>
+          </el-col>
+        </el-row>
+
+        <br>
+
+        <el-row>
+          <el-col :span="12">
+            <h3 class="grid-content">Forma de pago:</h3>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Porcentaje de cuota inicial:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <money
+                class="inputClinte"
+                v-model="initialFeePercentage"
+                v-bind="percent"
+              ></money>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Valor cuota inicial:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <p class="item-get">{{initialFee | formatNum}}</p>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Número de Cuotas:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <input
+                class="inputClinte"
+                type="text"
+                placeholder="Cuotas"
+                v-model="inputFee"
+              >
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Cuota:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <money
+                class="inputClinte"
+                v-model="quota"
+                v-bind="money"
+              ></money>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Financiación:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <p class="item-get">{{financing | formatNum}}</p>
+            </div>
+          </el-col>
+        </el-row>
+
+        <br>
+
+        <el-row>
+          <el-col :span="12">
+            <h3 class="grid-content">Observaciones:</h3>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
+            <el-input
+              type="textarea"
+              :autosize="{ minRows: 2, maxRows: 4}"
+              placeholder="Escribe alguna observación"
+              v-model="comment"
+            >
+            </el-input>
+          </el-col>
+        </el-row>
+
         <!-- Info Acabados -->
         <br>
         <el-row v-if="currentFinishes.length">
@@ -221,7 +338,7 @@
             <el-table-column
               prop="valor"
               label="Precio"
-              :formatter="formatPrice"
+              :formatter="formatNum"
             >
             </el-table-column>
             <el-table-column
@@ -239,7 +356,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <div class="tag"> <span class="bold">Valor Total: </span><span class="total">{{ total | formatPrice }}</span></div>
+            <div class="tag"> <span class="bold">Valor Total: </span><span class="total">{{ totalValue | formatNum }}</span></div>
           </el-col>
           <el-col
             :span="4"
@@ -261,10 +378,12 @@ import Card from "@/components/card";
 import jsPDF from "jspdf";
 import canvas from "html2canvas";
 import domtoimage from "dom-to-image";
+import { Money } from "v-money";
 
 export default {
   components: {
-    Card
+    Card,
+    Money
   },
   created() {
     this.$store.dispatch("GET_CUSTOMERS");
@@ -272,12 +391,35 @@ export default {
   },
   data() {
     return {
+      money: {
+        decimal: ",",
+        thousands: ".",
+        prefix: "$",
+        suffix: "",
+        precision: 0,
+        masked: false
+      },
+      percent: {
+        decimal: ",",
+        thousands: ".",
+        prefix: "",
+        suffix: "%",
+        precision: 0,
+        masked: false
+      },
       InfoQuotation: {
         acabados: "",
         clientes_id: 0,
         proyecto_id: 0,
         unidad_id: 0,
-        total: 0
+        total: 0,
+        valor_separacion: 0,
+        observaciones: "",
+        financiacion: 0,
+        valor_cuota: 0,
+        numero_cuotas: 0,
+        valor_saldo_cuota_inicial: 0,
+        valor_cuota_inicial_unidad: 0
       },
       identification: [
         "Cédula",
@@ -289,7 +431,13 @@ export default {
       ],
       inputIdentification: "",
       nameCostumer: "",
-      typeIdentification: ""
+      typeIdentification: "",
+      separationPercentage: "",
+      inputInitialSeparation: "",
+      initialFeePercentage: "",
+      inputFee: "",
+      inputDate: "",
+      comment: ""
     };
   },
   computed: {
@@ -305,19 +453,42 @@ export default {
     currentFinishes() {
       return this.$store.state.currentFinishes;
     },
-    total() {
+    totalValue() {
       return (
         this.currentFinishes.reduce((total, finish) => {
           return total + parseInt(finish.valor);
         }, 0) + parseInt(this.currentUnit.valor) || 0
       );
     },
+    // totalValue() {
+    //   return this.total + parseInt(this.currentUnit.valor) || 0;
+    // },
     typesContractsData() {
       return this.$store.state.typesContractsData;
+    },
+    separationValue() {
+      return (
+        parseInt(this.totalValue) * (parseInt(this.separationPercentage) / 100)
+      );
+    },
+    separationBalance() {
+      return this.separationValue - this.inputInitialSeparation;
+    },
+    initialFee() {
+      return this.totalValue * (this.initialFeePercentage / 100);
+    },
+    quota() {
+      return this.initialFee / this.inputFee || 0;
+    },
+    financing() {
+      return this.totalValue - this.initialFee - this.separationValue;
+    },
+    totalValueInitial() {
+      return this.separationValue + this.initialFee;
     }
   },
   methods: {
-    formatPrice(row, column) {
+    formatNum(row, column) {
       if (row.valor) {
         return `$${row.valor.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
       } else {
@@ -328,7 +499,16 @@ export default {
       this.InfoQuotation.acabados = JSON.stringify(this.currentFinishes);
       this.InfoQuotation.proyecto_id = this.currentProject.id;
       this.InfoQuotation.unidad_id = this.currentUnit.id;
-      this.InfoQuotation.total = this.total;
+      this.InfoQuotation.total = parseInt(this.totalValue) || 0;
+      this.InfoQuotation.valor_separacion = parseInt(this.separationValue) || 0;
+      this.InfoQuotation.valor_cuota_inicial_unidad =
+        parseInt(this.totalValueInitial) || 0;
+      this.InfoQuotation.valor_saldo_cuota_inicial =
+        parseInt(this.initialFee) || 0;
+      this.InfoQuotation.numero_cuotas = parseInt(this.inputFee) || 0;
+      this.InfoQuotation.valor_cuota = parseInt(this.quota) || 0;
+      this.InfoQuotation.financiacion = parseInt(this.financing) || 0;
+      this.InfoQuotation.observaciones = this.comment;
       await this.$store.dispatch("CREATE_QUOTATION", this.InfoQuotation);
     },
     saveQuotation() {
@@ -367,9 +547,9 @@ export default {
     }
   },
   filters: {
-    formatPrice(value) {
+    formatNum(value) {
       if (value) {
-        return `$${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+        return `$${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
       } else {
         return "$0";
       }
@@ -555,7 +735,7 @@ div.el-row .tag {
   width: 125px;
   height: 125px;
 }
-.inputClinte {
+/* .inputClinte {
   background-color: transparent;
   font-size: 18px;
   font-weight: 300;
@@ -569,7 +749,7 @@ div.el-row .tag {
   color: rgba(103, 123, 158, 0.822);
   opacity: 0.5;
   font-weight: 300;
-}
+} */
 .el-select {
   width: 100% !important;
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
