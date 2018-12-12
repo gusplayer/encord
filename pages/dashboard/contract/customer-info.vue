@@ -223,13 +223,27 @@
             <p class="item grid-content">Domótica:</p>
           </el-col>
           <el-col :span="12">
-            <div>
+            <div v-if="domotica">
               <el-radio
                 v-model="checkDomotica"
                 :label="1"
                 size="mini"
               >Si</el-radio>
               <el-radio
+                v-model="checkDomotica"
+                :label="0"
+                size="mini"
+              >No</el-radio>
+            </div>
+            <div v-else>
+              <el-radio
+                disabled
+                v-model="checkDomotica"
+                :label="1"
+                size="mini"
+              >Si</el-radio>
+              <el-radio
+                disabled
                 v-model="checkDomotica"
                 :label="0"
                 size="mini"
@@ -632,6 +646,7 @@ export default {
       inputNombre: "",
       inputCelular: "",
       inputDireccion: "",
+      domoticaPrice: 0,
 
       formContract: {
         project: {
@@ -725,13 +740,15 @@ export default {
       }
     },
     domotica() {
-      return this.currentUnit.acabados.filter(
-        finish => finish.tipos_acabados.grupos_acabados_id === 8
-      );
+      if (this.currentUnit.acabados) {
+        return this.currentUnit.acabados.filter(
+          finish => finish.tipos_acabados.grupos_acabados_id === 8
+        );
+      }
     },
-    domoticaPrice() {
-      return this.checkDomotica ? this.domotica[0].valor : 0;
-    },
+    // domoticaPrice() {
+    //   return this.checkDomotica ? this.domotica[0].valor : 0;
+    // },
     currentFloor() {
       if (this.floors) {
         return (
@@ -823,10 +840,21 @@ export default {
       if (result) {
         this.getDataProject(result.id);
       }
+      this.domoticaPrice = 0;
+      this.flat = "";
+      this.total = 0;
     },
     flat(value) {
       this.getUnits(value);
       this.unitNumber = "";
+    },
+    checkDomotica(value) {
+      if (value == 1) {
+        this.domoticaPrice = this.domotica[0].valor;
+      } else {
+        this.domoticaPrice = 0;
+      }
+      console.log(this.domoticaPrice);
     }
   },
   methods: {
