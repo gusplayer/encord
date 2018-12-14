@@ -47,7 +47,12 @@
             @click="clear"
             size="mini"
           >Borrar</el-button>
-          <!-- <el-button type="info" plain @click="save" size="mini">Guardar</el-button> -->
+          <el-button
+            type="info"
+            plain
+            @click="save"
+            size="mini"
+          >Guardar</el-button>
         </el-button-group>
         <el-button
           @click="download"
@@ -114,13 +119,13 @@ export default {
       let newText = text;
       if (this.dataContract) {
         newText = newText.replace(
-          "%name%",
+          /%nombre%/g,
           "<i>" + this.dataContract.customer.name + "</i>"
         );
-        // newText = newText.replace(
-        //   '%document%',
-        //   '<i>' + this.infoContract.customer.document + '</i>'
-        // )
+        newText = newText.replace(
+          /%documento%/g,
+          "<i>" + this.dataContract.customer.document + "</i>"
+        );
         // newText = newText.replace(
         //   '%area%',
         //   '<i>' + this.infoContract.project.area + '</i>'

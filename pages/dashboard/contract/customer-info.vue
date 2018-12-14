@@ -223,7 +223,7 @@
             <p class="item grid-content">Domótica:</p>
           </el-col>
           <el-col :span="12">
-            <div v-if="domotica">
+            <div v-if="domotica.length">
               <el-radio
                 v-model="checkDomotica"
                 :label="1"
@@ -744,6 +744,8 @@ export default {
         return this.currentUnit.acabados.filter(
           finish => finish.tipos_acabados.grupos_acabados_id === 8
         );
+      } else {
+        return [];
       }
     },
     // domoticaPrice() {
@@ -854,7 +856,6 @@ export default {
       } else {
         this.domoticaPrice = 0;
       }
-      console.log(this.domoticaPrice);
     }
   },
   methods: {

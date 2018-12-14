@@ -533,6 +533,7 @@ export default {
         this.$router.push(`/dashboard`);
       });
       this.createQuotation();
+      console.log(this.InfoQuotation);
     }
   },
   watch: {

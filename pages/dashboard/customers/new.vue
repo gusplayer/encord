@@ -7,98 +7,217 @@
           <span>Nuevo</span>
         </h2>
       </template>
-      <div slot="section" class="section">
+      <div
+        slot="section"
+        class="section"
+      >
         <el-row class="background">
           <el-col :span="12">
             <p class="item grid-content">Cedula:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Numero de identificacion" v-model="customer.cedula">
+              <input
+                class="inputClinte"
+                type="text"
+                placeholder="Numero de identificacion"
+                v-model="customer.cedula"
+              >
             </div>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <p class="item grid-content">Nombre completo:</p>
+            <p class="item grid-content">Ciudad de expedición:</p>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="6">
             <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Nombre y apellido" v-model="customer.nombre">
+              <el-select
+                v-model="customer.departamentoExpedicion"
+                size="mini"
+                placeholder="Departamento"
+              >
+                <el-option
+                  v-for="(item, index) in deparmentsData"
+                  :key="`department${index}`"
+                  :label="item.nombre"
+                  :value="item.id"
+                >
+                </el-option>
+              </el-select>
             </div>
           </el-col>
-        </el-row>
-        <el-row class="background">
-          <el-col :span="12">
-            <p class="item grid-content">Correo Electronico:</p>
-          </el-col>
-          <el-col :span="12">
+          <el-col :span="6">
             <div class="grid-content">
-              <input name="email" class="inputClinte" type="email" placeholder="Correo electronico" v-model="customer.email">
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <p class="item grid-content">Celular:</p>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Celular" v-model="customer.telefono">
-            </div>
-          </el-col>
-        </el-row>
-        <el-row class="background">
-          <el-col :span="12">
-            <p class="item grid-content">Ocupación:</p>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content">
-              <input name="email" class="inputClinte" type="email" placeholder="Ocupación" v-model="customer.ocupacion">
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <p class="item grid-content">Edad:</p>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Edad" v-model="customer.edad">
-            </div>
-          </el-col>
-        </el-row>
-        <el-row class="background">
-          <el-col :span="12">
-            <p class="item grid-content">Dirección:</p>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content">
-              <input class="inputClinte" type="text" placeholder="Dirección" v-model="customer.direccion">
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <p class="item grid-content">Departamento:</p>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content">
-              <el-select v-model="currentDeparment" size="mini" placeholder="Departamento">
-                <el-option v-for="(item, index) in deparmentsData" :key="`department${index}`" :label="item.nombre" :value="item.id">
+              <el-select
+                v-model="customer.ciudadExpedicion"
+                size="mini"
+                placeholder="Ciudad"
+              >
+                <el-option
+                  v-for="(item, index) in expeditionsCities"
+                  :key="`city${index}`"
+                  :label="item.nombre"
+                  :value="item.id"
+                >
                 </el-option>
               </el-select>
             </div>
           </el-col>
         </el-row>
-        <el-row class="background" v-if="cities">
+        <!-- <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Ciudad de Expedición:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <el-select
+                v-model="customer.ciudad"
+                size="mini"
+                placeholder="Ciudad"
+              >
+                <el-option
+                  v-for="(item, index) in cities"
+                  :key="`city${index}`"
+                  :label="item.nombre"
+                  :value="item.id"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </el-col>
+        </el-row> -->
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Nombre completo:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <input
+                class="inputClinte"
+                type="text"
+                placeholder="Nombre y apellido"
+                v-model="customer.nombre"
+              >
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Correo Electronico:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <input
+                name="email"
+                class="inputClinte"
+                type="email"
+                placeholder="Correo electronico"
+                v-model="customer.email"
+              >
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Celular:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <input
+                class="inputClinte"
+                type="text"
+                placeholder="Celular"
+                v-model="customer.telefono"
+              >
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Ocupación:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <input
+                name="email"
+                class="inputClinte"
+                type="email"
+                placeholder="Ocupación"
+                v-model="customer.ocupacion"
+              >
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Edad:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <input
+                class="inputClinte"
+                type="text"
+                placeholder="Edad"
+                v-model="customer.edad"
+              >
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Dirección:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <input
+                class="inputClinte"
+                type="text"
+                placeholder="Dirección"
+                v-model="customer.direccion"
+              >
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Departamento:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <el-select
+                v-model="currentDeparment"
+                size="mini"
+                placeholder="Departamento"
+              >
+                <el-option
+                  v-for="(item, index) in deparmentsData"
+                  :key="`department${index}`"
+                  :label="item.nombre"
+                  :value="item.id"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <p class="item grid-content">Ciudad:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <el-select v-model="customer.ciudad" size="mini" placeholder="Ciudad">
-                <el-option v-for="(item, index) in cities" :key="`city${index}`" :label="item.nombre" :value="item.id">
+              <el-select
+                v-model="customer.ciudad"
+                size="mini"
+                placeholder="Ciudad"
+              >
+                <el-option
+                  v-for="(item, index) in cities"
+                  :key="`city${index}`"
+                  :label="item.nombre"
+                  :value="item.id"
+                >
                 </el-option>
               </el-select>
             </div>
@@ -122,8 +241,14 @@
           <el-col :span="12">
 
           </el-col>
-          <el-col :span="4" :offset="8">
-            <div class="btn-save" @click="createCustomer">Guardar</div>
+          <el-col
+            :span="4"
+            :offset="8"
+          >
+            <div
+              class="btn-save"
+              @click="createCustomer"
+            >Guardar</div>
           </el-col>
         </el-row>
       </div>
@@ -132,55 +257,67 @@
 </template>
 
 <script>
-import Card from '~/components/card'
+import Card from "~/components/card";
 export default {
   components: {
     Card
   },
   created() {
-    this.$store.dispatch('GET_DEPARMENTSWITHCITIES')
+    this.$store.dispatch("GET_DEPARMENTSWITHCITIES");
   },
   data() {
     return {
       customer: {
-        cedula: '',
-        nombre: '',
-        ocupacion: '',
-        edad: '',
-        email: '',
-        telefono: '',
-        direccion: '',
-        ciudad: '',
-        nivel_interes: '',
+        cedula: "",
+        departamentoExpedicion: "",
+        ciudadExpedicion: "",
+        nombre: "",
+        ocupacion: "",
+        edad: "",
+        email: "",
+        telefono: "",
+        direccion: "",
+        ciudad: "",
+        nivel_interes: "",
         estado: 1
       },
-      currentDeparment: ''
-    }
+      currentDeparment: ""
+    };
   },
   computed: {
     deparmentsData() {
-      return this.$store.state.deparmentsData
+      return this.$store.state.deparmentsData;
     },
     cities() {
       if (this.deparmentsData && this.currentDeparment) {
         return this.deparmentsData.find(
           deparment => deparment.id == this.currentDeparment
-        ).ciudades
+        ).ciudades;
+      }
+    },
+    expeditionsCities() {
+      if (this.deparmentsData && this.customer.departamentoExpedicion) {
+        return this.deparmentsData.find(
+          deparment => deparment.id == this.customer.departamentoExpedicion
+        ).ciudades;
       }
     }
   },
   watch: {
     currentDeparment() {
-      this.customer.ciudad = ''
+      this.customer.ciudad = "";
+    },
+    "customer.departamentoExpedicion"() {
+      this.customer.ciudadExpedicion = "";
     }
   },
   methods: {
     async createCustomer() {
-      await this.$store.dispatch('CREATE_CUSTOMER', this.customer)
-      this.$router.push('/dashboard/customers')
+      await this.$store.dispatch("CREATE_CUSTOMER", this.customer);
+      this.$router.push("/dashboard/customers");
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -271,8 +408,8 @@ div.el-row:last-child {
 }
 .el-select {
   width: 100% !important;
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 .el-input__inner {
   padding-left: 0;
@@ -308,8 +445,8 @@ h3 {
 div.el-input__inner {
   padding-left: 0 !important;
   background-color: transparent !important;
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 div.el-row .btn-save:hover {
   background-color: #caee90;
