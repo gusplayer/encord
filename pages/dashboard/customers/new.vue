@@ -33,7 +33,7 @@
           <el-col :span="6">
             <div class="grid-content">
               <el-select
-                v-model="customer.departamentoExpedicion"
+                v-model="departamentoExpedicion"
                 size="mini"
                 placeholder="Departamento"
               >
@@ -50,7 +50,7 @@
           <el-col :span="6">
             <div class="grid-content">
               <el-select
-                v-model="customer.ciudadExpedicion"
+                v-model="customer.ciudad_expedicion"
                 size="mini"
                 placeholder="Ciudad"
               >
@@ -65,28 +65,6 @@
             </div>
           </el-col>
         </el-row>
-        <!-- <el-row class="background">
-          <el-col :span="12">
-            <p class="item grid-content">Ciudad de Expedición:</p>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content">
-              <el-select
-                v-model="customer.ciudad"
-                size="mini"
-                placeholder="Ciudad"
-              >
-                <el-option
-                  v-for="(item, index) in cities"
-                  :key="`city${index}`"
-                  :label="item.nombre"
-                  :value="item.id"
-                >
-                </el-option>
-              </el-select>
-            </div>
-          </el-col>
-        </el-row> -->
         <el-row class="background">
           <el-col :span="12">
             <p class="item grid-content">Nombre completo:</p>
@@ -269,8 +247,8 @@ export default {
     return {
       customer: {
         cedula: "",
-        departamentoExpedicion: "",
-        ciudadExpedicion: "",
+        // departamentoExpedicion: "",
+        ciudad_expedicion: "",
         nombre: "",
         ocupacion: "",
         edad: "",
@@ -281,7 +259,8 @@ export default {
         nivel_interes: "",
         estado: 1
       },
-      currentDeparment: ""
+      currentDeparment: "",
+      departamentoExpedicion: ""
     };
   },
   computed: {
@@ -296,9 +275,9 @@ export default {
       }
     },
     expeditionsCities() {
-      if (this.deparmentsData && this.customer.departamentoExpedicion) {
+      if (this.deparmentsData && this.departamentoExpedicion) {
         return this.deparmentsData.find(
-          deparment => deparment.id == this.customer.departamentoExpedicion
+          deparment => deparment.id == this.departamentoExpedicion
         ).ciudades;
       }
     }
@@ -307,8 +286,8 @@ export default {
     currentDeparment() {
       this.customer.ciudad = "";
     },
-    "customer.departamentoExpedicion"() {
-      this.customer.ciudadExpedicion = "";
+    departamentoExpedicion() {
+      this.customer.ciudad_expedicion = "";
     }
   },
   methods: {
