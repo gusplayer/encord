@@ -8,8 +8,21 @@
         </h2>
       </template>
       <div
+        class="container-pdf"
+        slot="section"
+        v-if="urlPdf"
+      >
+        <iframe
+          class="pdf"
+          :src="`http://administrador.app-encord.com${urlPdf}`"
+          frameborder="0"
+        ></iframe>
+
+      </div>
+      <div
         slot="section"
         class="section"
+        v-else
       >
         <el-row>
           <el-col :span="12">
@@ -485,6 +498,11 @@ export default {
     },
     totalValueInitial() {
       return this.separationValue + this.initialFee;
+    },
+    urlPdf() {
+      if (this.$store.state.pdfQuotation) {
+        return this.$store.state.pdfQuotation;
+      }
     }
   },
   methods: {
@@ -532,8 +550,8 @@ export default {
       //   doc.save(pdfName + ".pdf");
       //   this.$router.push(`/dashboard`);
       // });
+      this.$store.dispatch("GET_CUSTOMERS");
       this.createQuotation();
-      console.log(this.InfoQuotation);
     }
   },
   watch: {
@@ -771,5 +789,14 @@ div.el-row :first-child {
 }
 div.el-row:last-child {
   border: 0;
+}
+.pdf {
+  width: 100%;
+  height: 400px;
+  /* pointer-events: none; */
+}
+.container-pdf {
+  width: 100%;
+  height: 400px;
 }
 </style>

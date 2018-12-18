@@ -34,7 +34,8 @@ export default {
     deparmentsData: null,
     dataContract: {},
     profileInfo: {},
-    imagenModal: ''
+    imagenModal: '',
+    pdfQuotation: ''
   }),
   mutations: {
     SET_TOKEN(state) {
@@ -102,6 +103,9 @@ export default {
     },
     SET_PROFILEINFO(state, value) {
       state.profileInfo = value
+    },
+    SET_PDFQUOTATION(state, value) {
+      state.pdfQuotation = value
     }
   },
   getters: {
@@ -172,12 +176,13 @@ export default {
         state.axiosConfig
       )
     },
-    async CREATE_QUOTATION({ state }, quotation) {
-      await axios.post(
+    async CREATE_QUOTATION({ state, commit }, quotation) {
+      const response = await axios.post(
         `${state.axiosUrl}/api/cotizacion`,
         quotation,
         state.axiosConfig
       )
+      commit('SET_PDFQUOTATION', response.data.pdf)
     },
     GET_ACTIONS_BY_CUSTOMER({ state, commit }, customer_id) {
       axios
