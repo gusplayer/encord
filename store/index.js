@@ -25,7 +25,7 @@ export default {
     listContractsData: [],
     listQuotationsData: [],
     listActionsData: [],
-    currentProject: null,
+    currentProject: { id: 0 },
     currentUnit: null,
     currentCustomer: null,
     currentFinishes: [],
@@ -114,6 +114,33 @@ export default {
     },
     loggedInUser(state) {
       return state.auth.user
+    },
+    numberOfContracts(state) {
+      //length de los contratos
+      return state.listContractsData.filter(
+        contract => contract.proyectos_id == state.currentProject.id
+      ).length
+    },
+    percentDescreme(state, getters) {
+      if (getters.numberOfContracts < 10) {
+        return -0.1
+      } else if (getters.numberOfContracts < 20) {
+        return -0.075
+      } else if (getters.numberOfContracts < 30) {
+        return -0.05
+      } else if (getters.numberOfContracts < 40) {
+        return -0.025
+      } else if (getters.numberOfContracts < 50) {
+        return 0
+      } else if (getters.numberOfContracts < 60) {
+        return 0.025
+      } else if (getters.numberOfContracts < 70) {
+        return 0.05
+      } else if (getters.numberOfContracts < 80) {
+        return 0.075
+      } else {
+        return 0.1
+      }
     }
   },
   actions: {
@@ -140,17 +167,19 @@ export default {
         response.data.data.sort((a, b) => parseInt(a.piso) - parseInt(b.piso))
       )
     },
-    async GET_UNITS({ state, commit }, id) {
+    async GET_UNITS({ state, commit, getters }, id) {
       const response = await axios.get(
         `${state.axiosUrl}/api/pisos/${id}/unidades`,
         state.axiosConfig
       )
-      commit(
-        'SET_APARTMENTS',
-        response.data.data.sort(
-          (a, b) => parseInt(a.numero) - parseInt(b.numero)
-        )
+      let units = response.data.data.sort(
+        (a, b) => parseInt(a.numero) - parseInt(b.numero)
       )
+      units = units.map(unit => {
+        unit.valor = parseInt(unit.valor) + unit.valor * getters.percentDescreme
+        return unit
+      })
+      commit('SET_APARTMENTS', units)
     },
     GET_CUSTOMERS({ state, commit }) {
       axios

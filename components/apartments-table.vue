@@ -78,9 +78,6 @@ export default {
     }
   },
   methods: {
-    // formatter(row, column) {
-    //   return row.address;
-    // },
     formatterNum(row, column) {
       if (row.valor) {
         return `$${row.valor.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;

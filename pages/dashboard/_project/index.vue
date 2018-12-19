@@ -4,14 +4,20 @@
       <div slot="header">
         <h2>{{currentProject.nombre}}</h2>
       </div>
-      <div slot="section" class="section">
+      <div
+        slot="section"
+        class="section"
+      >
         <div class="container">
           <div class="col left">
             <list-card />
           </div>
           <div class="col right">
             <template class="container-img">
-              <swiper :options="swiperOption" ref="mySwiper">
+              <swiper
+                :options="swiperOption"
+                ref="mySwiper"
+              >
                 <swiper-slide>
                   <img-card />
                 </swiper-slide>
@@ -19,7 +25,10 @@
                   <div class="info">
                     <h3 class="title">{{currentProject.nombre}}</h3>
                     <p class="location">{{currentProject.ubicacion}}</p>
-                    <p v-html="currentProject.descripcion" class="description"></p>
+                    <p
+                      v-html="currentProject.descripcion"
+                      class="description"
+                    ></p>
                   </div>
                 </swiper-slide>
               </swiper>
@@ -33,9 +42,9 @@
 </template>
 
 <script>
-import Card from '@/components/card'
-import ListCard from '@/components/list-card'
-import ImgCard from '@/components/img-card'
+import Card from "@/components/card";
+import ListCard from "@/components/list-card";
+import ImgCard from "@/components/img-card";
 
 export default {
   components: {
@@ -44,7 +53,8 @@ export default {
     ImgCard
   },
   created() {
-    this.ifExistProject()
+    this.ifExistProject();
+    this.$store.dispatch("GET_LISTCONTRACTS");
   },
   data() {
     return {
@@ -52,27 +62,27 @@ export default {
         slidesPerView: 1,
         spaceBetween: 30,
         mousewheel: true,
-        width: '350',
+        width: "350",
         pagination: {
-          el: '.swiper-pagination',
+          el: ".swiper-pagination",
           clickable: true
         }
       }
-    }
+    };
   },
   computed: {
     currentProject() {
-      return this.$store.state.currentProject
+      return this.$store.state.currentProject;
     }
   },
   methods: {
     ifExistProject() {
-      if(!this.currentProject) {
-        this.$router.push('/dashboard')
+      if (!this.currentProject) {
+        this.$router.push("/dashboard");
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>

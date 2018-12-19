@@ -96,7 +96,9 @@
 import Card from "~/components/card";
 import apartmentsTable from "~/components/apartments-table";
 import Modal from "~/components/modal";
+// import { descreme } from "~/mixins/descreme";
 export default {
+  // mixins: [descreme],
   components: {
     Card,
     apartmentsTable,

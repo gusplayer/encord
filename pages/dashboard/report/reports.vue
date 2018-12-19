@@ -96,6 +96,9 @@ export default {
     quotationTable,
     actionsTable
   },
+  created() {
+    this.$store.dispatch("GET_LISTCONTRACTS");
+  },
   mounted() {
     this.getMonths();
     if (this.listQuotations.length) {

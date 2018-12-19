@@ -17,11 +17,11 @@ module.exports = {
       {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css?family=Dosis:700'
-      },
-      {
-        rel: 'stylesheet',
-        href: 'https://file.myfontastic.com/sY4AGNcr7RKWKU7qdijeJH/icons.css'
       }
+      // {
+      //   rel: 'stylesheet',
+      //   href: 'https://file.myfontastic.com/sY4AGNcr7RKWKU7qdijeJH/icons.css'
+      // }
     ]
   },
   /*
@@ -80,6 +80,7 @@ module.exports = {
   css: [
     '~/static/index.css',
     '~/assets/css/main.css',
+    '~/assets/styles.css',
     'swiper/dist/css/swiper.css'
   ],
   plugins: [

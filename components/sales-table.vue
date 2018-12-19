@@ -47,9 +47,9 @@
 
 <script>
 export default {
-  created() {
-    this.$store.dispatch("GET_LISTCONTRACTS");
-  },
+  // created() {
+  //   this.$store.dispatch("GET_LISTCONTRACTS");
+  // },
   data() {
     return {};
   },

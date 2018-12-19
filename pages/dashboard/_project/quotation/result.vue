@@ -530,26 +530,6 @@ export default {
       await this.$store.dispatch("CREATE_QUOTATION", this.InfoQuotation);
     },
     saveQuotation() {
-      // const canva = document.getElementById("quotation");
-      // domtoimage.toPng(canva).then(result => {
-      //   let img = new Image();
-      //   img.src = result;
-
-      //   let pdfName = "test";
-      //   var doc = new jsPDF("p", "pt", "a4", true);
-      //   doc.addImage(
-      //     img,
-      //     "PNG",
-      //     0,
-      //     0,
-      //     600,
-      //     canva.clientHeight - 80,
-      //     "",
-      //     "FAST"
-      //   );
-      //   doc.save(pdfName + ".pdf");
-      //   this.$router.push(`/dashboard`);
-      // });
       this.$store.dispatch("GET_CUSTOMERS");
       this.createQuotation();
     }
