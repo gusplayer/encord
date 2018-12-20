@@ -15,7 +15,7 @@
         class="section"
       >
         <div id="pdf">
-          <div
+          <!-- <div
             id="infoContract"
             class="infoContract"
             v-html="contract"
@@ -24,7 +24,7 @@
           <p>Nombre del proyecto: {{dataContract.customer.name}}</p>
           <p>Valor apartamento: {{dataContract.payment.total | formatNum}}</p>
           <p>Cuota Inicial: {{dataContract.payment.costQuota | formatNum}}</p>
-          <p>Numero de cuotas: {{dataContract.payment.numQuotas}}</p>
+          <p>Numero de cuotas: {{dataContract.payment.numQuotas}}</p> -->
           <!-- <div class="line"></div> -->
           <VueSignaturePad
             width="300px"
