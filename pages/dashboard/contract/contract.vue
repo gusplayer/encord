@@ -77,98 +77,99 @@ export default {
     jsPDF
   },
   created() {
-    this.$store.state.dataContract;
-    this.setContract(this.dataContract.setApart.contract.contenido);
-    this.infoContract.acabados = JSON.stringify(this.dataContract.finishes);
-    this.infoContract.clientes_id = this.dataContract.customer.id;
-    this.infoContract.forma_pago = JSON.stringify(this.dataContract.payment);
-    this.infoContract.separacion = JSON.stringify(this.dataContract.setApart);
-    this.infoContract.unidad_id = this.dataContract.unit.id;
-    this.infoContract.proyecto_id = this.dataContract.project.id;
+    // this.$store.state.dataContract;
+    // this.setContract(this.dataContract.setApart.contract.contenido);
+    // this.infoContract.acabados = JSON.stringify(this.dataContract.finishes);
+    // this.infoContract.clientes_id = this.dataContract.customer.id;
+    // this.infoContract.forma_pago = JSON.stringify(this.dataContract.payment);
+    // this.infoContract.separacion = JSON.stringify(this.dataContract.setApart);
+    // this.infoContract.unidad_id = this.dataContract.unit.id;
+    // this.infoContract.proyecto_id = this.dataContract.project.id;
   },
   data() {
     return {
       contract: "",
       name: "",
-      infoContract: {
-        acabados: {},
-        clientes_id: 1,
-        forma_pago: {},
-        proyecto_id: 1,
-        separacion: {},
-        total: 100,
-        unidad_id: 1
-      }
+      signatureImage: ""
+      // infoContract: {
+      //   acabados: {},
+      //   clientes_id: 1,
+      //   forma_pago: {},
+      //   proyecto_id: 1,
+      //   separacion: {},
+      //   total: 100,
+      //   unidad_id: 1
+      // }
     };
   },
   computed: {
     // infoContract() {
     //   return this.$store.state.infoContract
     // },
-    dataContract() {
-      return this.$store.state.dataContract;
-    }
+    // dataContract() {
+    //   return this.$store.state.dataContract;
+    // }
   },
   watch: {
-    dataContract(value) {
-      this.setContract(this.dataContract.setApart.contract.contenido);
-    }
+    // dataContract(value) {
+    //   this.setContract(this.dataContract.setApart.contract.contenido);
+    // }
   },
   methods: {
-    setContract(text) {
-      let newText = text;
-      if (this.dataContract) {
-        newText = newText.replace(
-          /%nombre%/g,
-          "<i>" + this.dataContract.customer.name + "</i>"
-        );
-        newText = newText.replace(
-          /%documento%/g,
-          "<i>" + this.dataContract.customer.document + "</i>"
-        );
-        // newText = newText.replace(
-        //   '%area%',
-        //   '<i>' + this.infoContract.project.area + '</i>'
-        // )
-        // newText = newText.replace(
-        //   '%precio%',
-        //   '<i>' + '$' + this.infoContract.project.price + '</i>'
-        // )
+    // setContract(text) {
+    //   let newText = text;
+    //   if (this.dataContract) {
+    //     newText = newText.replace(
+    //       /%nombre%/g,
+    //       "<i>" + this.dataContract.customer.name + "</i>"
+    //     );
+    //     newText = newText.replace(
+    //       /%documento%/g,
+    //       "<i>" + this.dataContract.customer.document + "</i>"
+    //     );
+    // newText = newText.replace(
+    //   '%area%',
+    //   '<i>' + this.infoContract.project.area + '</i>'
+    // )
+    // newText = newText.replace(
+    //   '%precio%',
+    //   '<i>' + '$' + this.infoContract.project.price + '</i>'
+    // )
 
-        this.contract = newText;
-      }
-    },
-    async createContract() {
-      await this.$store.dispatch("CREATE_CONTRACT", this.infoContract);
-      this.$router.push("/dashboard/contract/list-contracts");
-    },
-    download() {
-      canvas(document.getElementById("pdf", { width: 100, height: 300 })).then(
-        result => {
-          let pdfName = "test";
-          var doc = new jsPDF("p", "pt", "letter", true);
-          // doc.addImage(result.toDataURL('image/png'), 'PNG', 55, 55)
-          doc.addImage(
-            result,
-            "JPG",
-            40,
-            40,
-            522,
-            document.getElementById("pdf").clientHeight - 80,
-            "",
-            "FAST"
-          );
-          doc.save(pdfName + ".pdf");
-        }
-      );
-      this.createContract();
-    },
+    // this.contract = newText;
+    //   }
+    // },
+    // async createContract() {
+    //   await this.$store.dispatch("CREATE_CONTRACT", this.infoContract);
+    //   this.$router.push("/dashboard/contract/list-contracts");
+    // },
+    // download() {
+    //   canvas(document.getElementById("pdf", { width: 100, height: 300 })).then(
+    //     result => {
+    //       let pdfName = "test";
+    //       var doc = new jsPDF("p", "pt", "letter", true);
+    //       doc.addImage(
+    //         result,
+    //         "JPG",
+    //         40,
+    //         40,
+    //         522,
+    //         document.getElementById("pdf").clientHeight - 80,
+    //         "",
+    //         "FAST"
+    //       );
+    //       doc.save(pdfName + ".pdf");
+    //     }
+    //   );
+    //   this.createContract();
+    // },
     undo() {
       this.$refs.signaturePad.undoSignature();
     },
     save() {
       const { isEmpty, data } = this.$refs.signaturePad.saveSignature();
       alert("Open DevTools see the save data.");
+      this.signatureImage = data;
       console.log(isEmpty);
       console.log(data);
     },

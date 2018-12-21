@@ -690,6 +690,15 @@ export default {
           financing: 0,
           total: 0
         }
+      },
+      infoContract: {
+        acabados: {},
+        clientes_id: 1,
+        forma_pago: {},
+        proyecto_id: 1,
+        separacion: {},
+        total: 100,
+        unidad_id: 1
       }
     };
   },
@@ -860,10 +869,10 @@ export default {
   },
   methods: {
     saveInfo() {
-      this.$store.state.infoContract = {
-        customer: this.getCostumer,
-        project: this.currentProject
-      };
+      // this.$store.state.infoContract = {
+      //   customer: this.getCostumer,
+      //   project: this.currentProject
+      // };
       this.$router.push("/dashboard/contract/contract");
       this.dataContract();
       this.sentData();
@@ -888,12 +897,24 @@ export default {
       this.formContract.payment.numQuotas = this.inputFee;
       this.formContract.payment.costQuota = this.initialFee;
       this.formContract.payment.total = parseInt(this.totalValue);
+      this.createContract();
     },
     getDataProject(id) {
       this.$store.dispatch("GET_FLOORS", id);
     },
     getUnits(flat) {
       this.$store.dispatch("GET_UNITS", flat);
+    },
+    async createContract() {
+      this.infoContract.acabados = JSON.stringify(this.formContract.finishes);
+      this.infoContract.clientes_id = this.formContract.customer.id;
+      this.infoContract.forma_pago = JSON.stringify(this.formContract.payment);
+      this.infoContract.separacion = JSON.stringify(this.formContract.setApart);
+      this.infoContract.unidad_id = this.formContract.unit.id;
+      this.infoContract.proyecto_id = this.formContract.project.id;
+
+      await this.$store.dispatch("CREATE_CONTRACT", this.infoContract);
+      // this.$router.push("/dashboard/contract/list-contracts");
     }
   },
   filters: {
