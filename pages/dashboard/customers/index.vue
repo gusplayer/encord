@@ -19,6 +19,7 @@
         <el-table
           :data="customersData"
           style="width: 100%"
+          height="350px"
         >
           <el-table-column
             label="Fecha"
@@ -135,6 +136,8 @@ h2 span {
 .section {
   padding: 0px 40px;
   max-width: 700px;
+  /* height: 400px;
+  overflow: auto; */
 }
 .circle {
   /* background-color: #98c253; */

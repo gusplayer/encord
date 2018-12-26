@@ -149,8 +149,12 @@ export default {
     selectImagen(value) {
       this.img = value;
     },
-    saveFinish(item, index) {
-      this.$set(this.finishes, index, item);
+    saveFinish({ item, action }, index) {
+      if (action == false) {
+        this.$set(this.finishes, index, { valor: 0 });
+      } else {
+        this.$set(this.finishes, index, item);
+      }
     },
     saveFinishes() {
       this.$store.commit("SET_CURRENTFINISHES", this.finishes);

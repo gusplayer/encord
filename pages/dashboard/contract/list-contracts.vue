@@ -26,9 +26,9 @@
             <p class="type">Tipo de unidad:<br><span>{{item.unidad.tipo_unidad}}</span></p>
           </div>
           <div class="right">
-            <h4 class="name">{{item.separacion.contract.titulo}}</h4>
-            <p class="id">ID: {{item.separacion.contract.id}}</p>
-            <p class="description">Descripción: <span v-html="`${item.unidad.descripcion.substr(3,70)}...`"></span></p>
+            <h4 class="name">{{item.proyecto.nombre}}</h4>
+            <p class="id">Unidad: {{item.unidad.numero}}</p>
+            <p class="description">Tipo de Contrato: <span>{{item.separacion.contract.titulo}}</span> </p>
 
           </div>
           <div class="bottom">
@@ -111,7 +111,7 @@ h2 span {
 .section {
   padding: 0px 40px;
   max-width: 700px;
-  height: 600px;
+  height: 500px;
   overflow: auto;
 }
 .item {

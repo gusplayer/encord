@@ -8,7 +8,7 @@
         class="card_bathroom"
         :class="{card_select: card == index}"
       >
-        <h4 class="name">{{ item.tipos_acabados.nombre }}</h4>
+        <h4 class="name">{{ item.tipos_acabados.nombre }} {{action}}</h4>
         <div
           @click="changeImagen(item)"
           class="container_img"
@@ -45,13 +45,21 @@ export default {
   },
   data() {
     return {
-      card: -1
+      card: -1,
+      action: false
     };
   },
   methods: {
     selectCard({ item, index }) {
-      this.card = index;
-      this.$emit("selected", item);
+      if (this.card == index) {
+        this.card = -1;
+        this.action = false;
+      } else {
+        this.card = index;
+        this.action = true;
+      }
+
+      this.$emit("selected", { item, action: this.action });
     },
     changeImagen(item) {
       this.showModal = true;
