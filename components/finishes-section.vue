@@ -8,7 +8,7 @@
         class="card_bathroom"
         :class="{card_select: card == index}"
       >
-        <h4 class="name">{{ item.tipos_acabados.nombre }} {{action}}</h4>
+        <h4 class="name">{{ item.tipos_acabados.nombre }}</h4>
         <div
           @click="changeImagen(item)"
           class="container_img"

@@ -2,14 +2,26 @@
   <div class="login-view">
     <div class="line"></div>
     <div class="line line2"></div>
-    <div class="container">
+    <div
+      class="container"
+      v-loading="loading"
+    >
       <div class="logo">
-        <img src="../assets/logo.png" alt="">
+        <img
+          src="../assets/logo.png"
+          alt=""
+        >
       </div>
       <div class="grid">
-        <div class="form login" submit.prevent="login">
+        <div
+          class="form login"
+          submit.prevent="login"
+        >
 
-          <p v-if="error" class="error">{{ error }}</p>
+          <p
+            v-if="error"
+            class="error"
+          >{{ error }}</p>
           <div class="form__field">
             <label for="login__username">
               <div class="icon">
@@ -17,7 +29,15 @@
               </div>
               <span class="hidden">Usuario</span>
             </label>
-            <input id="login__username" type="text" name="email" v-model="email" class="form__input" placeholder="Usuario" required>
+            <input
+              id="login__username"
+              type="text"
+              name="email"
+              v-model="email"
+              class="form__input"
+              placeholder="Usuario"
+              required
+            >
           </div>
 
           <div class="form__field">
@@ -27,11 +47,25 @@
               </div>
               <span class="hidden">Password</span>
             </label>
-            <input id="login__password" type="password" name="password" v-model="password" class="form__input" placeholder="Contraseña" required>
+            <input
+              id="login__password"
+              type="password"
+              name="password"
+              v-model="password"
+              class="form__input"
+              placeholder="Contraseña"
+              required
+            >
           </div>
 
-          <div @click="login" class="form__field">
-            <button type="submit" value="Ingresar">Ingresar</button>
+          <div
+            @click="login"
+            class="form__field"
+          >
+            <button
+              type="submit"
+              value="Ingresar"
+            >Ingresar</button>
           </div>
 
           <p class="text--center">
@@ -48,17 +82,18 @@
 
 <script>
 export default {
-  middleware: 'guest',
+  middleware: "guest",
   data() {
     return {
-      email: '',
-      password: '',
-      error: null
-    }
+      email: "",
+      password: "",
+      error: null,
+      loading: false
+    };
   },
   computed: {
     url() {
-      return window.location.origin
+      return window.location.origin;
     }
   },
   methods: {
@@ -66,24 +101,28 @@ export default {
     //   location.href = `${window.location.origin}/dashboard`
     // },
     login() {
+      this.loading = true;
       this.$auth
-        .loginWith('local', {
+        .loginWith("local", {
           data: {
             username: this.email,
             password: this.password,
-            grant_type: 'password',
+            grant_type: "password",
             client_id: 2,
-            client_secret: 'rC5O6gpTRhi5Ya252gPUO9udecm5fuKcBQvB1Hgp',
-            theNewProvider: 'usuario'
+            client_secret: "rC5O6gpTRhi5Ya252gPUO9udecm5fuKcBQvB1Hgp",
+            theNewProvider: "usuario"
           }
         })
         .then(response => {
-          this.$router.push('/dashboard');
+          this.$router.push("/dashboard");
         })
+        .catch(e => {
+          this.loading = false;
+        });
       // this.$router.push('/dashboard')
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -95,7 +134,7 @@ export default {
 
   background-color: #fff;
   color: #606468;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 14px;
   font-size: 0.875rem;
   font-weight: 400;
@@ -171,7 +210,7 @@ button {
   padding: 0;
   transition: background-color 0.3s;
 }
-button[type='submit'] {
+button[type="submit"] {
   cursor: pointer;
   background-color: #98c253;
   padding: 10px;
@@ -180,9 +219,9 @@ button[type='submit'] {
   margin: -14px;
   margin: -0.875rem;
 }
-.form input[type='password'],
-.form input[type='text'],
-.form button[type='submit'] {
+.form input[type="password"],
+.form input[type="text"],
+.form button[type="submit"] {
   width: 100%;
 }
 .form__field {
@@ -197,9 +236,9 @@ button[type='submit'] {
   color: #eee;
 }
 .login label,
-.login input[type='text'],
-.login input[type='password'],
-.login button[type='submit'] {
+.login input[type="text"],
+.login input[type="password"],
+.login button[type="submit"] {
   border-radius: 0.25rem;
   padding: 16px;
   padding: 1rem;
@@ -214,8 +253,8 @@ button[type='submit'] {
   padding-right: 20px;
   padding-right: 1.25rem;
 }
-.login input[type='password'],
-.login input[type='text'] {
+.login input[type="password"],
+.login input[type="text"] {
   background-color: #3b4148;
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
@@ -224,20 +263,20 @@ input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 30px #3b4148 inset;
   -webkit-text-fill-color: #7a9e41 !important;
 }
-.login input[type='password']:focus,
-.login input[type='password']:hover,
-.login input[type='text']:focus,
-.login input[type='text']:hover {
+.login input[type="password"]:focus,
+.login input[type="password"]:hover,
+.login input[type="text"]:focus,
+.login input[type="text"]:hover {
   background-color: rgb(67, 74, 82);
 }
-.login button[type='submit'] {
+.login button[type="submit"] {
   background-color: #98c253;
   color: #eee;
   font-weight: 700;
   text-transform: uppercase;
 }
-.login button[type='submit']:focus,
-.login button[type='submit']:hover {
+.login button[type="submit"]:focus,
+.login button[type="submit"]:hover {
   background-color: #7a9e41;
 }
 p {

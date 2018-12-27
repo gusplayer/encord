@@ -9,9 +9,25 @@ module.exports = {
     title: 'encord',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'encord' }
+      // { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { viewport: 'viewport' },
+      {
+        mobileApp: 'mobile-web-app-capable'
+      },
+      {
+        mobileAppIOS: 'apple-mobile-web-app-capable'
+      },
+      { appleStatusBarStyle: 'default' },
+      { nativeUI: false },
+      {
+        name: 'apple-mobile-web-app-capable',
+        content: 'yes'
+      }
     ],
+    icon: {
+      iconSrc: './static/icon.png',
+      sizes: [16, 120, 144, 152, 192, 384, 512]
+    },
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
