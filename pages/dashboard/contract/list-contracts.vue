@@ -111,7 +111,7 @@ h2 span {
 .section {
   padding: 0px 40px;
   max-width: 700px;
-  height: 500px;
+  height: 400px;
   overflow: auto;
 }
 .item {

@@ -558,6 +558,7 @@
             >Guardar</div>
           </el-col>
         </el-row>
+        <button @click="monthlyFees(inputDate)">prueba</button>
       </div>
     </card>
   </div>
@@ -698,7 +699,8 @@ export default {
         proyecto_id: 1,
         separacion: {},
         total: 100,
-        unidad_id: 1
+        unidad_id: 1,
+        infoCuotas: []
       }
     };
   },
@@ -869,12 +871,9 @@ export default {
   },
   methods: {
     saveInfo() {
-      // this.$store.state.infoContract = {
-      //   customer: this.getCostumer,
-      //   project: this.currentProject
-      // };
       this.$router.push("/dashboard/contract/contract");
       this.dataContract();
+      // this.monthlyFees();
       this.sentData();
     },
     sentData() {
@@ -915,6 +914,23 @@ export default {
 
       await this.$store.dispatch("CREATE_CONTRACT", this.infoContract);
       // this.$router.push("/dashboard/contract/list-contracts");
+    },
+    monthlyFees(date) {
+      let d;
+      let today = date;
+      let cuota = this.quota;
+      let total = this.initialFee;
+      let totalRestante = this.initialFee;
+      for (var i = 0; i < 24; i += 1) {
+        totalRestante = totalRestante - cuota;
+        d = new Date(today.getFullYear(), today.getMonth() + i, date.getDate());
+        this.infoContract.infoCuotas.push({
+          fecha: d,
+          valorCuota: cuota,
+          total: total,
+          totalRestante: totalRestante
+        });
+      }
     }
   },
   filters: {

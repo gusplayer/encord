@@ -322,8 +322,10 @@ h2 span {
   color: #aaa;
 }
 .section {
-  padding: 0px 40px;
+  padding: 0 40px 20px 40px;
   max-width: 700px;
+  max-height: 400px;
+  overflow: auto;
 }
 .circle {
   background-color: #98c253;
@@ -357,9 +359,6 @@ h2 span {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.section {
-  padding: 0 40px 20px 40px;
 }
 .section:last-child {
   padding-bottom: 0;

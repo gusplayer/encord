@@ -19,10 +19,6 @@
         prop="numero"
         width="70"
       >
-        <!-- <template slot-scope="scope">
-          <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{new Date(scope.row.created_at.replace(/ /g, 'T')).getDate()}}/{{new Date(scope.row.created_at.replace(/ /g, 'T')).getMonth() + 1}}/{{new Date(scope.row.created_at.replace(/ /g, 'T')).getFullYear()}}</span>
-        </template> -->
       </el-table-column>
       <el-table-column
         label="Estado"

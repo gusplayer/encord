@@ -337,11 +337,6 @@
             :data="currentFinishes"
             style="width: 100%"
           >
-            <!-- <el-table-column
-                prop="date"
-                label="Date"
-                width="180">
-            </el-table-column> -->
             <el-table-column
               prop="tipos_acabados.nombre"
               label="Nombre"
@@ -734,21 +729,6 @@ div.el-row .tag {
   width: 125px;
   height: 125px;
 }
-/* .inputClinte {
-  background-color: transparent;
-  font-size: 18px;
-  font-weight: 300;
-  color: rgba(103, 123, 158, 0.822);
-}
-.inputClinte:focus {
-  border: 0;
-  outline: 0;
-}
-.inputClinte::placeholder {
-  color: rgba(103, 123, 158, 0.822);
-  opacity: 0.5;
-  font-weight: 300;
-} */
 .el-select {
   width: 100% !important;
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",

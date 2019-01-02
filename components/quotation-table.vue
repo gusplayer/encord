@@ -1,9 +1,9 @@
 <template>
   <div class="sales">
     <el-table
-      height="330px"
+      height="280"
       :data="listQuotations"
-      style="width: 100%"
+      style="width: 100%;"
       stripe
       border
     >

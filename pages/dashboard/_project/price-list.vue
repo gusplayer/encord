@@ -81,7 +81,6 @@
       v-if="imagenModal"
       @close="$store.commit('SET_IMGMODAL', '')"
     >
-      <h3 slot="header">Apartamento</h3>
       <img
         class="img_modal"
         slot="body"
@@ -241,6 +240,10 @@ h2 span {
   pointer-events: none;
 }
 .img_modal {
-  width: 100%;
+  max-height: 400px;
+  max-width: 100%;
+}
+.title {
+  text-align: left;
 }
 </style>

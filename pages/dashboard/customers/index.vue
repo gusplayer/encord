@@ -9,7 +9,7 @@
           <el-button
             class="btn-save"
             type="success"
-          >Nuevo</el-button>
+          >Crear Cliente</el-button>
         </nuxt-link>
       </template>
       <div

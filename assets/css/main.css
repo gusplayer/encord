@@ -122,5 +122,6 @@
   font-size: 12px !important;
 }
 .brochure iframe {
+  max-height: 100%;
   max-width: 100%;
 }

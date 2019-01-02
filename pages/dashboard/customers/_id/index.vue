@@ -10,7 +10,7 @@
           <el-button
             class="btn-save"
             type="success"
-          >Nuevo</el-button>
+          >Registrar Acción</el-button>
         </nuxt-link>
       </template>
       <div
@@ -18,8 +18,10 @@
         class="section"
       >
         <el-table
+          height="350"
           :data="actionsData"
           style="width: 100%"
+          border
         >
           <el-table-column
             prop="fecha"
@@ -147,7 +149,7 @@ h2 {
   color: #98c253;
 }
 h2 span {
-  font-size: 12px;
+  font-size: 16px;
   color: #aaa;
 }
 .section {

@@ -5,16 +5,6 @@
       class="side-panel"
     >
       <div class="head">
-        <!-- <div class="icons">
-          <i
-            :class="classActive"
-            class="icon-057-settings-1"
-          ></i>
-          <i
-            :class="classActive"
-            class="icon-alarm"
-          ></i>
-        </div> -->
         <div class="content-user">
           <div
             class="avatar"
@@ -234,6 +224,7 @@ a {
   flex-direction: column;
   transition: all ease 0.5s;
   height: 100vh;
+  overflow-y: auto;
 }
 .panel-collapse {
   width: 90px;
@@ -310,7 +301,7 @@ a {
 }
 .list li {
   list-style: none;
-  margin: 35px 0 35px 15px;
+  margin: 15px 0 35px 15px;
   color: #606468;
   cursor: pointer;
 }
@@ -349,7 +340,7 @@ li svg {
   color: #eee;
   font-weight: 600;
   text-transform: uppercase;
-  margin-top: 20px;
+  margin: 20px 0;
 }
 .btn-logout i {
   vertical-align: middle;
@@ -395,7 +386,7 @@ li svg {
 .btn-collapse {
   width: 50px;
   height: 50px;
-  border-radius: 50%;
+  /* border-radius: 50%; */
 }
 .btn-collapse > i {
   margin-left: 0;

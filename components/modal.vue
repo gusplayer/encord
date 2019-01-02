@@ -6,7 +6,6 @@
 
           <div class="modal-header">
             <slot name="header">
-              default header
             </slot>
           </div>
 
@@ -18,12 +17,11 @@
 
           <div class="modal-footer">
             <slot name="footer">
-              default footer
               <button
                 class="modal-default-button"
                 @click="$emit('close')"
               >
-                OK
+                Cerrar
               </button>
             </slot>
           </div>
@@ -56,7 +54,9 @@ export default {};
 }
 
 .modal-container {
-  width: 800px;
+  max-width: 700px;
+  max-height: 100%;
+
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
@@ -64,8 +64,14 @@ export default {};
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
   font-family: Helvetica, Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
-
+.modal-header {
+  align-self: flex-start;
+}
 .modal-header h3 {
   margin-top: 0;
   color: #42b983;
@@ -73,10 +79,17 @@ export default {};
 
 .modal-body {
   margin: 20px 0;
+  max-width: 100%;
+  max-height: 400px;
 }
 
 .modal-default-button {
   float: right;
+  /* padding: 5px 15px; */
+  background: transparent;
+  border: 0;
+  text-decoration: underline;
+  color: rgba(47, 132, 201, 0.699);
 }
 
 /*
@@ -100,5 +113,8 @@ export default {};
 .modal-leave-active .modal-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
+}
+.modal-footer {
+  width: 100%;
 }
 </style>

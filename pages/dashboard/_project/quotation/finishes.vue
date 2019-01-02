@@ -58,7 +58,6 @@
             v-if="showModal"
             @close="showModal = false"
           >
-            <h3 slot="header">custom header</h3>
             <img
               class="img_modal"
               slot="body"
@@ -261,7 +260,8 @@ li {
   margin-top: 10px;
 }
 .img_modal {
-  width: 100%;
+  max-height: 400px;
+  max-width: 100%;
 }
 .num-apartment {
   background-color: #98c253;

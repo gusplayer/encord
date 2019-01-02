@@ -16,8 +16,6 @@
           v-html="brochure"
           v-if="brochure"
         >
-          <!-- <iframe src="https://e.issuu.com/anonymous-embed.html?u=astegiudiziarie&d=nazionale_n7-2017" width="944" height="500" frameborder="0" allowfullscreen="true"></iframe> -->
-
         </div>
         <div
           class="pdf"
@@ -93,10 +91,10 @@ h2 span {
 }
 .section {
   padding: 20px 40px;
+  height: 400px;
+  max-width: 700px;
 }
-iframe {
-  max-width: 100%;
-}
+
 .text {
   text-align: center;
   font-size: 30px;
@@ -104,5 +102,8 @@ iframe {
   margin: 0 auto;
   color: rgba(65, 71, 80, 0.356);
   line-height: 1;
+}
+.pdf {
+  height: 100%;
 }
 </style>

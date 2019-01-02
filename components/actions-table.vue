@@ -1,7 +1,7 @@
 <template>
   <div class="actions">
     <el-table
-      height="330px"
+      height="280px"
       :data="actions"
       style="width: 100%"
       stripe

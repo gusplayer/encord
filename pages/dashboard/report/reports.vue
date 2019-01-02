@@ -344,6 +344,7 @@ h2 span {
 .section {
   padding: 0 20px;
   max-width: 700px;
+  max-height: 400px;
 }
 .title-reports {
   text-align: center;
@@ -360,7 +361,7 @@ h2 span {
   border-bottom: 3px solid transparent;
   color: var(--main-txt-color);
   font-weight: 300;
-  margin-bottom: 20px;
+  /* margin-bottom: 10px; */
 }
 /* .right {
   display: flex;
@@ -419,5 +420,8 @@ h2 span {
   justify-content: center;
   align-items: flex-start;
   flex-direction: column;
+}
+.info {
+  margin-top: 10px;
 }
 </style>
