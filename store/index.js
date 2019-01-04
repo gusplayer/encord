@@ -35,7 +35,8 @@ export default {
     dataContract: {},
     profileInfo: {},
     imagenModal: '',
-    pdfQuotation: ''
+    pdfQuotation: '',
+    pdfContract: ''
   }),
   mutations: {
     SET_TOKEN(state) {
@@ -106,6 +107,9 @@ export default {
     },
     SET_PDFQUOTATION(state, value) {
       state.pdfQuotation = value
+    },
+    SET_PDFCONTRACT(state, value) {
+      state.pdfContract = value
     }
   },
   getters: {
@@ -198,12 +202,14 @@ export default {
         state.axiosConfig
       )
     },
-    async CREATE_CONTRACT({ state }, contract) {
-      await axios.post(
+    async CREATE_CONTRACT({ state, commit }, contract) {
+      const response = await axios.post(
         `${state.axiosUrl}/api/contratos`,
         contract,
         state.axiosConfig
       )
+      console.log(response.data.pdf)
+      commit('SET_PDFCONTRACT', await response.data.pdf)
     },
     async CREATE_QUOTATION({ state, commit }, quotation) {
       const response = await axios.post(

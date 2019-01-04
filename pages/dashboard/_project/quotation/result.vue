@@ -353,12 +353,12 @@
               prop="tipos_acabados.imagen"
               label="Foto"
             >
-              <template slot-scope="scope">
-                <!-- <img
+              <!-- <template slot-scope="scope">
+                <img
                     :src="`https://administrador.app-encord.com/imagenes_tipos_acabados/${scope.row.tipos_acabados.imagen}`"
                     class="finish_image"
-                  > -->
-              </template>
+                  >
+              </template> -->
             </el-table-column>
           </el-table>
         </el-row>
