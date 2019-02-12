@@ -14,7 +14,7 @@
       >
         <iframe
           class="pdf"
-          :src="`http://administrador.app-encord.com${urlPdf}`"
+          :src="`https://administrador.app-encord.com${urlPdf}`"
           frameborder="0"
         ></iframe>
 
@@ -383,7 +383,7 @@
               <h3 class="grid-content">Separación:</h3>
             </el-col>
           </el-row>
-          <el-row class="background">
+          <!-- <el-row class="background">
             <el-col :span="12">
               <p class="item grid-content">Tipo de contrato:</p>
             </el-col>
@@ -404,8 +404,8 @@
                 </el-select>
               </div>
             </el-col>
-          </el-row>
-          <el-row>
+          </el-row> -->
+          <el-row class="background">
             <el-col :span="12">
               <p class="item grid-content">Porcentaje de separación:</p>
             </el-col>
@@ -419,7 +419,7 @@
               </div>
             </el-col>
           </el-row>
-          <el-row class="background">
+          <el-row>
             <el-col :span="12">
               <p class="item grid-content">Costo de separación:</p>
             </el-col>
@@ -429,7 +429,7 @@
               </div>
             </el-col>
           </el-row>
-          <el-row>
+          <el-row class="background">
             <el-col :span="12">
               <p class="item grid-content">Separación inicial:</p>
             </el-col>
@@ -443,7 +443,7 @@
               </div>
             </el-col>
           </el-row>
-          <el-row class="background">
+          <el-row>
             <el-col :span="12">
               <p class="item grid-content">Saldo separación:</p>
             </el-col>
@@ -453,7 +453,7 @@
               </div>
             </el-col>
           </el-row>
-          <el-row>
+          <el-row class="background">
             <el-col :span="12">
               <p class="item grid-content">Fecha limite de separación:</p>
             </el-col>
@@ -590,6 +590,10 @@ export default {
     this.$store.dispatch("GET_CUSTOMERS");
     this.$store.dispatch("GET_TYPESCONTRACTS");
   },
+  destroyed() {
+    console.log(this.urlPdf);
+    this.$store.commit("SET_RESETPDF", "");
+  },
   data() {
     return {
       money: {
@@ -661,6 +665,7 @@ export default {
       inputCelular: "",
       inputDireccion: "",
       domoticaPrice: 0,
+      typesContractsData: null,
 
       formContract: {
         project: {
@@ -837,9 +842,9 @@ export default {
     quota() {
       return this.initialFee / this.inputFee || 0;
     },
-    typesContractsData() {
-      return this.$store.state.typesContractsData;
-    },
+    // typesContractsData() {
+    //   return this.$store.state.typesContractsData;
+    // },
     currentContract() {
       return this.typesContractsData.find(contract => {
         return contract.id == this.contract;

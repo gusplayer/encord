@@ -45,6 +45,14 @@
                 @selected="saveFinish($event, 2)"
               />
             </swiper-slide>
+            <swiper-slide v-if="domotica.length">
+              <Section
+                @change="selectImagen"
+                title="Acabados Domotica"
+                :data="domotica"
+                @selected="saveFinish($event, 3)"
+              />
+            </swiper-slide>
           </swiper>
           <div class="container">
             <div class="tag"> <span class="bold">Valor Total: </span><span class="total">{{ total | formatPrice }}</span></div>
@@ -134,6 +142,11 @@ export default {
     kitchens() {
       return this.currentUnit.acabados.filter(
         finish => finish.tipos_acabados.grupos_acabados_id === 5
+      );
+    },
+    domotica() {
+      return this.currentUnit.acabados.filter(
+        finish => finish.tipos_acabados.grupos_acabados_id === 8
       );
     },
     total() {

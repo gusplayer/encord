@@ -3,7 +3,7 @@
     <card>
       <template slot="header">
         <h2>
-          <nuxt-link :to="`/dashboard/${$route.params.project}`">{{nameProject}}</nuxt-link>-
+          <nuxt-link :to="`/dashboard/${$route.params.project}`">{{nameProject}}</nuxt-link> -
           <span>Cotizar</span>
         </h2>
         <div class="num-apartment">{{numApartment}}</div>
@@ -18,7 +18,10 @@
           <div class="col left">
             <building @change="getFlat" />
             <div>
-              <div class="group">
+              <div
+                class="group"
+                v-if="units.length"
+              >
                 <div
                   class="btn_flat"
                   :class="{btn_select: selected == index, btn_disabled: units.estado == 0 }"
@@ -26,6 +29,12 @@
                   v-for="(item, index) in units"
                   :key="index"
                 >{{item.numero}}</div>
+              </div>
+              <div
+                class="empty"
+                v-else
+              >
+                <p>No hay unidades disponibles en este piso</p>
               </div>
             </div>
           </div>
@@ -76,11 +85,8 @@
                 </swiper-slide>
                 <swiper-slide>
                   <div class="info">
-                    <h3 class="title">Title</h3>
-                    <p
-                      class="description"
-                      v-html="flats"
-                    ></p>
+                    <h3 class="title"></h3>
+                    <p class="description"></p>
                   </div>
                 </swiper-slide>
               </swiper>
@@ -357,5 +363,17 @@ h4 {
 }
 .description ul li {
   list-style: circle;
+}
+.empty p {
+  text-align: center;
+  line-height: 1;
+  color: rgba(28, 42, 66, 0.452);
+  font-size: 13px;
+}
+.empty {
+  padding: 10px 8px;
+  background-color: rgba(102, 102, 102, 0.062);
+  border-radius: 5px;
+  border: 1px solid rgba(102, 102, 102, 0.192);
 }
 </style>

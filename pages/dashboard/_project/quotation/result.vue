@@ -14,7 +14,7 @@
       >
         <iframe
           class="pdf"
-          :src="`http://administrador.app-encord.com${urlPdf}`"
+          :src="`https://administrador.app-encord.com${urlPdf}`"
           frameborder="0"
         ></iframe>
 

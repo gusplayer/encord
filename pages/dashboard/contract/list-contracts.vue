@@ -73,6 +73,7 @@ export default {
   methods: {
     saveInfo() {
       this.$router.push("/dashboard/contract/customer-info");
+      // this.$store.state.pdfContract = "";
     }
   },
   filters: {

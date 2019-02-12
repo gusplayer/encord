@@ -48,6 +48,9 @@ export default {
     SET_SENTNUM(state, value) {
       state.sentNum = value
     },
+    SET_RESETPDF(state, value) {
+      state.pdfContract = value
+    },
     SET_SENTINFO(state, value) {
       state.sentInfo = value
     },
