@@ -47,11 +47,14 @@
                 :options="swiperOption"
                 ref="mySwiper"
               >
-                <swiper-slide>
+                <swiper-slide
+                  v-for="imagen in currentUnit.imagenes"
+                  :key="imagen.id"
+                  @click.native="modalImagen(imagen.imagen)"
+                >
                   <img
-                    v-if="currentUnit.imagenes[0]"
                     class="plano"
-                    :src="`http://administrador.app-encord.com/imagenes_unidades/${currentUnit.imagenes[0].imagen}`"
+                    :src="`http://administrador.app-encord.com/imagenes_unidades/${imagen.imagen}`"
                   >
                 </swiper-slide>
                 <swiper-slide>
@@ -101,6 +104,17 @@
           Siguiente
           <i class="icon-right-open-big"></i>
         </nuxt-link>
+        <modal
+          v-if="showModalImagen"
+          @close="showModalImagen = false"
+        >
+          <img
+            class="img_modal"
+            slot="body"
+            :src="`http://administrador.app-encord.com/imagenes_unidades/${imagenModal}`"
+            alt=""
+          >
+        </modal>
       </div>
     </card>
   </div>
@@ -111,11 +125,13 @@ import Card from "~/components/card";
 import Building from "~/components/building";
 import axios from "axios";
 import debounce from "debounce";
+import Modal from "@/components/modal";
 
 export default {
   components: {
     Card,
-    Building
+    Building,
+    Modal
   },
   async created() {
     this.ifExistProject();
@@ -124,6 +140,8 @@ export default {
   },
   data() {
     return {
+      showModalImagen: false,
+      imagenModal: "",
       loading: true,
       selected: -1,
       numFlat: 1,
@@ -210,7 +228,7 @@ export default {
       this.loading = true;
       await this.$store.dispatch("GET_UNITS", this.numFlat);
       this.loading = false;
-    }, 800),
+    }, 1600),
     sentNum() {
       if (this.currentUnit) {
         this.$router.push(this.nextRoute);
@@ -228,6 +246,10 @@ export default {
       if (!this.currentProject) {
         this.$router.push("/dashboard");
       }
+    },
+    modalImagen(imagen) {
+      this.imagenModal = imagen;
+      this.showModalImagen = true;
     }
   }
 };
@@ -375,5 +397,10 @@ h4 {
   background-color: rgba(102, 102, 102, 0.062);
   border-radius: 5px;
   border: 1px solid rgba(102, 102, 102, 0.192);
+}
+.img_modal {
+  max-height: 400px;
+  max-width: 100%;
+  border-radius: 10px;
 }
 </style>

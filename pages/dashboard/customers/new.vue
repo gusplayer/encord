@@ -292,8 +292,18 @@ export default {
   },
   methods: {
     async createCustomer() {
-      await this.$store.dispatch("CREATE_CUSTOMER", this.customer);
-      this.$router.push("/dashboard/customers");
+      const response = await this.$store.dispatch(
+        "CREATE_CUSTOMER",
+        this.customer
+      );
+      console.log(response);
+      this.$notify.error({
+        title: "Error",
+        message: Object.values(response.errores)[0][0]
+      });
+      if (response.status == 200) {
+        this.$router.push("/dashboard/customers");
+      }
     }
   }
 };

@@ -2,9 +2,11 @@
   <div class="info">
     <card>
       <template slot="header">
-        <h2>
+        <h2 v-if="urlPdf">
+          <nuxt-link to="/dashboard/contract/list-contracts"><i class="icon-left-open-big"></i><span>Salir</span></nuxt-link>
+        </h2>
+        <h2 v-else>
           <nuxt-link to="/dashboard/contract/customer-info">Formulario de contrato</nuxt-link>
-          <!-- <span>/ Datos</span> -->
         </h2>
       </template>
       <div
@@ -591,7 +593,6 @@ export default {
     this.$store.dispatch("GET_TYPESCONTRACTS");
   },
   destroyed() {
-    console.log(this.urlPdf);
     this.$store.commit("SET_RESETPDF", "");
   },
   data() {
@@ -839,12 +840,12 @@ export default {
         parseInt(this.separationValue)
       );
     },
+    totalValueInitial() {
+      return this.separationValue + this.initialFee;
+    },
     quota() {
       return this.initialFee / this.inputFee || 0;
     },
-    // typesContractsData() {
-    //   return this.$store.state.typesContractsData;
-    // },
     currentContract() {
       return this.typesContractsData.find(contract => {
         return contract.id == this.contract;
@@ -915,11 +916,14 @@ export default {
       this.formContract.unit.typeUnit = this.currentUnit.tipo_unidad;
       this.formContract.finishes = this.currentUnit.acabados;
       this.formContract.finishes.total = parseInt(this.total);
-      this.formContract.setApart.contract = this.currentContract;
+      // this.formContract.setApart.contract = this.currentContract;
       this.formContract.customer = this.getCostumer;
       this.formContract.customer.typeIdentification = this.typeIdentification;
       this.formContract.payment.numQuotas = this.inputFee;
-      this.formContract.payment.costQuota = this.initialFee;
+      this.formContract.payment.costQuota = parseInt(this.quota);
+      this.formContract.payment.financing = this.financing;
+      this.formContract.setApart.cost = this.separationValue;
+      this.formContract.setApart.initial = this.initialFee;
       this.formContract.payment.valor_cuota_inicial_unidad =
         parseInt(this.initialFee) + parseInt(this.separationValue) || 0;
       this.formContract.payment.total = parseInt(this.totalValue);
@@ -966,8 +970,10 @@ export default {
   },
   filters: {
     formatNum(value) {
+      let num;
       if (value) {
-        return `$${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+        num = value.toFixed(2);
+        return `$${num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
       }
     }
   }

@@ -2,6 +2,16 @@
   <div class="result">
     <card id="quotation">
       <template slot="header">
+        <nuxt-link
+          class="btn_link"
+          to="/dashboard"
+          v-if="urlPdf"
+        ><i class="icon-left-open-big"></i><span>Salir</span></nuxt-link>
+        <nuxt-link
+          v-else
+          class="btn_link"
+          :to="nextRoute"
+        ><i class="icon-left-open-big"></i><span>Volver</span></nuxt-link>
         <h2>
           <nuxt-link :to="$route.path">Datos De La Cotización</nuxt-link>
           <!-- <span>/ Datos</span> -->
@@ -155,7 +165,7 @@
         </el-row>
         <el-row class="background">
           <el-col :span="12">
-            <p class="item grid-content">Precio:</p>
+            <p class="item grid-content">Precio básico:</p>
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
@@ -397,6 +407,9 @@ export default {
     this.$store.dispatch("GET_CUSTOMERS");
     this.$store.dispatch("GET_TYPESCONTRACTS");
   },
+  destroyed() {
+    this.$store.commit("SET_RESETPDFQUOTATION", "");
+  },
   data() {
     return {
       money: {
@@ -449,6 +462,13 @@ export default {
     };
   },
   computed: {
+    nextRoute() {
+      if (this.currentUnit.acabados.length) {
+        return `/dashboard/${this.$route.params.project}/quotation/finishes`;
+      } else {
+        return `/dashboard/${this.$route.params.project}/quotation/apartment`;
+      }
+    },
     customers() {
       return this.$store.state.customersData;
     },
@@ -587,7 +607,7 @@ h2 {
   overflow: auto;
   padding: 20px 0;
 }
-a {
+a.nuxt-link-active {
   text-decoration: none;
   color: #98c253;
 }
@@ -758,5 +778,22 @@ div.el-row:last-child {
 .container-pdf {
   width: 100%;
   height: 400px;
+}
+.btn_link {
+  cursor: pointer;
+  display: flex;
+  text-decoration: none;
+  color: #98c253;
+  font-size: 16px;
+}
+.btn_link i {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: flex-end;
+  font-size: 16px;
+  height: 19px;
+  margin-right: 5px;
 }
 </style>

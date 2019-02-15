@@ -51,6 +51,9 @@ export default {
     SET_RESETPDF(state, value) {
       state.pdfContract = value
     },
+    SET_RESETPDFQUOTATION(state, value) {
+      state.pdfQuotation = value
+    },
     SET_SENTINFO(state, value) {
       state.sentInfo = value
     },
@@ -199,11 +202,15 @@ export default {
         })
     },
     async CREATE_CUSTOMER({ state }, customer) {
-      await axios.post(
-        `${state.axiosUrl}/api/clientes`,
-        customer,
-        state.axiosConfig
-      )
+      try {
+        return await axios.post(
+          `${state.axiosUrl}/api/clientes`,
+          customer,
+          state.axiosConfig
+        )
+      } catch (error) {
+        return error.response.data
+      }
     },
     async CREATE_CONTRACT({ state, commit }, contract) {
       const response = await axios.post(

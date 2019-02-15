@@ -55,6 +55,10 @@
             </swiper-slide>
           </swiper>
           <div class="container">
+            <nuxt-link
+              class="btn_link"
+              :to="prevRoute"
+            ><i class="icon-left-open-big"></i> Volver</nuxt-link>
             <div class="tag"> <span class="bold">Valor Total: </span><span class="total">{{ total | formatPrice }}</span></div>
             <nuxt-link
               @click.native="saveFinishes"
@@ -111,6 +115,9 @@ export default {
   computed: {
     nextRoute() {
       return `/dashboard/${this.$route.params.project}/quotation/result`;
+    },
+    prevRoute() {
+      return `/dashboard/${this.$route.params.project}/quotation/apartment`;
     },
     showModal: {
       get() {
@@ -194,7 +201,7 @@ export default {
 </script>
 
 <style scoped>
-a {
+a.nuxt-link-active {
   text-decoration: none;
   color: #98c253;
 }
@@ -205,10 +212,6 @@ a {
   align-items: center;
   height: 100vh;
 }
-a:first-child {
-  color: #98c253;
-  font-size: 24px;
-}
 h2 {
   font-weight: 400;
 }
@@ -217,6 +220,10 @@ h4 {
 }
 .container {
   display: flex;
+  width: 100%;
+  height: 60px;
+  align-items: flex-end;
+  justify-content: space-between;
 }
 .col {
   min-height: 315px;
@@ -283,16 +290,6 @@ li {
   font-weight: 600;
   border-radius: 6px;
 }
-/* .total {
-  position: absolute;
-  top: 0;
-  right: calc(50% - 80px);
-  border-radius: 5px;
-  border: 1px solid #98c253;
-  padding: 7px 10px;
-  background-color: #49526da4;
-  color: #fff;
-} */
 .tag {
   display: flex;
   justify-content: center;
@@ -316,21 +313,20 @@ li {
   margin-right: 10px;
 }
 .btn_link {
-  width: 120px;
-  align-self: flex-end;
   cursor: pointer;
-  margin: 20px 30px 0;
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  text-decoration: none;
+  color: #98c253;
 }
-.btn_link > i {
+.btn_link i {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   align-self: flex-end;
-  padding-left: 10px;
+  font-size: 16px;
+  height: 19px;
+  /* margin-right: 5px; */
 }
 </style>
 

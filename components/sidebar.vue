@@ -11,7 +11,7 @@
             v-if="profileData.foto"
           >
             <img
-              src="../assets/avatar.jpg"
+              :src="`https://administrador.app-encord.com/imagenes_usuarios/${profileData.foto}`"
               alt
             >
           </div>
