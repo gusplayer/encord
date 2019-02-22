@@ -16,9 +16,13 @@
       >
         <iframe
           class="pdf"
-          :src="`https://administrador.app-encord.com${urlPdf}`"
+          :src="`https://docs.google.com/viewerng/viewer?url=https://administrador.app-encord.com${urlPdf}&pid=explorer&efh=false&a=v&chrome=false&embedded=true`"
           frameborder="0"
         ></iframe>
+        <span class="link">Si no puedes visualizar el pdf da click <a
+            :href="`https://administrador.app-encord.com${urlPdf}`"
+            target="_blank"
+          >aquí</a></span>
 
       </div>
       <!-- Info proyecto -->
@@ -1130,11 +1134,15 @@ div.el-row .tag {
 }
 .container-pdf {
   width: 100%;
-  height: 400px;
 }
 .pdf {
   width: 100%;
-  height: 400px;
-  /* pointer-events: none; */
+  height: 900px;
+}
+.link {
+  color: #aaa;
+  width: 100%;
+  text-align: center;
+  display: inline-block;
 }
 </style>

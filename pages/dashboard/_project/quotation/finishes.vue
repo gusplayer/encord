@@ -9,7 +9,10 @@
           <nuxt-link :to="$route.path"> Acabados </nuxt-link>
           <!-- <a>/{{ $route.params.id }}</a> -->
         </h2>
-        <div class="num-apartment">{{numApartment}}</div>
+        <div class="wrapper">
+          <div class="num-apartment">{{numApartment}}</div>
+          <span class="descreme">Descreme: {{descreme.descreme}}</span>
+        </div>
       </template>
       <div
         slot="section"
@@ -96,6 +99,11 @@ export default {
   created() {
     this.ifExistProject();
   },
+  mounted() {
+    if (!this.currentUnit) {
+      this.$router.push("/dashboard/");
+    }
+  },
   data() {
     return {
       img: "",
@@ -113,6 +121,9 @@ export default {
     };
   },
   computed: {
+    descreme() {
+      return this.$store.getters.percentDescreme;
+    },
     nextRoute() {
       return `/dashboard/${this.$route.params.project}/quotation/result`;
     },
@@ -327,6 +338,18 @@ li {
   font-size: 16px;
   height: 19px;
   /* margin-right: 5px; */
+}
+.descreme {
+  font-size: 14px;
+  line-height: 1;
+  margin-top: 5px;
+  color: #aaa;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
 }
 </style>
 

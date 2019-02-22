@@ -6,7 +6,10 @@
           <nuxt-link :to="`/dashboard/${$route.params.project}`">{{nameProject}}</nuxt-link> -
           <span>Cotizar</span>
         </h2>
-        <div class="num-apartment">{{numApartment}}</div>
+        <div class="wrapper">
+          <div class="num-apartment">{{numApartment}}</div>
+          <span class="descreme">Descreme: {{descreme.descreme}}</span>
+        </div>
       </template>
       <div
         slot="section"
@@ -138,6 +141,11 @@ export default {
     await this.$store.dispatch("GET_FLOORS", this.changeIdProject);
     // this.getUnits();
   },
+  mounted() {
+    if (!this.changeIdProject) {
+      this.$router.push("/dashboard/");
+    }
+  },
   data() {
     return {
       showModalImagen: false,
@@ -161,6 +169,11 @@ export default {
     };
   },
   computed: {
+    descreme() {
+      if (this.changeIdProject) {
+        return this.$store.getters.percentDescreme;
+      }
+    },
     nextRoute() {
       return `/dashboard/${this.$route.params.project}/quotation/finishes`;
     },
@@ -402,5 +415,17 @@ h4 {
   max-height: 400px;
   max-width: 100%;
   border-radius: 10px;
+}
+.descreme {
+  font-size: 14px;
+  line-height: 1;
+  margin-top: 5px;
+  color: #aaa;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
 }
 </style>

@@ -126,30 +126,56 @@ export default {
       return state.auth.user
     },
     numberOfContracts(state) {
-      //length de los contratos
       return state.listContractsData.filter(
         contract => contract.proyectos_id == state.currentProject.id
       ).length
     },
     percentDescreme(state, getters) {
       if (getters.numberOfContracts < 10) {
-        return -0.1
+        return {
+          percent: -0.1,
+          descreme: '1'
+        }
       } else if (getters.numberOfContracts < 20) {
-        return -0.075
+        return {
+          percent: -0.075,
+          descreme: '2'
+        }
       } else if (getters.numberOfContracts < 30) {
-        return -0.05
+        return {
+          percent: -0.05,
+          descreme: '3'
+        }
       } else if (getters.numberOfContracts < 40) {
-        return -0.025
+        return {
+          percent: -0.025,
+          descreme: '4'
+        }
       } else if (getters.numberOfContracts < 50) {
-        return 0
+        return {
+          percent: 0,
+          descreme: '5'
+        }
       } else if (getters.numberOfContracts < 60) {
-        return 0.025
+        return {
+          percent: 0.025,
+          descreme: '6'
+        }
       } else if (getters.numberOfContracts < 70) {
-        return 0.05
+        return {
+          percent: 0.05,
+          descreme: '7'
+        }
       } else if (getters.numberOfContracts < 80) {
-        return 0.075
+        return {
+          percent: 0.075,
+          descreme: '8'
+        }
       } else {
-        return 0.1
+        return {
+          percent: 0.1,
+          descreme: '9'
+        }
       }
     }
   },
@@ -186,7 +212,8 @@ export default {
         (a, b) => parseInt(a.numero) - parseInt(b.numero)
       )
       units = units.map(unit => {
-        unit.valor = parseInt(unit.valor) + unit.valor * getters.percentDescreme
+        unit.valor =
+          parseInt(unit.valor) + unit.valor * getters.percentDescreme.percent
         return unit
       })
       commit('SET_APARTMENTS', units)

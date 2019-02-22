@@ -7,12 +7,25 @@
 
 <script>
 import Sidebar from "~/components/sidebar";
+import axios from "axios";
+
 export default {
   middleware: "auth",
   components: {
     Sidebar
   },
   created() {
+    axios.interceptors.response.use(
+      response => {
+        return response;
+      },
+      err => {
+        if (err.response.status === 401) {
+          this.$auth.logout();
+        }
+      }
+    );
+
     this.$store.commit("SET_TOKEN");
     this.$store.dispatch("GET_PROJECTS");
     this.$store.dispatch("GET_PROFILEINFO");

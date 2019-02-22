@@ -24,10 +24,13 @@
       >
         <iframe
           class="pdf"
-          :src="`https://administrador.app-encord.com${urlPdf}`"
+          :src="`https://docs.google.com/viewerng/viewer?url=https://administrador.app-encord.com${urlPdf}&pid=explorer&efh=false&a=v&chrome=false&embedded=true`"
           frameborder="0"
         ></iframe>
-
+        <span class="link">Si no puedes visualizar el pdf da click <a
+            :href="`https://administrador.app-encord.com${urlPdf}`"
+            target="_blank"
+          >aquí</a></span>
       </div>
       <div
         slot="section"
@@ -407,6 +410,11 @@ export default {
     this.$store.dispatch("GET_CUSTOMERS");
     this.$store.dispatch("GET_TYPESCONTRACTS");
   },
+  mounted() {
+    if (!this.currentUnit) {
+      this.$router.push("/dashboard/");
+    }
+  },
   destroyed() {
     this.$store.commit("SET_RESETPDFQUOTATION", "");
   },
@@ -562,10 +570,10 @@ export default {
   },
   filters: {
     formatNum(value) {
+      let num;
       if (value) {
-        return `$${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
-      } else {
-        return "$0";
+        num = value.toFixed(2);
+        return `$${num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
       }
     }
   }
@@ -772,12 +780,11 @@ div.el-row:last-child {
 }
 .pdf {
   width: 100%;
-  height: 400px;
-  /* pointer-events: none; */
+  height: 900px;
 }
 .container-pdf {
   width: 100%;
-  height: 400px;
+  /* height: 400px; */
 }
 .btn_link {
   cursor: pointer;
@@ -795,5 +802,11 @@ div.el-row:last-child {
   font-size: 16px;
   height: 19px;
   margin-right: 5px;
+}
+.link {
+  color: #aaa;
+  width: 100%;
+  text-align: center;
+  display: inline-block;
 }
 </style>
