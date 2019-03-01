@@ -121,6 +121,7 @@ export default {
   },
   methods: {
     sentInfo(id) {
+      this.$store.dispatch("GET_DESCREME", id);
       this.$store.commit(
         "SET_CURRENTPROJECT",
         this.projects.find(project => project.id === id)

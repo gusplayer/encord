@@ -36,7 +36,8 @@ export default {
     profileInfo: {},
     imagenModal: '',
     pdfQuotation: '',
-    pdfContract: ''
+    pdfContract: '',
+    descreme: []
   }),
   mutations: {
     SET_TOKEN(state) {
@@ -116,6 +117,9 @@ export default {
     },
     SET_PDFCONTRACT(state, value) {
       state.pdfContract = value
+    },
+    SET_DESCREME(state, value) {
+      state.descreme = value
     }
   },
   getters: {
@@ -193,6 +197,13 @@ export default {
           console.log(e)
         })
     },
+    async GET_DESCREME({ state, commit }, id) {
+      const response = await axios.get(
+        `${state.axiosUrl}/api/proyectos/${id}/descreme`,
+        state.axiosConfig
+      )
+      commit('SET_DESCREME', response.data.data)
+    },
     async GET_FLOORS({ state, commit }, id) {
       const response = await axios.get(
         `${state.axiosUrl}/api/proyectos/${id}/pisos`,
@@ -204,6 +215,7 @@ export default {
       )
     },
     async GET_UNITS({ state, commit, getters }, id) {
+      console.log(id)
       const response = await axios.get(
         `${state.axiosUrl}/api/pisos/${id}/unidades`,
         state.axiosConfig
@@ -211,9 +223,11 @@ export default {
       let units = response.data.data.sort(
         (a, b) => parseInt(a.numero) - parseInt(b.numero)
       )
+      console.log(units)
       units = units.map(unit => {
         unit.valor =
-          parseInt(unit.valor) + unit.valor * getters.percentDescreme.percent
+          parseInt(unit.valor) +
+          unit.valor * (state.descreme.descreme_actual.porcentaje / 100)
         return unit
       })
       commit('SET_APARTMENTS', units)
@@ -229,15 +243,15 @@ export default {
         })
     },
     async CREATE_CUSTOMER({ state }, customer) {
-      try {
-        return await axios.post(
-          `${state.axiosUrl}/api/clientes`,
-          customer,
-          state.axiosConfig
-        )
-      } catch (error) {
-        return error.response.data
-      }
+      const response = await axios.post(
+        `${state.axiosUrl}/api/clientes`,
+        customer,
+        state.axiosConfig
+      )
+      // if (response.data.status !== 200) {
+      //   return response.data
+      // }
+      return response
     },
     async CREATE_CONTRACT({ state, commit }, contract) {
       const response = await axios.post(
@@ -245,8 +259,8 @@ export default {
         contract,
         state.axiosConfig
       )
-      console.log(response.data.pdf)
       commit('SET_PDFCONTRACT', await response.data.pdf)
+      return response
     },
     async CREATE_QUOTATION({ state, commit }, quotation) {
       const response = await axios.post(

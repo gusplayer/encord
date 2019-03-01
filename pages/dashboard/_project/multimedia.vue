@@ -192,7 +192,7 @@ h2 span {
 
 .thumb {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   border-radius: 8px;
 }
 .thumb > img {

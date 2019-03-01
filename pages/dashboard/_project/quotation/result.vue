@@ -1,5 +1,10 @@
 <template>
-  <div class="result">
+  <div
+    class="result"
+    v-loading="loading"
+    element-loading-background="rgba(0, 0, 0, 0.8)"
+    element-loading-text="Generando pdf..."
+  >
     <card id="quotation">
       <template slot="header">
         <nuxt-link
@@ -144,10 +149,6 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <!-- <el-select v-model="flat" size="mini" placeholder="Unidad">
-                <el-option v-for="(item, index) in flats" :key="index" :label="item.piso" :value="item.piso">
-                </el-option>
-              </el-select> -->
               <p class="item-get">{{currentUnit.numero.slice(0,1)}}</p>
             </div>
           </el-col>
@@ -158,10 +159,6 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <!-- <el-select v-model="unitNumber" size="mini" placeholder="Unidad">
-                <el-option v-for="(item, index) in units" :key="index" :label="item.numero" :value="item.numero">
-                </el-option>
-              </el-select> -->
               <p class="item-get">{{currentUnit.numero}}</p>
             </div>
           </el-col>
@@ -172,7 +169,7 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content">
-              <p class="item-get">{{currentUnit.valor | formatNum}}</p>
+              <p class="item-get">{{currentUnit.valor - inputDescuento | formatNum}}</p>
             </div>
           </el-col>
         </el-row>
@@ -183,6 +180,80 @@
           <el-col :span="12">
             <div class="grid-content">
               <p class="item-get">{{currentUnit.tipo_unidad}}</p>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Area Total:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <input
+                class="inputClinte"
+                type="text"
+                placeholder="Area Total"
+                v-model="descripcion.areaTotal"
+              >
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Area Habitable:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <input
+                class="inputClinte"
+                type="text"
+                placeholder="Area Habitable"
+                v-model="descripcion.areaHabitable"
+              >
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="background">
+          <el-col :span="12">
+            <p class="item grid-content">Area Balcón:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <input
+                class="inputClinte"
+                type="text"
+                placeholder="Area Balcon"
+                v-model="descripcion.areaBalcon"
+              >
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Tipo de Apartamento:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <input
+                class="inputClinte"
+                type="text"
+                placeholder="Tipo de Apartamento"
+                v-model="descripcion.tipoApartamento"
+              >
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <p class="item grid-content">Descuento:</p>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content">
+              <money
+                class="inputClinte"
+                v-model="inputDescuento"
+                v-bind="money"
+              ></money>
             </div>
           </el-col>
         </el-row>
@@ -282,7 +353,7 @@
             <div class="grid-content">
               <input
                 class="inputClinte"
-                type="text"
+                type="tel"
                 placeholder="Cuotas"
                 v-model="inputFee"
               >
@@ -299,6 +370,7 @@
                 class="inputClinte"
                 v-model="quota"
                 v-bind="money"
+                disabled
               ></money>
             </div>
           </el-col>
@@ -366,12 +438,6 @@
               prop="tipos_acabados.imagen"
               label="Foto"
             >
-              <!-- <template slot-scope="scope">
-                <img
-                    :src="`https://administrador.app-encord.com/imagenes_tipos_acabados/${scope.row.tipos_acabados.imagen}`"
-                    class="finish_image"
-                  >
-              </template> -->
             </el-table-column>
           </el-table>
         </el-row>
@@ -420,6 +486,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       money: {
         decimal: ",",
         thousands: ".",
@@ -438,6 +505,7 @@ export default {
       },
       InfoQuotation: {
         acabados: "",
+        descripcion: "",
         clientes_id: 0,
         proyecto_id: 0,
         unidad_id: 0,
@@ -458,6 +526,7 @@ export default {
         "ID Extranjero",
         "Tarjeta  de Identidad"
       ],
+      inputDescuento: "",
       inputIdentification: "",
       nameCostumer: "",
       typeIdentification: "",
@@ -466,7 +535,8 @@ export default {
       initialFeePercentage: "",
       inputFee: "",
       inputDate: "",
-      comment: ""
+      comment: "",
+      descripcion: {}
     };
   },
   computed: {
@@ -476,6 +546,9 @@ export default {
       } else {
         return `/dashboard/${this.$route.params.project}/quotation/apartment`;
       }
+    },
+    descreme() {
+      return this.$store.state.descreme.descreme_actual;
     },
     customers() {
       return this.$store.state.customersData;
@@ -493,7 +566,7 @@ export default {
       return (
         this.currentFinishes.reduce((total, finish) => {
           return total + parseInt(finish.valor);
-        }, 0) + parseInt(this.currentUnit.valor) || 0
+        }, 0) + parseInt(this.currentUnit.valor - this.inputDescuento) || 0
       );
     },
     // totalValue() {
@@ -550,9 +623,15 @@ export default {
       this.InfoQuotation.valor_cuota = parseInt(this.quota) || 0;
       this.InfoQuotation.financiacion = parseInt(this.financing) || 0;
       this.InfoQuotation.observaciones = this.comment;
+      this.InfoQuotation.descreme = JSON.stringify(this.descreme);
+      this.InfoQuotation.descuento = this.inputDescuento;
+      this.InfoQuotation.descripcion = JSON.stringify(this.descripcion);
       await this.$store.dispatch("CREATE_QUOTATION", this.InfoQuotation);
+      this.loading = false;
     },
     saveQuotation() {
+      this.loading = true;
+      console.log(this.loading);
       this.$store.dispatch("GET_CUSTOMERS");
       this.createQuotation();
     }

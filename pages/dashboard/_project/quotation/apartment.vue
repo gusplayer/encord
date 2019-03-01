@@ -8,7 +8,7 @@
         </h2>
         <div class="wrapper">
           <div class="num-apartment">{{numApartment}}</div>
-          <span class="descreme">Descreme: {{descreme.descreme}}</span>
+          <span class="descreme">{{descreme.nombre}}</span>
         </div>
       </template>
       <div
@@ -171,7 +171,7 @@ export default {
   computed: {
     descreme() {
       if (this.changeIdProject) {
-        return this.$store.getters.percentDescreme;
+        return this.$store.state.descreme.descreme_actual;
       }
     },
     nextRoute() {
@@ -376,6 +376,10 @@ h4 {
 .info {
   position: absolute;
   margin-left: 20px;
+  padding-left: 20px;
+  max-height: 265px;
+  overflow: auto;
+  width: 94%;
 }
 .swiper-wrapper {
   max-width: 350px;

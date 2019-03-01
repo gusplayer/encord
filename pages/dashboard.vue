@@ -23,6 +23,7 @@ export default {
         if (err.response.status === 401) {
           this.$auth.logout();
         }
+        return err.response;
       }
     );
 

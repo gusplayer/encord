@@ -1,5 +1,8 @@
 <template>
-  <div class="info">
+  <div
+    class="info"
+    v-loading="loading"
+  >
     <card>
       <template slot="header">
         <h2 v-if="urlPdf">
@@ -141,11 +144,11 @@
           </el-row>
           <el-row class="background">
             <el-col :span="12">
-              <p class="item grid-content">Precio:</p>
+              <p class="item grid-content">Precio básico:</p>
             </el-col>
             <el-col :span="12">
               <div class="grid-content">
-                <p class="item-get">{{currentUnit.valor | formatNum}}</p>
+                <p class="item-get">{{currentUnit.valor - inputDescuento | formatNum}}</p>
               </div>
             </el-col>
           </el-row>
@@ -156,6 +159,80 @@
             <el-col :span="12">
               <div class="grid-content">
                 <p class="item-get">{{currentUnit.tipo_unidad}}</p>
+              </div>
+            </el-col>
+          </el-row>
+          <el-row class="background">
+            <el-col :span="12">
+              <p class="item grid-content">Area Total:</p>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content">
+                <input
+                  class="inputClinte"
+                  type="text"
+                  placeholder="Area Total"
+                  v-model="infoContract.descripcion.areaTotal"
+                >
+              </div>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <p class="item grid-content">Area Habitable:</p>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content">
+                <input
+                  class="inputClinte"
+                  type="text"
+                  placeholder="Area Habitable"
+                  v-model="infoContract.descripcion.areaHabitable"
+                >
+              </div>
+            </el-col>
+          </el-row>
+          <el-row class="background">
+            <el-col :span="12">
+              <p class="item grid-content">Area Balcón:</p>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content">
+                <input
+                  class="inputClinte"
+                  type="text"
+                  placeholder="Area Balcon"
+                  v-model="infoContract.descripcion.areaBalcon"
+                >
+              </div>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <p class="item grid-content">Tipo de Apartamento:</p>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content">
+                <input
+                  class="inputClinte"
+                  type="text"
+                  placeholder="Tipo de Apartamento"
+                  v-model="infoContract.descripcion.tipoApartamento"
+                >
+              </div>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <p class="item grid-content">Descuento:</p>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content">
+                <money
+                  class="inputClinte"
+                  v-model="inputDescuento"
+                  v-bind="money"
+                ></money>
               </div>
             </el-col>
           </el-row>
@@ -389,28 +466,6 @@
               <h3 class="grid-content">Separación:</h3>
             </el-col>
           </el-row>
-          <!-- <el-row class="background">
-            <el-col :span="12">
-              <p class="item grid-content">Tipo de contrato:</p>
-            </el-col>
-            <el-col :span="12">
-              <div class="grid-content">
-                <el-select
-                  v-model="contract"
-                  size="mini"
-                  placeholder="Contratos"
-                >
-                  <el-option
-                    v-for="(item, index) in typesContractsData"
-                    :key="index"
-                    :label="item.titulo"
-                    :value="item.id"
-                  >
-                  </el-option>
-                </el-select>
-              </div>
-            </el-col>
-          </el-row> -->
           <el-row class="background">
             <el-col :span="12">
               <p class="item grid-content">Porcentaje de separación:</p>
@@ -601,6 +656,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       money: {
         decimal: ",",
         thousands: ".",
@@ -664,7 +720,7 @@ export default {
       separationPercentage: "",
       paydayLimit: "",
       inputDate: "",
-
+      inputDescuento: "",
       inputIdentification: "",
       inputNombre: "",
       inputCelular: "",
@@ -717,6 +773,7 @@ export default {
         }
       },
       infoContract: {
+        descripcion: {},
         acabados: {},
         clientes_id: 1,
         forma_pago: {},
@@ -729,6 +786,9 @@ export default {
     };
   },
   computed: {
+    descreme() {
+      return this.$store.state.descreme.descreme_actual;
+    },
     projects() {
       return this.$store.state.projectsData;
     },
@@ -823,7 +883,9 @@ export default {
       );
     },
     totalValue() {
-      return this.total + parseInt(this.currentUnit.valor) || 0;
+      return (
+        this.total + parseInt(this.currentUnit.valor - this.inputDescuento) || 0
+      );
     },
     separationValue() {
       return this.totalValue * (this.separationPercentage / 100);
@@ -906,8 +968,10 @@ export default {
       this.sentData();
       // this.$router.push("/dashboard/contract/list-contracts");
     },
-    sentData() {
-      this.$store.commit("SET_DATACONTRACT", this.formContract);
+    async sentData() {
+      this.loading = true;
+      await this.$store.commit("SET_DATACONTRACT", this.formContract);
+      this.loading = false;
     },
     dataContract() {
       this.formContract.project.name = this.currentProject.nombre;
@@ -938,6 +1002,7 @@ export default {
     },
     getUnits(flat) {
       this.$store.dispatch("GET_UNITS", flat);
+      this.$store.dispatch("GET_DESCREME", this.currentProject.id);
     },
     async createContract() {
       this.infoContract.acabados = JSON.stringify(this.formContract.finishes);
@@ -946,8 +1011,20 @@ export default {
       this.infoContract.separacion = JSON.stringify(this.formContract.setApart);
       this.infoContract.unidad_id = this.formContract.unit.id;
       this.infoContract.proyecto_id = this.formContract.project.id;
+      this.infoContract.descreme = JSON.stringify(this.descreme);
+      this.infoContract.descuento = this.inputDescuento;
+      this.infoContract.descripcion = JSON.stringify(
+        this.infoContract.descripcion
+      );
 
-      await this.$store.dispatch("CREATE_CONTRACT", this.infoContract);
+      const response = await this.$store.dispatch(
+        "CREATE_CONTRACT",
+        this.infoContract
+      );
+      this.$notify.error({
+        title: "Error",
+        message: Object.values(response.data.errores)[0][0]
+      });
     },
     monthlyFees() {
       let d;
@@ -963,10 +1040,10 @@ export default {
           this.inputDate.getDate()
         );
         this.infoContract.pagos.push({
-          fecha: d,
-          valorCuota: cuota,
-          total: total,
-          totalRestante: totalRestante
+          fecha: d.getDate() + " - " + d.getMonth() + "-" + d.getFullYear(),
+          valorCuota: Math.trunc(cuota),
+          total: Math.trunc(total),
+          totalRestante: Math.trunc(totalRestante)
         });
       }
       this.infoContract.pagos = JSON.stringify(this.infoContract.pagos);
@@ -976,7 +1053,7 @@ export default {
     formatNum(value) {
       let num;
       if (value) {
-        num = value.toFixed(2);
+        num = Math.trunc(value);
         return `$${num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
       }
     }
