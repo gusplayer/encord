@@ -1,5 +1,8 @@
 <template>
-  <div class="apartments">
+  <div
+    class="apartments"
+    v-loading="loading"
+  >
     <el-table
       height="330px"
       :data="units"
@@ -65,12 +68,24 @@ export default {
   destroyed() {
     this.$store.commit("SET_APARTMENTS", []);
   },
+  crated() {
+    if (!this.units) {
+      this.loading = true;
+    }
+  },
   data() {
-    return {};
+    return {
+      loading: false
+    };
   },
   computed: {
     units() {
       return this.$store.state.apartments;
+    }
+  },
+  watch: {
+    units: function() {
+      this.loading = false;
     }
   },
   methods: {

@@ -2,6 +2,8 @@
   <div
     class="info"
     v-loading="loading"
+    element-loading-background="rgba(0, 0, 0, 0.8)"
+    element-loading-text="Generando pdf..."
   >
     <card>
       <template slot="header">
@@ -39,17 +41,17 @@
             <el-col :span="12">
               <h3 class="grid-content">Proyecto:</h3>
             </el-col>
-            <el-col
-              :span="7"
-              :offset="5"
-            >
+            <el-col :span="12">
               <div
-                class="grid-content"
+                class="grid-content text-right"
                 v-if="projects.length"
               >
                 <el-select
                   v-model="value"
                   placeholder="Buscar proyecto"
+                  v-validate="'required'"
+                  data-vv-name="value"
+                  data-vv-as="Proyecto"
                 >
                   <el-option
                     v-for="(item, index) in projects"
@@ -62,6 +64,7 @@
               </div>
             </el-col>
           </el-row>
+          <p class="error">{{ errors.first('value') }}</p>
           <el-row class="background">
             <el-col :span="12">
               <p class="item grid-content">Nombre del Proyecto:</p>
@@ -108,6 +111,9 @@
                   v-model="flat"
                   size="mini"
                   placeholder="Unidad"
+                  v-validate="'required'"
+                  data-vv-name="flat"
+                  data-vv-as="Piso"
                 >
                   <el-option
                     v-for="(item, index) in sentFlats"
@@ -120,6 +126,7 @@
               </div>
             </el-col>
           </el-row>
+          <p class="error">{{ errors.first('flat') }}</p>
           <el-row>
             <el-col :span="12">
               <p class="item grid-content">Nùmero de unidad:</p>
@@ -172,7 +179,7 @@
                   class="inputClinte"
                   type="text"
                   placeholder="Area Total"
-                  v-model="infoContract.descripcion.areaTotal"
+                  v-model="descripcion.areaTotal"
                 >
               </div>
             </el-col>
@@ -187,7 +194,7 @@
                   class="inputClinte"
                   type="text"
                   placeholder="Area Habitable"
-                  v-model="infoContract.descripcion.areaHabitable"
+                  v-model="descripcion.areaHabitable"
                 >
               </div>
             </el-col>
@@ -202,7 +209,7 @@
                   class="inputClinte"
                   type="text"
                   placeholder="Area Balcon"
-                  v-model="infoContract.descripcion.areaBalcon"
+                  v-model="descripcion.areaBalcon"
                 >
               </div>
             </el-col>
@@ -217,7 +224,7 @@
                   class="inputClinte"
                   type="text"
                   placeholder="Tipo de Apartamento"
-                  v-model="infoContract.descripcion.tipoApartamento"
+                  v-model="descripcion.tipoApartamento"
                 >
               </div>
             </el-col>
@@ -257,6 +264,7 @@
                 <el-select
                   v-model="idFloor"
                   size="mini"
+                  clearable
                   placeholder="Tipo de piso"
                 >
                   <el-option
@@ -279,7 +287,8 @@
                 <el-select
                   v-model="idBathroom"
                   size="mini"
-                  placeholder="Tipo de piso"
+                  clearable
+                  placeholder="Tipo de baño"
                 >
                   <el-option
                     v-for="(item, index) in bathrooms"
@@ -301,6 +310,7 @@
                 <el-select
                   v-model="idKitchen"
                   size="mini"
+                  clearable
                   placeholder="Tipo de cocina"
                 >
                   <el-option
@@ -380,6 +390,9 @@
                   v-model="typeIdentification"
                   size="mini"
                   placeholder="Identificación"
+                  v-validate="'required'"
+                  data-vv-name="Identificacion"
+                  data-vv-as="Identificación"
                 >
                   <el-option
                     v-for="(item, index) in identification"
@@ -392,6 +405,7 @@
               </div>
             </el-col>
           </el-row>
+          <p class="error">{{ errors.first('Identificacion') }}</p>
           <el-row>
             <el-col :span="12">
               <p class="item grid-content">No. Identificación:</p>
@@ -400,13 +414,17 @@
               <div class="grid-content">
                 <input
                   class="inputClinte"
-                  type="text"
+                  type="tel"
                   placeholder="No. Identificación"
                   v-model="inputIdentification"
+                  v-validate="'required|numeric'"
+                  data-vv-name="num_identificacion"
+                  data-vv-as="Número Identificación"
                 >
               </div>
             </el-col>
           </el-row>
+          <p class="error">{{ errors.first("num_identificacion") }}</p>
           <el-row class="background">
             <el-col :span="12">
               <p class="item grid-content">Nombre:</p>
@@ -572,13 +590,17 @@
               <div class="grid-content">
                 <input
                   class="inputClinte"
-                  type="text"
+                  type="tel"
                   placeholder="Cuotas"
                   v-model="inputFee"
+                  v-validate="'required|numeric'"
+                  data-vv-name="inputFee"
+                  data-vv-as="Cuotas"
                 >
               </div>
             </el-col>
           </el-row>
+          <p class="error">{{ errors.first("inputFee") }}</p>
           <el-row>
             <el-col :span="12">
               <p class="item grid-content">Cuota:</p>
@@ -587,7 +609,8 @@
               <div class="grid-content">
                 <money
                   class="inputClinte"
-                  v-model="quota"
+                  disabled
+                  :value="quota"
                   v-bind="money"
                 ></money>
               </div>
@@ -628,7 +651,7 @@
             >
               <div
                 class="btn-save"
-                @click="saveInfo"
+                @click="saveInfo(true)"
               >Guardar</div>
             </el-col>
           </el-row>
@@ -673,7 +696,7 @@ export default {
         precision: 0,
         masked: false
       },
-      value: {},
+      value: null,
       emptyProject: {
         nombre: "",
         ubicacion: "",
@@ -700,9 +723,9 @@ export default {
       unitNumber: "",
       flat: "",
       typeIdentification: "",
-      idFloor: 0,
-      idBathroom: 0,
-      idKitchen: 0,
+      idFloor: "",
+      idBathroom: "",
+      idKitchen: "",
       checkDomotica: 0,
       identification: [
         "Cédula",
@@ -715,7 +738,7 @@ export default {
       contract: "",
       inputValue: "",
       inputInitialSeparation: "",
-      inputFee: " ",
+      inputFee: "",
       initialFeePercentage: "",
       separationPercentage: "",
       paydayLimit: "",
@@ -727,7 +750,12 @@ export default {
       inputDireccion: "",
       domoticaPrice: 0,
       typesContractsData: null,
-
+      descripcion: {
+        areaTotal: "",
+        areaHabitable: "",
+        areaBalcon: "",
+        tipoApartamento: ""
+      },
       formContract: {
         project: {
           name: "",
@@ -874,13 +902,21 @@ export default {
         return { valor: 0 };
       }
     },
-    total() {
-      return (
-        parseInt(this.currentFloor.valor) +
-        parseInt(this.currentKitchen.valor) +
-        parseInt(this.currentBathroom.valor) +
-        this.domoticaPrice
-      );
+    total: {
+      get() {
+        return (
+          parseInt(this.currentFloor.valor) +
+          parseInt(this.currentKitchen.valor) +
+          parseInt(this.currentBathroom.valor) +
+          this.domoticaPrice
+        );
+      },
+      set(newValue) {
+        this.currentFloor.valor = newValue;
+        this.currentKitchen.valor = newValue;
+        this.currentBathroom.valor = newValue;
+        this.domoticaPrice = newValue;
+      }
     },
     totalValue() {
       return (
@@ -962,16 +998,16 @@ export default {
     }
   },
   methods: {
-    saveInfo() {
-      this.dataContract();
-      this.monthlyFees();
-      this.sentData();
-      // this.$router.push("/dashboard/contract/list-contracts");
-    },
-    async sentData() {
-      this.loading = true;
-      await this.$store.commit("SET_DATACONTRACT", this.formContract);
-      this.loading = false;
+    saveInfo(value) {
+      this.loading = value;
+      document.querySelector(".info.dashboard-view").scrollTop = 0;
+      this.$validator.validate().then(result => {
+        if (result) {
+          this.dataContract();
+          this.monthlyFees();
+          this.loading = false;
+        }
+      });
     },
     dataContract() {
       this.formContract.project.name = this.currentProject.nombre;
@@ -990,6 +1026,11 @@ export default {
       this.formContract.payment.numQuotas = this.inputFee;
       this.formContract.payment.costQuota = parseInt(this.quota);
       this.formContract.payment.financing = this.financing;
+      this.formContract.payment.percentQuota = this.initialFeePercentage;
+      this.formContract.payment.startDate = this.inputDate;
+      this.formContract.setApart.date = this.paydayLimit;
+      this.formContract.setApart.residue = this.inputInitialSeparation;
+      this.formContract.setApart.percent = this.separationPercentage;
       this.formContract.setApart.cost = this.separationValue;
       this.formContract.setApart.initial = this.initialFee;
       this.formContract.payment.valor_cuota_inicial_unidad =
@@ -1005,6 +1046,7 @@ export default {
       this.$store.dispatch("GET_DESCREME", this.currentProject.id);
     },
     async createContract() {
+      this.loading = true;
       this.infoContract.acabados = JSON.stringify(this.formContract.finishes);
       this.infoContract.clientes_id = this.formContract.customer.id;
       this.infoContract.forma_pago = JSON.stringify(this.formContract.payment);
@@ -1013,14 +1055,13 @@ export default {
       this.infoContract.proyecto_id = this.formContract.project.id;
       this.infoContract.descreme = JSON.stringify(this.descreme);
       this.infoContract.descuento = this.inputDescuento;
-      this.infoContract.descripcion = JSON.stringify(
-        this.infoContract.descripcion
-      );
+      this.infoContract.descripcion = JSON.stringify(this.descripcion);
 
       const response = await this.$store.dispatch(
         "CREATE_CONTRACT",
         this.infoContract
       );
+      this.loading = false;
       this.$notify.error({
         title: "Error",
         message: Object.values(response.data.errores)[0][0]
@@ -1032,7 +1073,7 @@ export default {
       let cuota = this.quota;
       let total = this.initialFee;
       let totalRestante = this.initialFee;
-      for (var i = 0; i < 24; i += 1) {
+      for (var i = 0; i < this.inputFee; i += 1) {
         totalRestante = totalRestante - cuota;
         d = new Date(
           today.getFullYear(),
@@ -1221,5 +1262,10 @@ div.el-row .tag {
   width: 100%;
   text-align: center;
   display: inline-block;
+}
+.error {
+  text-align: center;
+  font-size: 11px;
+  color: #e64c4c;
 }
 </style>

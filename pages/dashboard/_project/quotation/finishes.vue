@@ -291,8 +291,10 @@ li {
   margin-top: 10px;
 }
 .img_modal {
-  max-height: 400px;
-  max-width: 100%;
+  max-width: calc(100vw - 40px);
+  max-height: calc(100vh - 40px);
+  border-radius: 10px;
+  box-shadow: 0px 0px 0px 6px rgb(255, 255, 255);
 }
 .num-apartment {
   background-color: #98c253;

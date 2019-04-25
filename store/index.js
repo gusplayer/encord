@@ -29,7 +29,7 @@ export default {
     currentUnit: null,
     currentCustomer: null,
     currentFinishes: [],
-    customersData: null,
+    customersData: [],
     actionsData: null,
     deparmentsData: null,
     dataContract: {},
@@ -119,6 +119,12 @@ export default {
       state.pdfContract = value
     },
     SET_DESCREME(state, value) {
+      if (!value.hasOwnProperty('descreme_actual')) {
+        value.descreme_actual = {
+          nombre: 'Sin descreme',
+          id: 0
+        }
+      }
       state.descreme = value
     }
   },
@@ -215,7 +221,6 @@ export default {
       )
     },
     async GET_UNITS({ state, commit, getters }, id) {
-      console.log(id)
       const response = await axios.get(
         `${state.axiosUrl}/api/pisos/${id}/unidades`,
         state.axiosConfig
@@ -223,12 +228,16 @@ export default {
       let units = response.data.data.sort(
         (a, b) => parseInt(a.numero) - parseInt(b.numero)
       )
-      console.log(units)
       units = units.map(unit => {
-        unit.valor =
-          parseInt(unit.valor) +
-          unit.valor * (state.descreme.descreme_actual.porcentaje / 100)
-        return unit
+        if (state.descreme.descreme_actual.porcentaje) {
+          unit.valor =
+            parseInt(unit.valor) +
+            unit.valor * (state.descreme.descreme_actual.porcentaje / 100)
+          return unit
+        } else {
+          unit.valor = parseInt(unit.valor)
+          return unit
+        }
       })
       commit('SET_APARTMENTS', units)
     },
@@ -254,6 +263,7 @@ export default {
       return response
     },
     async CREATE_CONTRACT({ state, commit }, contract) {
+      // commit('SET_DATACONTRACT', contract)
       const response = await axios.post(
         `${state.axiosUrl}/api/contratos`,
         contract,
@@ -269,6 +279,7 @@ export default {
         state.axiosConfig
       )
       commit('SET_PDFQUOTATION', response.data.pdf)
+      return response
     },
     GET_ACTIONS_BY_CUSTOMER({ state, commit }, customer_id) {
       axios

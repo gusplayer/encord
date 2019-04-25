@@ -1,6 +1,6 @@
 <template>
   <div class="price-list">
-    <card>
+    <card v-loading="loading">
       <template slot="header">
         <h2>
           <nuxt-link :to="`/dashboard/${$route.params.project}`">{{currentProject.nombre}} </nuxt-link>
@@ -106,6 +106,9 @@ export default {
   created() {
     this.ifExistProject();
     this.$store.dispatch("GET_FLOORS", this.currentProject.id);
+    if (!this.sentFlats) {
+      this.loading = true;
+    }
   },
   destroyed() {
     this.$store.commit("SET_SENTFLATS", []);
@@ -113,6 +116,7 @@ export default {
   data() {
     return {
       img: "",
+      loading: true,
       swiperOption: {
         slidesPerView: 1,
         activeIndex: 2,
@@ -158,6 +162,11 @@ export default {
     },
     getUnits(id) {
       this.$store.dispatch("GET_UNITS", id);
+    }
+  },
+  watch: {
+    sentFlats: function() {
+      this.loading = false;
     }
   }
 };
@@ -240,8 +249,10 @@ h2 span {
   pointer-events: none;
 }
 .img_modal {
-  max-height: 400px;
-  max-width: 100%;
+  max-width: calc(100vw - 40px);
+  max-height: calc(100vh - 40px);
+  border-radius: 10px;
+  box-shadow: 0px 0px 0px 6px rgb(255, 255, 255);
 }
 .title {
   text-align: left;

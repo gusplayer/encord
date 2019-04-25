@@ -1,7 +1,5 @@
 export const descreme = {
-  created() {
-    console.log('hola desde el mixin')
-  },
+  created() {},
   computed: {
     units() {
       return this.$store.state.apartments

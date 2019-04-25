@@ -170,8 +170,6 @@ export default {
       const { isEmpty, data } = this.$refs.signaturePad.saveSignature();
       alert("Open DevTools see the save data.");
       this.signatureImage = data;
-      console.log(isEmpty);
-      console.log(data);
     },
     clear() {
       this.$refs.signaturePad.clearSignature();

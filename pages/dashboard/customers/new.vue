@@ -1,6 +1,6 @@
 <template>
   <div class="list-costumers">
-    <card>
+    <card v-loading="loading">
       <template slot="header">
         <h2>
           <nuxt-link to="/dashboard/customers">Listado de Clientes</nuxt-link> -
@@ -104,7 +104,7 @@
             <div class="grid-content">
               <input
                 class="inputClinte"
-                type="text"
+                type="tel"
                 placeholder="Celular"
                 v-model="customer.telefono"
               >
@@ -135,7 +135,7 @@
             <div class="grid-content">
               <input
                 class="inputClinte"
-                type="text"
+                type="tel"
                 placeholder="Edad"
                 v-model="customer.edad"
               >
@@ -243,6 +243,9 @@ export default {
   created() {
     this.$store.dispatch("GET_DEPARMENTSWITHCITIES");
   },
+  destroyed() {
+    this.$store.commit("SET_CUSTOMERS", null);
+  },
   data() {
     return {
       customer: {
@@ -259,6 +262,7 @@ export default {
         nivel_interes: "",
         estado: 1
       },
+      loading: false,
       currentDeparment: "",
       departamentoExpedicion: ""
     };
@@ -292,17 +296,19 @@ export default {
   },
   methods: {
     async createCustomer() {
+      this.loading = true;
       const response = await this.$store.dispatch(
         "CREATE_CUSTOMER",
         this.customer
       );
+      this.loading = false;
+      if (response.status == 200) {
+        this.$router.push("/dashboard/customers");
+      }
       this.$notify.error({
         title: "Error",
         message: Object.values(response.data.errores)[0][0]
       });
-      if (response.status == 200) {
-        this.$router.push("/dashboard/customers");
-      }
     }
   }
 };

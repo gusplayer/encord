@@ -10,21 +10,18 @@
           </div>
 
           <div class="modal-body">
+            <el-button
+              type="danger"
+              class="modal-default-button"
+              icon="el-icon-circle-close-outline"
+              @click.native="$emit('close')"
+              circle
+            ></el-button>
             <slot name="body">
 
             </slot>
           </div>
 
-          <div class="modal-footer">
-            <slot name="footer">
-              <button
-                class="modal-default-button"
-                @click="$emit('close')"
-              >
-                Cerrar
-              </button>
-            </slot>
-          </div>
         </div>
       </div>
     </div>
@@ -54,14 +51,9 @@ export default {};
 }
 
 .modal-container {
-  max-width: 700px;
-  max-height: 100%;
-
   margin: 0px auto;
   padding: 20px 30px;
-  background-color: #fff;
   border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
   font-family: Helvetica, Arial, sans-serif;
   display: flex;
@@ -78,18 +70,22 @@ export default {};
 }
 
 .modal-body {
-  margin: 20px 0;
-  max-width: 100%;
-  max-height: 400px;
+  position: relative;
+  display: flex;
 }
-
 .modal-default-button {
-  float: right;
-  /* padding: 5px 15px; */
-  background: transparent;
+  top: -15px;
+  right: -15px;
+  position: absolute;
+  font-size: 40px;
+  background-color: transparent;
   border: 0;
-  text-decoration: underline;
-  color: rgba(47, 132, 201, 0.699);
+  color: #606468;
+  background-color: white;
+  padding: 0;
+  vertical-align: middle;
+  border-radius: 4px;
+  box-shadow: 0 0 3px 3px hsla(237, 45%, 18%, 0.13);
 }
 
 /*

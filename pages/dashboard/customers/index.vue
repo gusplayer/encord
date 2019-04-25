@@ -1,6 +1,6 @@
 <template>
   <div class="list-costumers">
-    <card>
+    <card v-loading="loading">
       <template slot="header">
         <h2>
           <nuxt-link to="/dashboard">Listado de Clientes</nuxt-link>
@@ -13,10 +13,12 @@
         </nuxt-link>
       </template>
       <div
+        v-if="customersData"
         slot="section"
         class="section"
       >
         <el-table
+          v-if="customersData.length"
           :data="customersData"
           style="width: 100%"
           height="350px"
@@ -24,8 +26,6 @@
           <el-table-column
             label="Fecha"
             width="110"
-            :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
-            :filter-method="filterHandler"
           >
             <template slot-scope="scope">
               <i class="el-icon-time"></i>
@@ -73,6 +73,17 @@
             </template>
           </el-table-column>
         </el-table>
+        <div
+          v-else
+          class="no-data"
+        >
+          <img
+            class="img-data"
+            src="../../../assets/no data.png"
+            alt=""
+          >
+          <p class="text">{{profileInfo.nombre}} aun no tienes clientes registrados</p>
+        </div>
       </div>
     </card>
   </div>
@@ -86,10 +97,26 @@ export default {
   },
   created() {
     this.$store.dispatch("GET_CUSTOMERS");
+    if (!this.customersData) {
+      this.loading = true;
+    }
+  },
+  data() {
+    return {
+      loading: false
+    };
   },
   computed: {
     customersData() {
       return this.$store.state.customersData;
+    },
+    profileInfo() {
+      return this.$store.state.profileInfo;
+    }
+  },
+  watch: {
+    customersData: function() {
+      this.loading = false;
     }
   },
   methods: {
@@ -153,5 +180,21 @@ h2 span {
   line-height: 0;
   box-sizing: border-box;
   padding-bottom: 2px;
+}
+.no-data {
+  width: 400px;
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+}
+.img-data {
+  width: 50%;
+}
+.text {
+  font-weight: 600;
+  color: #606468;
+  font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 40px;
 }
 </style>

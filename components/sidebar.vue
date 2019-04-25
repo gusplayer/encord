@@ -98,7 +98,7 @@
               <p :class="classActive">Contratos</p>
             </li>
           </nuxt-link>
-          <li class="list-item">
+          <!-- <li class="list-item">
             <icon-base
               widthIcon="40px"
               heightIcon="40px"
@@ -107,7 +107,7 @@
               <icon-pay />
             </icon-base>
             <p :class="classActive">Pagar</p>
-          </li>
+          </li> -->
         </ul>
 
         <div class="line"></div>
@@ -197,7 +197,6 @@ export default {
     },
     async logout() {
       await this.$auth.logout();
-      console.log(this.$auth.loggedIn);
     }
   }
 };
@@ -228,6 +227,7 @@ a {
 }
 .panel-collapse {
   width: 90px;
+  overflow: hidden;
 }
 .head {
   width: 100%;

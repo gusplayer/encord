@@ -2,8 +2,8 @@
   <div class="building">
     <div class="top">
       <div class="container-text">
-        <h3>Piso</h3>
-        <p>{{value}}</p>
+        <h3 class="select-text">Piso</h3>
+        <p class="select-text">{{value}}</p>
       </div>
       <div class="container-arrows">
         <div
@@ -217,5 +217,8 @@ p {
   justify-content: center;
   align-content: center;
   color: #fff;
+}
+.select-text {
+  user-select: none;
 }
 </style>

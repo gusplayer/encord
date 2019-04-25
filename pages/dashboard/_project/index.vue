@@ -1,5 +1,8 @@
 <template>
-  <div class="index">
+  <div
+    class="index"
+    v-loading="loading"
+  >
     <card>
       <div slot="header">
         <h2>{{currentProject.nombre}}</h2>
@@ -55,9 +58,13 @@ export default {
   created() {
     this.ifExistProject();
     this.$store.dispatch("GET_LISTCONTRACTS");
+    if (!this.descreme) {
+      this.loading = true;
+    }
   },
   data() {
     return {
+      loading: false,
       swiperOption: {
         slidesPerView: 1,
         spaceBetween: 30,
@@ -73,6 +80,14 @@ export default {
   computed: {
     currentProject() {
       return this.$store.state.currentProject;
+    },
+    descreme() {
+      return this.$store.state.descreme.descreme_actual;
+    }
+  },
+  watch: {
+    descreme: function() {
+      this.loading = false;
     }
   },
   methods: {

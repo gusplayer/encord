@@ -57,7 +57,11 @@
                 v-model="typeIdentification"
                 size="mini"
                 placeholder="Identificación"
+                v-validate="'required'"
+                data-vv-name="Identificacion"
+                data-vv-as="Identificación"
               >
+
                 <el-option
                   v-for="(item, index) in identification"
                   :key="index"
@@ -69,6 +73,7 @@
             </div>
           </el-col>
         </el-row>
+        <p class="error">{{ errors.first('Identificacion') }}</p>
         <el-row>
           <el-col :span="12">
             <p class="item grid-content">No. Identificación:</p>
@@ -77,13 +82,17 @@
             <div class="grid-content">
               <input
                 class="inputClinte"
-                type="text"
+                type="tel"
                 placeholder="No. Identificación"
                 v-model="inputIdentification"
+                v-validate="'required|numeric'"
+                data-vv-name="num_identificacion"
+                data-vv-as="Número Identificación"
               >
             </div>
           </el-col>
         </el-row>
+        <p class="error">{{ errors.first("num_identificacion") }}</p>
         <el-row class="background">
           <el-col :span="12">
             <p class="item grid-content">Nombre:</p>
@@ -279,6 +288,7 @@
             </div>
           </el-col>
         </el-row>
+        <p class="error">{{ errors.first("porcentaje") }}</p>
         <el-row class="background">
           <el-col :span="12">
             <p class="item grid-content">Costo de separación:</p>
@@ -356,10 +366,14 @@
                 type="tel"
                 placeholder="Cuotas"
                 v-model="inputFee"
+                v-validate="'required|numeric'"
+                data-vv-name="inputFee"
+                data-vv-as="Cuotas"
               >
             </div>
           </el-col>
         </el-row>
+        <p class="error">{{ errors.first("inputFee") }}</p>
         <el-row>
           <el-col :span="12">
             <p class="item grid-content">Cuota:</p>
@@ -368,14 +382,14 @@
             <div class="grid-content">
               <money
                 class="inputClinte"
-                v-model="quota"
+                :value="quota"
                 v-bind="money"
                 disabled
               ></money>
             </div>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row class="background">
           <el-col :span="12">
             <p class="item grid-content">Financiación:</p>
           </el-col>
@@ -536,7 +550,12 @@ export default {
       inputFee: "",
       inputDate: "",
       comment: "",
-      descripcion: {}
+      descripcion: {
+        areaTotal: "",
+        areaHabitable: "",
+        areaBalcon: "",
+        tipoApartamento: ""
+      }
     };
   },
   computed: {
@@ -614,7 +633,7 @@ export default {
       this.InfoQuotation.proyecto_id = this.currentProject.id;
       this.InfoQuotation.unidad_id = this.currentUnit.id;
       this.InfoQuotation.total = parseInt(this.totalValue) || 0;
-      this.InfoQuotation.valor_separacion = parseInt(this.separationValue) || 0;
+      this.InfoQuotation.valor_separacion = parseInt(this.separationBalance) || 0;
       this.InfoQuotation.valor_cuota_inicial_unidad =
         parseInt(this.totalValueInitial) || 0;
       this.InfoQuotation.valor_saldo_cuota_inicial =
@@ -626,14 +645,26 @@ export default {
       this.InfoQuotation.descreme = JSON.stringify(this.descreme);
       this.InfoQuotation.descuento = this.inputDescuento;
       this.InfoQuotation.descripcion = JSON.stringify(this.descripcion);
-      await this.$store.dispatch("CREATE_QUOTATION", this.InfoQuotation);
+
+      const response = await this.$store.dispatch(
+        "CREATE_QUOTATION",
+        this.InfoQuotation
+      );
       this.loading = false;
+      this.$notify.error({
+        title: "Error",
+        message: Object.values(response.data.errores)[0][0]
+      });
     },
     saveQuotation() {
-      this.loading = true;
-      console.log(this.loading);
-      this.$store.dispatch("GET_CUSTOMERS");
-      this.createQuotation();
+      this.$validator.validate().then(result => {
+        if (result) {
+          document.querySelector(".result.dashboard-view").scrollTop = 0;
+          this.loading = true;
+          this.$store.dispatch("GET_CUSTOMERS");
+          this.createQuotation();
+        }
+      });
     }
   },
   watch: {
@@ -651,7 +682,7 @@ export default {
     formatNum(value) {
       let num;
       if (value) {
-        num = value.toFixed(2);
+        num = Math.trunc(value);
         return `$${num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
       }
     }
@@ -887,5 +918,10 @@ div.el-row:last-child {
   width: 100%;
   text-align: center;
   display: inline-block;
+}
+.error {
+  text-align: center;
+  font-size: 11px;
+  color: #e64c4c;
 }
 </style>

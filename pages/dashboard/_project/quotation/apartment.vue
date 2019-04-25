@@ -53,14 +53,14 @@
                 <swiper-slide
                   v-for="imagen in currentUnit.imagenes"
                   :key="imagen.id"
-                  @click.native="modalImagen(imagen.imagen)"
+                  @click.native="modalImagen(imagen.imagen, false)"
                 >
                   <img
                     class="plano"
                     :src="`http://administrador.app-encord.com/imagenes_unidades/${imagen.imagen}`"
                   >
                 </swiper-slide>
-                <swiper-slide>
+                <swiper-slide v-if="currentUnit.descripcion">
                   <div class="info">
                     <h3 class="title">Descripción</h3>
                     <p
@@ -82,18 +82,12 @@
                 :options="swiperOption"
                 ref="mySwiper"
               >
-                <swiper-slide>
+                <swiper-slide @click.native="modalImagen(flatImage, true)">
                   <img
                     v-if="flatImage"
                     class="plano"
                     :src="`http://administrador.app-encord.com/imagenes_pisos/${flatImage}`"
                   >
-                </swiper-slide>
-                <swiper-slide>
-                  <div class="info">
-                    <h3 class="title"></h3>
-                    <p class="description"></p>
-                  </div>
                 </swiper-slide>
               </swiper>
             </div>
@@ -112,6 +106,14 @@
           @close="showModalImagen = false"
         >
           <img
+            v-if="plano"
+            class="img_modal"
+            slot="body"
+            :src="`http://administrador.app-encord.com/imagenes_pisos/${imagenModal}`"
+            alt=""
+          >
+          <img
+            v-else
             class="img_modal"
             slot="body"
             :src="`http://administrador.app-encord.com/imagenes_unidades/${imagenModal}`"
@@ -139,7 +141,6 @@ export default {
   async created() {
     this.ifExistProject();
     await this.$store.dispatch("GET_FLOORS", this.changeIdProject);
-    // this.getUnits();
   },
   mounted() {
     if (!this.changeIdProject) {
@@ -148,6 +149,7 @@ export default {
   },
   data() {
     return {
+      plano: false,
       showModalImagen: false,
       imagenModal: "",
       loading: true,
@@ -260,7 +262,8 @@ export default {
         this.$router.push("/dashboard");
       }
     },
-    modalImagen(imagen) {
+    modalImagen(imagen, plano) {
+      this.plano = plano;
       this.imagenModal = imagen;
       this.showModalImagen = true;
     }
@@ -335,6 +338,7 @@ h4 {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  user-select: none;
 }
 .btn_select {
   background-color: #98c253;
@@ -416,9 +420,10 @@ h4 {
   border: 1px solid rgba(102, 102, 102, 0.192);
 }
 .img_modal {
-  max-height: 400px;
-  max-width: 100%;
+  max-width: calc(100vw - 40px);
+  max-height: calc(100vh - 40px);
   border-radius: 10px;
+  box-shadow: 0px 0px 0px 6px rgb(255, 255, 255);
 }
 .descreme {
   font-size: 14px;

@@ -1,5 +1,6 @@
-import Vue from 'vue';
-import VeeValidate from 'vee-validate';
+import Vue from 'vue'
+import es from 'vee-validate/dist/locale/es'
+import VeeValidate, { Validator } from 'vee-validate'
 // import VueI18n from 'vue-i18n';
 // import validationMessages from 'vee-validate/dist/locale/en';
 
@@ -7,10 +8,5 @@ import VeeValidate from 'vee-validate';
 
 // const i18n = new VueI18n();
 
-Vue.use(VeeValidate, {
-  //   i18nRootKey: 'validations',
-  //   i18n,
-  //   dictionary: {
-  //     en: validationMessages
-  //   }
-});
+Validator.localize('es', es)
+Vue.use(VeeValidate, { locale: 'es' })
