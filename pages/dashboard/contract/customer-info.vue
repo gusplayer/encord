@@ -999,13 +999,13 @@ export default {
   },
   methods: {
     saveInfo(value) {
+      console.log(value);
       this.loading = value;
       document.querySelector(".info.dashboard-view").scrollTop = 0;
       this.$validator.validate().then(result => {
         if (result) {
           this.dataContract();
           this.monthlyFees();
-          this.loading = false;
         }
       });
     },

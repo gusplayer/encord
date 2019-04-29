@@ -633,7 +633,8 @@ export default {
       this.InfoQuotation.proyecto_id = this.currentProject.id;
       this.InfoQuotation.unidad_id = this.currentUnit.id;
       this.InfoQuotation.total = parseInt(this.totalValue) || 0;
-      this.InfoQuotation.valor_separacion = parseInt(this.separationBalance) || 0;
+      this.InfoQuotation.valor_separacion =
+        parseInt(this.separationBalance) || 0;
       this.InfoQuotation.valor_cuota_inicial_unidad =
         parseInt(this.totalValueInitial) || 0;
       this.InfoQuotation.valor_saldo_cuota_inicial =

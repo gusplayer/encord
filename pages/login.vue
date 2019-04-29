@@ -118,8 +118,12 @@ export default {
         })
         .catch(e => {
           this.loading = false;
+          this.msgError();
         });
       // this.$router.push('/dashboard')
+    },
+    msgError() {
+      this.$message.error("Usuario o contraseña incorrecta");
     }
   }
 };
