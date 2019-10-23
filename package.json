@@ -16,7 +16,7 @@
     "@nuxtjs/auth": "^4.5.3",
     "@nuxtjs/axios": "^5.3.4",
     "auth": "0.0.9",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "debounce": "^1.2.0",
     "dom-to-image": "^2.6.0",
     "element-ui": "^2.4.8",
