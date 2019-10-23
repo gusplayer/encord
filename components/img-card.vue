@@ -1,11 +1,22 @@
 <template>
   <div class="container-img">
-    <img src="../assets/edificio.jpg" alt="">
+    <img :src="`${urlEncord}imagenes_proyectos/${imgCard}`" alt="">
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      urlEncord: 'http://administrador.app-encord.com/',
+    }
+  },
+  computed: {
+    imgCard() {
+      return this.$store.state.currentProject.logo
+    }
+  }
+}
 </script>
 
 <style scoped>

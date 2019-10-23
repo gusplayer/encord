@@ -1,0 +1,23 @@
+{
+  "short_name": "Encord",
+  "name": "Encord SAS Construcción e innovación",
+  "icons": [
+    {
+      "src": "../assets/logo.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "../assets/logo.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "../assets/logo.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "background_color": "#2196F3",
+  "start_url": "index.html?launcher=true"
+}

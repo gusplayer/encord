@@ -1,17 +1,42 @@
 <template>
-  <div class="index">
-    <!-- <nuxt-child /> -->
+  <div
+    class="index"
+    v-loading="loading"
+  >
     <card>
       <div slot="header">
-        <h2>Aria Condominio</h2>
+        <h2>{{currentProject.nombre}}</h2>
       </div>
-      <div slot="section" class="section">
+      <div
+        slot="section"
+        class="section"
+      >
         <div class="container">
           <div class="col left">
             <list-card />
           </div>
           <div class="col right">
-            <img-card />
+            <template class="container-img">
+              <swiper
+                :options="swiperOption"
+                ref="mySwiper"
+              >
+                <swiper-slide>
+                  <img-card />
+                </swiper-slide>
+                <swiper-slide>
+                  <div class="info">
+                    <h3 class="title">{{currentProject.nombre}}</h3>
+                    <p class="location">{{currentProject.ubicacion}}</p>
+                    <p
+                      v-html="currentProject.descripcion"
+                      class="description"
+                    ></p>
+                  </div>
+                </swiper-slide>
+              </swiper>
+            </template>
+
           </div>
         </div>
       </div>
@@ -20,17 +45,59 @@
 </template>
 
 <script>
-import Card from '@/components/card'
-import ListCard from '@/components/list-card'
-import ImgCard from '@/components/img-card'
+import Card from "@/components/card";
+import ListCard from "@/components/list-card";
+import ImgCard from "@/components/img-card";
 
 export default {
   components: {
     Card,
     ListCard,
     ImgCard
+  },
+  created() {
+    this.ifExistProject();
+    this.$store.dispatch("GET_LISTCONTRACTS");
+    if (!this.descreme) {
+      this.loading = true;
+    }
+  },
+  data() {
+    return {
+      loading: false,
+      swiperOption: {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        mousewheel: true,
+        width: "350",
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true
+        }
+      }
+    };
+  },
+  computed: {
+    currentProject() {
+      return this.$store.state.currentProject;
+    },
+    descreme() {
+      return this.$store.state.descreme.descreme_actual;
+    }
+  },
+  watch: {
+    descreme: function() {
+      this.loading = false;
+    }
+  },
+  methods: {
+    ifExistProject() {
+      if (!this.currentProject) {
+        this.$router.push("/dashboard");
+      }
+    }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -64,5 +131,14 @@ h2 {
 }
 .section {
   padding: 20px 40px;
+}
+.swiper-wrapper {
+  max-width: 350px;
+}
+.location {
+  line-height: 1;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: rgb(77, 91, 119);
 }
 </style>

@@ -1,97 +1,216 @@
 <template>
   <div class="sidebar">
-    <div :class="classPanel" class="side-panel">
+    <div
+      :class="classPanel"
+      class="side-panel"
+    >
       <div class="head">
-        <div class="icons">
-          <i :class="classActive" class="icon-057-settings-1"></i>
-          <i :class="classActive" class="icon-alarm"></i>
-        </div>
         <div class="content-user">
-          <div class="avatar">
-            <img src="../assets/avatar.jpg" alt="">
+          <div
+            class="avatar"
+            v-if="profileData.foto"
+          >
+            <img
+              :src="`https://administrador.app-encord.com/imagenes_usuarios/${profileData.foto}`"
+              alt
+            >
           </div>
-            <div class="info-user">
-              <h3 :class="classActive">Nombre Usuario</h3>
-              <p :class="classActive">Cargo en Encord</p>
-            </div>
+          <div
+            class="avatar"
+            v-else
+          >
+            <img
+              src="../assets/avatar-vector.jpg"
+              alt
+            >
           </div>
-          <div class="line"></div>
+          <div class="info-user">
+            <h3 :class="classActive">{{profileData.nombre}}</h3>
+            <p :class="classActive">{{profileData.email}}</p>
+          </div>
         </div>
-        <div class="content">
-          <ul class="list">
+        <div class="line"></div>
+      </div>
+      <div class="content">
+        <ul class="list">
+          <indicator
+            :height="40"
+            :position="indicatorPosition"
+            :unbalance="35"
+          />
+          <nuxt-link
+            to="/dashboard"
+            @click.native="selectItemByList(0)"
+          >
             <li class="list-item">
-              <i class="icon-047-house-sketch"></i>
+              <icon-base
+                widthIcon="40px"
+                heightIcon="40px"
+                color="#606468"
+              >
+                <icon-projects />
+              </icon-base>
               <p :class="classActive">Cotizar Proyectos</p>
             </li>
+          </nuxt-link>
+          <nuxt-link
+            to="/dashboard/report/reports"
+            @click.native="selectItemByList(1)"
+          >
             <li class="list-item">
-              <i class="icon-file-1"></i>
+              <icon-base
+                widthIcon="40px"
+                heightIcon="40px"
+                color="#606468"
+              >
+                <icon-reports />
+              </icon-base>
               <p :class="classActive">Crear Informe</p>
             </li>
+          </nuxt-link>
+          <nuxt-link
+            to="/dashboard/customers"
+            @click.native="selectItemByList(2)"
+          >
             <li class="list-item">
-              <i class="icon-folder-14"></i>
-              <p :class="classActive">Base de Datos</p>
+              <icon-base
+                widthIcon="40px"
+                heightIcon="40px"
+                color="#606468"
+              >
+                <icon-customers />
+              </icon-base>
+              <p :class="classActive">Clientes</p>
             </li>
+          </nuxt-link>
+          <nuxt-link
+            to="/dashboard/contract/list-contracts"
+            @click.native="selectItemByList(3)"
+          >
             <li class="list-item">
-              <i class="icon-diploma"></i>
+              <icon-base
+                widthIcon="40px"
+                heightIcon="40px"
+                color="#606468"
+              >
+                <icon-contracts />
+              </icon-base>
               <p :class="classActive">Contratos</p>
             </li>
-            <li class="list-item">
-              <i class="icon-049-wallet"></i>
-              <p :class="classActive">Pagar</p>
-            </li>
-            <div class="line-select"></div>
-          </ul>
-          <div class="line"></div>
-        </div>
-        <div @click="logout" :class="classBtn" class="btn-logout">
-          <p :class="classActive">Salir</p>
-          <i class="icon-sign-out"></i>
-        </div>
-        <div :class="classDeploy" @click="change" class="btn-deploy">
-          <i class="icon-right-open-big" v-if="alter"></i>
-          <i class="icon-left-open-big" v-else></i>
-        </div>
+          </nuxt-link>
+          <!-- <li class="list-item">
+            <icon-base
+              widthIcon="40px"
+              heightIcon="40px"
+              color="#606468"
+            >
+              <icon-pay />
+            </icon-base>
+            <p :class="classActive">Pagar</p>
+          </li> -->
+        </ul>
+
+        <div class="line"></div>
+      </div>
+      <div
+        @click="logout"
+        :class="classBtn"
+        class="btn-logout"
+      >
+        <p :class="classActive">Salir</p>
+        <i class="icon-sign-out"></i>
+      </div>
+      <div
+        :class="classDeploy"
+        @click="change"
+        class="btn-deploy"
+      >
+        <i
+          class="icon-right-open-big"
+          v-if="alter"
+        ></i>
+        <i
+          class="icon-left-open-big"
+          v-else
+        ></i>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
+import indicator from "@/components/indicator";
+import iconProjects from "@/assets/icons/icon-projects";
+import iconContracts from "@/assets/icons/icon-contracts";
+import iconReports from "@/assets/icons/icon-reports";
+import iconPay from "@/assets/icons/icon-pay";
+import iconCustomers from "@/assets/icons/icon-customers";
 export default {
+  components: {
+    indicator,
+    iconProjects,
+    iconContracts,
+    iconReports,
+    iconPay,
+    iconCustomers
+  },
   data() {
     return {
       alter: true,
+      indicatorPosition: 0,
       classActive: {
         alterClass: true
       },
       classBtn: {
-        'btn-collapse': true
+        "btn-collapse": true
       },
       classPanel: {
-        'panel-collapse': true
+        "panel-collapse": true
       },
       classDeploy: {
-        'btn-deploy-collapse': true
+        "btn-deploy-collapse": true
       }
+    };
+  },
+  computed: {
+    profileData() {
+      return this.$store.state.profileInfo;
     }
   },
   methods: {
     change() {
-      this.alter = !this.alter
-      this.classActive.alterClass = !this.classActive.alterClass
-      this.classBtn['btn-collapse'] = !this.classBtn['btn-collapse']
-      this.classPanel['panel-collapse'] = !this.classPanel['panel-collapse']
-      this.classDeploy['btn-deploy-collapse'] = !this.classDeploy[
-        'btn-deploy-collapse'
-      ]
+      this.alter = !this.alter;
+      this.classActive.alterClass = !this.classActive.alterClass;
+      this.classBtn["btn-collapse"] = !this.classBtn["btn-collapse"];
+      this.classPanel["panel-collapse"] = !this.classPanel["panel-collapse"];
+      this.classDeploy["btn-deploy-collapse"] = !this.classDeploy[
+        "btn-deploy-collapse"
+      ];
     },
-    logout() {
-      location.href = `${window.location.origin}/auth/login`
+    setInitialIndicatorPosition() {
+      this.indicatorPosition = parseInt(
+        document.querySelector(".router-link-active").dataset.index
+      );
+    },
+    selectItemByList(index) {
+      this.indicatorPosition = index;
+    },
+    async logout() {
+      await this.$auth.logout();
     }
   }
-}
+};
 </script>
 
 <style scoped>
+@media print {
+  .sidebar {
+    display: none;
+  }
+}
+a {
+  text-decoration: none;
+}
 .side-panel {
   max-width: 300px;
   width: 300px;
@@ -103,12 +222,12 @@ export default {
   display: flex;
   flex-direction: column;
   transition: all ease 0.5s;
-  /* position: fixed; */
   height: 100vh;
+  overflow-y: auto;
 }
 .panel-collapse {
   width: 90px;
-  /* transition: all ease 0.5s; */
+  overflow: hidden;
 }
 .head {
   width: 100%;
@@ -144,7 +263,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: -20px;
+  /* margin-top: 10px; */
 }
 .content-user h3 {
   font-weight: 600;
@@ -182,7 +301,7 @@ export default {
 }
 .list li {
   list-style: none;
-  margin: 35px 0 35px 15px;
+  margin: 15px 0 35px 15px;
   color: #606468;
   cursor: pointer;
 }
@@ -198,29 +317,14 @@ li:hover i {
 .list-item p {
   transition: all ease 0.5s;
 }
-li i {
-  font-size: 40px;
+li svg {
   margin-right: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #606468;
 }
-/* li i:hover {
-  color: rgba(96, 100, 104, 0.534);
-} */
+
 .list-item:first-child,
 .list-item:first-child i {
-  color: #98c253;
+  /* color: #98c253; */
   font-weight: 400;
-}
-.line-select {
-  width: 3px;
-  height: 45px;
-  background-color: #98c253;
-  position: absolute;
-  left: 0;
-  top: 0;
 }
 .btn-logout {
   transition: all ease 0.5s;
@@ -236,7 +340,7 @@ li i {
   color: #eee;
   font-weight: 600;
   text-transform: uppercase;
-  margin-top: 20px;
+  margin: 20px 0;
 }
 .btn-logout i {
   vertical-align: middle;
@@ -282,7 +386,7 @@ li i {
 .btn-collapse {
   width: 50px;
   height: 50px;
-  border-radius: 50%;
+  /* border-radius: 50%; */
 }
 .btn-collapse > i {
   margin-left: 0;

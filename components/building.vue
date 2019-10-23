@@ -1,56 +1,100 @@
 <template>
   <div class="building">
-    <!-- <div class="container"> -->
-    <h3>Piso</h3>
-    <p>{{value}}</p>
-    <input type="range" name="range" min="1" max="30" step="1" v-model="value" />
-    <div class="content">
-      <input type="text" v-model="value">
-      <nuxt-link to="quotation/piso/5">
-        <div class="btn">Mostrar</div>
-      </nuxt-link>
+    <div class="top">
+      <div class="container-text">
+        <h3 class="select-text">Piso</h3>
+        <p class="select-text">{{value}}</p>
+      </div>
+      <div class="container-arrows">
+        <div
+          @click="add"
+          class="content-arrow"
+        >
+          <i class="icon-up-open-big"></i>
+        </div>
+        <div
+          @click="subtract"
+          class="content-arrow"
+        >
+          <i class="icon-down-open-big"></i>
+        </div>
+      </div>
     </div>
-    <!-- </div> -->
   </div>
 </template>
 
 <script>
 export default {
+  created() {
+    if (this.$store.state.sentFlats.length) {
+      this.$emit("change", this.$store.state.sentFlats[0].id);
+    }
+  },
   data() {
     return {
-      value: 5
+      value: 1
+    };
+  },
+  computed: {
+    flats() {
+      return this.$store.state.sentFlats;
+    },
+    limit() {
+      return this.$store.state.sentFlats.length || 1;
+    }
+  },
+  watch: {
+    flats(value) {
+      if (value.length) {
+        this.$emit("change", value[0].id);
+      }
+    },
+    value(value) {
+      this.$emit("change", this.flats[value - 1].id);
+    }
+  },
+  methods: {
+    add() {
+      if (this.value >= this.limit) {
+        this.value = this.limit;
+      } else {
+        this.value = this.value + 1;
+      }
+    },
+    subtract() {
+      if (this.value <= 1) {
+        this.value = 1;
+      } else {
+        this.value = this.value - 1;
+      }
     }
   }
-}
+};
 </script>
 
 <style scoped>
-a{
+a {
   text-decoration: none;
 }
 .building {
-  font-family: "Dosis", Helvetica, Arial, sans-serif; 
+  font-family: "Dosis", Helvetica, Arial, sans-serif;
   width: 100%;
-  height: 100%;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
-  position: relative;
-
+  align-items: center;
 }
 input[type="range"] {
   transform: rotate(270deg);
   -webkit-appearance: none;
   height: 40px;
-  width: 200px;
+  width: 160px;
   outline: none;
   border-radius: 2px;
   overflow: hidden;
   position: absolute;
-  right: -60px;
-  top: 85px;
-  transition: .3s ease-in-out;
+  right: -97px;
+  top: 60px;
+  transition: 0.3s ease-in-out;
   /* bottom: 80px; */
 }
 input[type="text"] {
@@ -63,173 +107,118 @@ input[type="text"] {
   text-align: center;
   outline: none;
 }
-  input[type="range"]::-webkit-slider-thumb:active {
-    /* background-color: #9dff00; */
-  }
+input[type="range"]::-webkit-slider-thumb:active {
+  /* background-color: #9dff00; */
+}
 h3 {
+  font-size: 1.5em;
   line-height: 1;
-  width: 110px;
   text-align: center;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: #606468;
+  /* margin-top: -80px; */
 }
 p {
-  font-size: 6em;
+  font-size: 4em;
   color: #606468;
-  max-width: 110px;
-  width: 100%;
   text-align: center;
-  transition: all ease .3s;
-  line-height: .8;
-  /* text-shadow: white 1px 1px  */
+  transition: all ease 0.3s;
+  line-height: 0.8;
 }
-.content {
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  display: flex;
-  justify-content: space-between;
-  border-top: 2px solid #eee;
-  padding-top: 30px;
-  /* left: calc(50% - 50px); */
-  /* display: flex; */
-  /* align-items: center; */
-}
-.btn {
-  transition: all ease 0.5s;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  background-color: #73808d;
-  padding: 15px;
-  border-radius: 0.15rem;
-  width: 110px;
-  color: #eee;
-  font-weight: 600;
-  text-transform: uppercase;
-  /* margin-top: 20px; */
-}
+
 ::-webkit-slider-runnable-track {
-    background: #ddd;
+  background: #ddd;
 }
 ::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 20px; /* 1 */
-    height: 40px;
-    background: #fff;
-    box-shadow: -100vw 0 0 100vw #98c253;
-    border: 2px solid #999; /* 1 */
-    transition: .3s ease-in-out;
-    cursor: pointer;
+  -webkit-appearance: none;
+  width: 20px; /* 1 */
+  height: 40px;
+  background: #fff;
+  box-shadow: -100vw 0 0 100vw #98c253;
+  border: 2px solid #999; /* 1 */
+  transition: 0.3s ease-in-out;
+  cursor: pointer;
 }
 ::-moz-range-track {
-    height: 40px;
-    background: #ddd;
+  height: 40px;
+  background: #ddd;
 }
 
 ::-moz-range-thumb {
-    background: #fff;
-    height: 40px;
-    width: 20px;
-    border: 3px solid #999;
-    border-radius: 0 !important;
-    box-shadow: -100vw 0 0 100vw #98c253;
-    box-sizing: border-box;
-}
-::-ms-fill-lower { 
-    background: #98c253;
-}
-
-::-ms-thumb { 
-    background: #fff;
-    border: 2px solid #999;
-    height: 40px;
-    width: 20px;
-    box-sizing: border-box;
-}
-
-::-ms-ticks-after { 
-    display: none; 
-}
-
-::-ms-ticks-before { 
-    display: none; 
-}
-
-::-ms-track { 
-    background: #ddd;
-    color: transparent;
-    height: 40px;
-    border: none;
-}
-
-::-ms-tooltip { 
-    display: none;
-}
-
-/* input[type='range'] {
-  -webkit-appearance: none;
-  background-color: transparent;
-  width: 300px;
+  background: #fff;
   height: 40px;
-  overflow: hidden;
-  margin: 0;
+  width: 20px;
+  border: 3px solid #999;
+  border-radius: 0 !important;
+  box-shadow: -100vw 0 0 100vw #98c253;
+  box-sizing: border-box;
 }
-input[type='range']:focus {
-  outline: none;
+::-ms-fill-lower {
+  background: #98c253;
 }
-input[type='range']::-webkit-slider-thumb {
+
+::-ms-thumb {
+  background: #fff;
+  border: 2px solid #999;
+  height: 40px;
+  width: 20px;
+  box-sizing: border-box;
+}
+
+::-ms-ticks-after {
+  display: none;
+}
+
+::-ms-ticks-before {
+  display: none;
+}
+
+::-ms-track {
+  background: #ddd;
+  color: transparent;
+  height: 40px;
+  border: none;
+}
+
+::-ms-tooltip {
+  display: none;
+}
+.top {
+  height: 160px;
+  width: 80%;
+  display: flex;
+  align-items: center;
   position: relative;
-  -webkit-appearance: none;
-  cursor: pointer;
-  background-color: #fff;
-  width: 30px;
-  height: 34px;
-  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2),
-    -25px 0 0 10px rgba(90, 184, 6, 0.5), -75px 0 0 10px rgba(90, 184, 6, 0.5),
-    -125px 0 0 10px rgba(90, 184, 6, 0.5), -175px 0 0 10px rgba(90, 184, 6, 0.5),
-    -225px 0 0 10px rgba(90, 184, 6, 0.5), -275px 0 0 10px rgba(90, 184, 6, 0.5);
-
-  z-index: 2;
+  justify-content: center;
 }
-
-input[type='range']:before {
-  content: '';
-  position: absolute;
-  background: rgb(190, 190, 190);
-  box-shadow: 0 1px 0 rgb(235, 235, 235);
-  width: 283px;
-  left: 0;
-  height: 1px;
-  top: 50%;
-  z-index: 1;
+.container-arrows {
+  width: 40px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
-input[type='range']:after {
-  content: '';
-  position: absolute;
-  background: rgb(190, 190, 190);
-  width: 7px;
-  left: 3px;
-  border-radius: 50%;
-  height: 6px;
-  top: 45%;
-  z-index: 1;
-  box-shadow: 30px 0 0 rgb(190, 190, 190), 60px 0 0 rgb(190, 190, 190),
-    90px 0 0 rgb(190, 190, 190), 120px 0 0 rgb(190, 190, 190),
-    150px 0 0 rgb(190, 190, 190), 180px 0 0 rgb(190, 190, 190),
-    210px 0 0 rgb(190, 190, 190), 240px 0 0 rgb(190, 190, 190),
-    270px 0 0 rgb(190, 190, 190), 60px 1px 0 rgb(235, 235, 235),
-    90px 1px 0 rgb(235, 235, 235), 120px 1px 0 rgb(255, 255, 255),
-    150px 1px 0 rgb(235, 235, 235), 180px 1px 0 rgb(235, 235, 235),
-    210px 1px 0 rgb(235, 235, 235), 240px 1px 0 rgb(235, 235, 235),
-    270px 1px 0 rgb(235, 235, 235);
-}
-.container {
+.content-arrow {
   width: 100%;
-  height: 100%;
-  transform: rotate(270deg);
-  background-color: #aaa;
-} */
+  height: 35px;
+  /* border: 1px solid #aaa; */
+  background-color: #606468;
+  cursor: pointer;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+}
+.content-arrow > i {
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  color: #fff;
+}
+.select-text {
+  user-select: none;
+}
 </style>

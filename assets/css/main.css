@@ -1,0 +1,133 @@
+:root {
+  --main-txt-color: rgba(103, 123, 158, 0.822);
+  --main-title-color: rgba(100, 120, 150, 0.822);
+}
+.grid-content .el-select .el-input__inner {
+  padding: 0;
+  background-color: transparent;
+  font-size: 18px;
+  color: rgba(103, 123, 158, 0.822);
+  font-weight: 300;
+}
+.grid-content .el-select .el-input__inner::placeholder {
+  font-weight: 300;
+}
+.grid-content i.el-input__icon.el-icon-date {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  vertical-align: middle;
+  padding: 20px 0;
+  margin-left: -3px;
+}
+.grid-content input.el-input__inner {
+  color: rgba(103, 123, 158, 0.822);
+  font-size: 16px;
+  font-weight: 300;
+}
+.grid-content input.el-input__inner::placeholder {
+  color: rgba(103, 123, 158, 0.822);
+  font-size: 18px;
+  opacity: 0.5;
+  font-weight: 300;
+}
+.el-button--success {
+  background-color: #98c253;
+  border: 0;
+}
+.inputClinte::placeholder {
+  color: rgba(103, 123, 158, 0.822);
+  opacity: 0.5;
+  font-weight: 300;
+}
+.info input {
+  font-weight: 300;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+.info input::placeholder {
+  font-weight: 300;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.infoContract p {
+  padding: 10px 0;
+  color: rgba(67, 71, 87, 0.796);
+  line-height: 1.4;
+}
+.infoContract h2 {
+  font-size: 18px;
+  color: rgba(10, 15, 44, 0.78);
+}
+.infoContract i {
+  color: rgba(10, 15, 44, 0.78);
+}
+.quotation .el-radio + .el-radio {
+  margin-left: 0;
+}
+.quotation .el-radio__input.is-checked + .el-radio__label {
+  color: #98c253;
+}
+.quotation .el-radio__input.is-checked .el-radio__inner {
+  border-color: #98c253;
+  background: #98c253;
+}
+.quotation .el-radio__inner:hover {
+  border-color: #98c253;
+}
+.quotation .el-radio {
+  color: rgba(37, 42, 68, 0.623);
+}
+.quotation .swiper-wrapper {
+  width: 350px;
+}
+.quotation .description p {
+  margin: 5px 0;
+}
+.index .swiper-wrapper {
+  width: 350px;
+}
+.description i {
+  font-style: normal;
+}
+.price-list .el-table thead {
+  background: #98c253;
+  /* color: aqua; */
+}
+.el-table th {
+  background: #98c253;
+  color: #fff;
+}
+.el-table tr {
+  color: rgba(57, 59, 68, 0.663);
+}
+.price-list .bold {
+  font-weight: 600;
+}
+.el-radio__input.is-checked .el-radio__inner {
+  border-color: #98c253;
+  background: #98c253;
+}
+.el-radio__input.is-checked + .el-radio__label {
+  color: #98c253;
+}
+.info .el-radio {
+  font-weight: 300;
+}
+.accion .el-date-editor--date .el-input__inner {
+  background-color: rgb(248, 250, 255);
+}
+.list-costumers tbody {
+  font-size: 12px !important;
+}
+.brochure iframe {
+  max-height: 100%;
+  max-width: 100%;
+}
+.text-right div.el-input.el-input--suffix input.el-input__inner {
+  /* text-align: right;
+  padding-right: 30px; */
+  border: 1px solid rgba(152, 194, 83, 0.329);
+  padding-left: 10px;
+}

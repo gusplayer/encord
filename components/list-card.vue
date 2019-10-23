@@ -1,7 +1,7 @@
 <template>
   <ul class="list">
-    <nuxt-link :to="item.link" v-for="(item, index) in list" :key="index">
-      <li class="list-item" >
+    <nuxt-link :to="`${$route.params.project}/${item.link}`" v-for="(item, index) in list" :key="index">
+      <li class="list-item">
         <i :class="item.icon"></i>
         <p>{{item.name}}</p>
       </li>
@@ -17,27 +17,27 @@ export default {
         {
           name: 'Brochure',
           icon: 'icon-045-brochure',
-          link: '#'
+          link: 'brochure'
         },
         {
-          name: 'Video',
+          name: 'Multimedia',
           icon: 'icon-video-player',
-          link: '#'
+          link: 'multimedia'
         },
         {
           name: 'Cotizar',
           icon: 'icon-023-tax-1',
-          link: 'dashboard/quotation'
+          link: 'quotation'
         },
         {
           name: 'Lista de precios',
           icon: 'icon-004-results',
-          link: '#'
-        },
+          link: 'price-list'
+        }
       ]
     }
   },
-    methods: {
+  methods: {
     getUrl() {
       location.href = `${window.location.origin}/dashboard`
     }

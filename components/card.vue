@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <header>
+    <header id="top">
       <slot name="header"></slot>
     </header>
     <div class="line"></div>
@@ -12,11 +12,16 @@
 
 <script>
 export default {
-  name: 'card'
-}
+  name: "card"
+};
 </script>
 
 <style scoped>
+@media print {
+  .card {
+    display: none;
+  }
+}
 .card {
   min-width: 690px;
   min-height: 350px;
@@ -27,7 +32,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   box-sizing: border-box;
-  /* padding: 10px 40px; */
 }
 .line {
   width: 90%;
@@ -36,14 +40,14 @@ export default {
 }
 header {
   width: 100%;
-  min-height: 50px;
+  min-height: 73px;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: sticky;
   padding: 10px 40px;
-  /* background-color: rgb(255, 0, 43); */
+  font-size: 12px;
 }
 section {
   width: 100%;
