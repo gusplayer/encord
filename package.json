@@ -24,7 +24,7 @@
     "fs": "0.0.1-security",
     "html2canvas": "^1.0.0-alpha.12",
     "js-cookie": "^2.2.0",
-    "jspdf": "^1.4.1",
+    "jspdf": "^2.5.1",
     "jspdf-autotable": "^2.3.5",
     "nuxt": "^1.4.2",
     "signature_pad": "^3.0.0-beta.3",
