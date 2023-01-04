@@ -26,7 +26,7 @@
     "js-cookie": "^2.2.0",
     "jspdf": "^1.4.1",
     "jspdf-autotable": "^2.3.5",
-    "nuxt": "^1.4.2",
+    "nuxt": "^3.0.0",
     "signature_pad": "^3.0.0-beta.3",
     "v-money": "^0.8.1",
     "vee-validate": "^2.1.3",
